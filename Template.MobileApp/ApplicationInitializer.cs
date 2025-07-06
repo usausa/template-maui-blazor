@@ -22,15 +22,6 @@ public sealed class ApplicationInitializer : IMauiInitializeService
             settings.ApiEndPoint = Variants.ApiEndPoint;
         }
 
-        // Setup navigator
-        var navigator = services.GetRequiredService<INavigator>();
-        navigator.Navigated += (_, args) =>
-        {
-            // for debug
-            System.Diagnostics.Debug.WriteLine(
-                $"Navigated: [{args.Context.FromId}]->[{args.Context.ToId}] : stacked=[{navigator.StackedCount}]");
-        };
-
         // Setting
         if (String.IsNullOrEmpty(settings.UniqId))
         {

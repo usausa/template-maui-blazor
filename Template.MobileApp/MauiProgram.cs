@@ -4,96 +4,52 @@ using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 
-#if ANDROID && DEVICE_HAS_KEYPAD
-using Android.Views;
-#endif
-
 using BarcodeScanning;
 
 using CommunityToolkit.Maui;
 
 using Fonts;
 
-using Indiko.Maui.Controls.Markdown;
-
 using MauiComponents.Resolver;
 
 using Microsoft.Maui.LifecycleEvents;
 
-using Plugin.Maui.Audio;
-#if DEBUG
-using Plugin.Maui.DebugRainbows;
-#endif
-
 using Rester;
 
 using Shiny;
-
-using SkiaSharp.Views.Maui.Controls.Hosting;
 
 using Smart.Data.Mapper;
 using Smart.Resolver;
 
 using Template.MobileApp.Behaviors;
 using Template.MobileApp.Components;
-using Template.MobileApp.Extender;
 using Template.MobileApp.Helpers;
 using Template.MobileApp.Helpers.Data;
-using Template.MobileApp.Modules;
-using Template.MobileApp.Providers;
 using Template.MobileApp.Services;
 using Template.MobileApp.Shell;
 using Template.MobileApp.Usecase;
 
-public static partial class MauiProgram
+public static class MauiProgram
 {
     public static MauiApp CreateMauiApp() =>
         MauiApp.CreateBuilder()
             .UseMauiApp<App>()
-            //.ConfigureDebug()
             .ConfigureFonts(ConfigureFonts)
             .ConfigureLifecycleEvents(ConfigureLifecycle)
             .ConfigureEssentials(ConfigureEssentials)
             .ConfigureLogging()
             .ConfigureGlobalSettings()
-            .UseSkiaSharp()
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitCamera()
             .UseBarcodeScanning()
             .UseShiny()
-            .UseMarkdownView()
             .UseMauiServices()
             .UseMauiComponents()
             .UseCommunityToolkitServices()
             .UseCustomView()
-            .ConfigureComponents()
             .ConfigureHttpClient()
             .ConfigureContainer()
             .Build();
-
-    // ------------------------------------------------------------
-    // Debug
-    // ------------------------------------------------------------
-
-    private static MauiAppBuilder ConfigureDebug(this MauiAppBuilder builder)
-    {
-#if DEBUG
-        builder
-            .UseDebugRainbows(new DebugRainbowsOptions
-            {
-                ShowRainbows = true,
-                ShowGrid = true,
-                HorizontalItemSize = 20,
-                VerticalItemSize = 20,
-                MajorGridLineInterval = 4,
-                MajorGridLines = new GridLineOptions { Color = Color.FromRgb(255, 0, 0), Opacity = 0.5, Width = 3 },
-                MinorGridLines = new GridLineOptions { Color = Color.FromRgb(255, 0, 0), Opacity = 0.25, Width = 1 },
-                GridOrigin = DebugGridOrigin.TopLeft
-            });
-#endif
-
-        return builder;
-    }
 
     // ------------------------------------------------------------
     // Logging
@@ -223,7 +179,6 @@ public static partial class MauiProgram
     {
         // Components
         builder.Services.AddBluetoothLE();
-        builder.Services.AddBleHostedCharacteristic<UserCharacteristic>();
         builder.Services.AddBluetoothLeHosting();
 
         return builder;
@@ -242,8 +197,7 @@ public static partial class MauiProgram
             .UseAutoBinding()
             .UseArrayBinding()
             .UseAssignableBinding()
-            .UsePropertyInjector()
-            .UsePageContextScope();
+            .UsePropertyInjector();
 
         // MauiComponents
         config.AddComponentsDialog(static c =>
@@ -257,8 +211,7 @@ public static partial class MauiProgram
             c.EnablePromptEnterAction = true;
             c.EnablePromptSelectAll = true;
         });
-        config.AddComponentsPopup(static c => c.AutoRegister(DialogSource()));
-        config.AddComponentsPopupPlugin<PopupFocusPlugin>();
+        //config.AddComponentsPopup(static c => c.AutoRegister(DialogSource()));
         config.AddComponentsSerializer();
         config.AddComponentsScreen();
         config.AddComponentsLocation();
@@ -267,22 +220,8 @@ public static partial class MauiProgram
         // Messenger
         config.BindSingleton<IReactiveMessenger>(ReactiveMessenger.Default);
 
-        // Navigator
-        config.AddNavigator(static c =>
-        {
-            c.UseMauiNavigationProvider();
-            c.AddResolverPlugin();
-            c.AddPlugin<NavigationFocusPlugin>();
-            c.UseIdViewMapper(static m => m.AutoRegister(ViewSource()));
-        });
-
         // Components
         config.BindSingleton<IStorageManager, StorageManager>();
-        config.BindSingleton<INfcReader, NfcReader>();
-        config.BindSingleton<INoiseMonitor, NoiseMonitor>();
-        config.BindSingleton<IOcrReader, OcrReader>();
-
-        config.BindSingleton(AudioManager.Current);
 
         // State
         config.BindSingleton<DeviceState>();
@@ -310,8 +249,6 @@ public static partial class MauiProgram
         config.BindSingleton<NetworkOperator>();
 
         config.BindSingleton<NetworkUsecase>();
-        config.BindSingleton<CognitiveUsecase>();
-        config.BindSingleton<SampleUsecase>();
 
         // Startup
         config.BindSingleton<IMauiInitializeService, ApplicationInitializer>();
@@ -321,9 +258,6 @@ public static partial class MauiProgram
     // View & Dialog
     // ------------------------------------------------------------
 
-    [ViewSource]
-    public static partial IEnumerable<KeyValuePair<ViewId, Type>> ViewSource();
-
-    [PopupSource]
-    public static partial IEnumerable<KeyValuePair<DialogId, Type>> DialogSource();
+    //[PopupSource]
+    //public static partial IEnumerable<KeyValuePair<DialogId, Type>> DialogSource();
 }

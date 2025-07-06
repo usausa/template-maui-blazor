@@ -1,7 +1,5 @@
 namespace Template.MobileApp;
 
-using Template.MobileApp.Shell;
-
 public sealed partial class MainPage
 {
     public MainPage()
@@ -11,13 +9,10 @@ public sealed partial class MainPage
 
     protected override bool OnBackButtonPressed()
     {
-        if (BindingContext is MainPageViewModel { BusyState.IsBusy: false } context)
-        {
-            using (context.BusyState.Begin())
-            {
-                context.Navigator.NotifyAsync(ShellEvent.Back);
-            }
-        }
+        // TODO
+        //if (BindingContext is MainPageViewModel { BusyState.IsBusy: false } context)
+        //{
+        //}
 
         return true;
     }

@@ -3,11 +3,9 @@ namespace Template.MobileApp;
 using Template.MobileApp.Shell;
 
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
-public sealed partial class MainPageViewModel : ExtendViewModelBase, IShellControl, IAppLifecycle
+public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecycle
 {
     private readonly IScreen screen;
-
-    public INavigator Navigator { get; }
 
     public IBusyView BusyView { get; }
 
@@ -49,19 +47,17 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IShellContr
 
     public MainPageViewModel(
         ILogger<MainPageViewModel> log,
-        INavigator navigator,
         IBusyView progressView,
         IScreen screen,
         IDialog dialog)
     {
-        Navigator = navigator;
         BusyView = progressView;
         this.screen = screen;
 
-        Function1Command = MakeAsyncCommand(() => Navigator.NotifyAsync(ShellEvent.Function1), () => Function1Enabled);
-        Function2Command = MakeAsyncCommand(() => Navigator.NotifyAsync(ShellEvent.Function2), () => Function2Enabled);
-        Function3Command = MakeAsyncCommand(() => Navigator.NotifyAsync(ShellEvent.Function3), () => Function3Enabled);
-        Function4Command = MakeAsyncCommand(() => Navigator.NotifyAsync(ShellEvent.Function4), () => Function4Enabled);
+        Function1Command = MakeDelegateCommand(() => { }, () => Function1Enabled);
+        Function2Command = MakeDelegateCommand(() => { }, () => Function2Enabled);
+        Function3Command = MakeDelegateCommand(() => { }, () => Function3Enabled);
+        Function4Command = MakeDelegateCommand(() => { }, () => Function4Enabled);
 
         // Screen lock detection
         // ReSharper disable AsyncVoidLambda

@@ -3,7 +3,6 @@ namespace Template.MobileApp;
 using Microsoft.Extensions.DependencyInjection;
 
 using Template.MobileApp.Helpers;
-using Template.MobileApp.Modules;
 
 public sealed partial class App
 {
@@ -35,11 +34,6 @@ public sealed partial class App
 
         // Permissions
         await Permissions.RequestCameraAsync();
-        await Permissions.RequestMicrophoneAsync();
         await Permissions.RequestLocationAsync();
-
-        // Navigate
-        var navigator = serviceProvider.GetRequiredService<INavigator>();
-        await navigator.ForwardAsync(ViewId.Menu);
     }
 }

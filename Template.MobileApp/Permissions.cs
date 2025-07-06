@@ -8,12 +8,6 @@ public static class Permissions
         return status is PermissionStatus.Granted;
     }
 
-    public static async ValueTask<bool> RequestMicrophoneAsync()
-    {
-        var status = await Microsoft.Maui.ApplicationModel.Permissions.RequestAsync<Microsoft.Maui.ApplicationModel.Permissions.Microphone>();
-        return status is PermissionStatus.Granted;
-    }
-
     public static async ValueTask<bool> RequestLocationAsync()
     {
         var status = await Microsoft.Maui.ApplicationModel.Permissions.RequestAsync<Microsoft.Maui.ApplicationModel.Permissions.LocationAlways>();
