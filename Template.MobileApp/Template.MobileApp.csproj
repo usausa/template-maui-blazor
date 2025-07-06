@@ -22,8 +22,6 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">27.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
-  <Import Project="..\.DeviceProfile.props" Condition="Exists('..\.DeviceProfile.props')" />
-
   <PropertyGroup Condition="'$(TargetFramework)'=='net9.0-android'">
     <MandroidI18n>CJK</MandroidI18n>
   </PropertyGroup>
