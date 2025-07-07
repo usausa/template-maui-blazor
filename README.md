@@ -25,4 +25,4 @@
 
 ## Ref
 
-- [Base template](../template-maui)
+- template-maui
