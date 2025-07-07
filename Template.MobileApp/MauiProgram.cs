@@ -12,6 +12,7 @@ using Fonts;
 
 using MauiComponents.Resolver;
 
+using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.Maui.LifecycleEvents;
 
 using Rester;
@@ -39,6 +40,7 @@ public static class MauiProgram
             .ConfigureEssentials(ConfigureEssentials)
             .ConfigureLogging()
             .ConfigureGlobalSettings()
+            .UseBlazor()
             .UseMauiCommunityToolkit()
             .UseMauiCommunityToolkitCamera()
             .UseBarcodeScanning()
@@ -52,6 +54,17 @@ public static class MauiProgram
             .Build();
 
     // ------------------------------------------------------------
+    // Blazor
+    // ------------------------------------------------------------
+
+    private static MauiAppBuilder UseBlazor(this MauiAppBuilder builder)
+    {
+        builder.Services.AddMauiBlazorWebView();
+        builder.Services.AddFluentUIComponents();
+        return builder;
+    }
+
+    // ------------------------------------------------------------
     // Logging
     // ------------------------------------------------------------
 
@@ -59,6 +72,7 @@ public static class MauiProgram
     {
         // Debug
 #if DEBUG
+        builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
 
@@ -86,9 +100,6 @@ public static class MauiProgram
     // ReSharper disable UnusedParameter.Local
     private static void ConfigureLifecycle(ILifecycleBuilder effects)
     {
-#if ANDROID && DEVICE_FULL_SCREEN
-        events.AddAndroid(static android => android.OnCreate(static (activity, _) => AndroidHelper.FullScreen(activity)));
-#endif
     }
     // ReSharper restore UnusedParameter.Local
 
@@ -126,16 +137,7 @@ public static class MauiProgram
     private static MauiAppBuilder UseCustomView(this MauiAppBuilder builder)
     {
         // Behaviors
-        builder.ConfigureCustomBehaviors(static options =>
-        {
-#if DEVICE_HAS_KEYPAD
-            options.HandleEnterKey = true;
-            options.DisableShowSoftInputOnFocus = true;
-#else
-            options.HandleEnterKey = false;
-            options.DisableShowSoftInputOnFocus = false;
-#endif
-        });
+        builder.ConfigureCustomBehaviors();
 
         // Busy
         builder.UseCustomBusyOverlay();
@@ -160,10 +162,10 @@ public static class MauiProgram
     private static void ConfigureDialogDesign(DialogConfig config)
     {
         var resources = Application.Current!.Resources;
-        config.IndicatorColor = resources.FindResource<Color>("BlueAccent2");
+        config.IndicatorColor = resources.FindResource<Microsoft.Maui.Graphics.Color>("BlueAccent2");
         config.LoadingMessageFontSize = 28;
-        config.ProgressCircleColor1 = resources.FindResource<Color>("BlueAccent2");
-        config.ProgressCircleColor2 = resources.FindResource<Color>("GrayLighten2");
+        config.ProgressCircleColor1 = resources.FindResource<Microsoft.Maui.Graphics.Color>("BlueAccent2");
+        config.ProgressCircleColor2 = resources.FindResource<Microsoft.Maui.Graphics.Color>("GrayLighten2");
 
         // Avoiding conflicts with progress
         config.LockBackgroundColor = Colors.Transparent;
@@ -203,11 +205,6 @@ public static class MauiProgram
         config.AddComponentsDialog(static c =>
         {
             ConfigureDialogDesign(c);
-#if DEVICE_HAS_KEYPAD
-            c.DismissKeys = new[] { Keycode.Escape, Keycode.Del };
-            c.IgnorePromptDismissKeys = new[] { Keycode.Del };
-            c.EnableDialogButtonFocus = true;
-#endif
             c.EnablePromptEnterAction = true;
             c.EnablePromptSelectAll = true;
         });

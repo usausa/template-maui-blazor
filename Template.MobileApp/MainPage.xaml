@@ -4,6 +4,7 @@
              xmlns:s="http://smart/maui"
              xmlns:local="clr-namespace:Template.MobileApp"
              xmlns:shell="clr-namespace:Template.MobileApp.Shell"
+             xmlns:webView="clr-namespace:Template.MobileApp.WebView"
              x:Class="Template.MobileApp.MainPage"
              x:DataType="{x:Type local:MainPageViewModel}"
              s:BindingContextResolver.Type="{x:Type local:MainPageViewModel}"
@@ -16,44 +17,11 @@
         <s:AppLifecycleBehavior />
     </ContentPage.Behaviors>
 
-    <Grid Style="{StaticResource MainGrid}"
-          RowDefinitions="Auto,*,Auto">
-        <!-- header -->
-        <Grid Grid.Row="0"
-              Style="{StaticResource HeaderGrid}"
-              ColumnDefinitions="*"
-              IsVisible="{Binding HeaderVisible}">
-            <Label Grid.Column="0"
-                   Style="{StaticResource HeaderTitleLabel}"
-                   Text="{Binding Title}" />
-        </Grid>
-
-        <!-- view container -->
-        <AbsoluteLayout Grid.Row="1"
-                        Style="{StaticResource ContainerLayout}" />
-
-        <!-- function -->
-        <Grid Grid.Row="2"
-              Style="{StaticResource FunctionGrid}"
-              ColumnDefinitions="*,*,*,*"
-              IsVisible="{Binding FunctionVisible}">
-            <Button Grid.Column="0"
-                    Style="{StaticResource FunctionButton1}"
-                    Command="{Binding Function1Command}"
-                    Text="{Binding Function1Text}" />
-            <Button Grid.Column="1"
-                    Style="{StaticResource FunctionButton2}"
-                    Command="{Binding Function2Command}"
-                    Text="{Binding Function2Text}" />
-            <Button Grid.Column="2"
-                    Style="{StaticResource FunctionButton3}"
-                    Command="{Binding Function3Command}"
-                    Text="{Binding Function3Text}" />
-            <Button Grid.Column="3"
-                    Style="{StaticResource FunctionButton4}"
-                    Command="{Binding Function4Command}"
-                    Text="{Binding Function4Text}" />
-        </Grid>
-    </Grid>
+    <BlazorWebView HostPage="wwwroot/index.html">
+        <BlazorWebView.RootComponents>
+            <RootComponent ComponentType="{x:Type webView:Routes}"
+                           Selector="#app" />
+        </BlazorWebView.RootComponents>
+    </BlazorWebView>
 
 </ContentPage>
