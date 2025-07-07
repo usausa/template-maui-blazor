@@ -107,9 +107,7 @@
     "ios:*",
     "mcs:*",
     "behaviors:*",
-    "si:*",
-    "six:*",
-    "input:*",
+    "s:*",
     "effects:*",
 
     "FontFamily, FontSize, FontAttributes",
