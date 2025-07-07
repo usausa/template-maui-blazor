@@ -4,30 +4,30 @@ using Template.MobileApp.Converters;
 using Template.MobileApp.Views;
 
 [AcceptEmptyServiceProvider]
-public sealed class SelectedToColorExtension : IMarkupExtension<SelectedToColorConverter>
+public sealed class PageToColorExtension : IMarkupExtension<PageToColorConverter>
 {
-    public SelectedPage Page { get; set; }
+    public SelectPage Page { get; set; }
 
     public Color Default { get; set; } = default!;
 
     public Color Selected { get; set; } = default!;
 
-    public SelectedToColorConverter ProvideValue(IServiceProvider serviceProvider) =>
+    public PageToColorConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { Page = Page, Default = Default, Selected = Selected };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);
 }
 
 [AcceptEmptyServiceProvider]
-public sealed class SelectedToImageSourceExtension : IMarkupExtension<SelectedToImageSourceConverter>
+public sealed class PageToImageSourceExtension : IMarkupExtension<PageToImageSourceConverter>
 {
-    public SelectedPage Page { get; set; }
+    public SelectPage Page { get; set; }
 
     public ImageSource Default { get; set; } = default!;
 
     public ImageSource Selected { get; set; } = default!;
 
-    public SelectedToImageSourceConverter ProvideValue(IServiceProvider serviceProvider) =>
+    public PageToImageSourceConverter ProvideValue(IServiceProvider serviceProvider) =>
         new() { Page = Page, Default = Default, Selected = Selected };
 
     object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => ProvideValue(serviceProvider);

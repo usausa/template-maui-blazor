@@ -1,6 +1,6 @@
 namespace Template.MobileApp.Views;
 
-public enum SelectedPage
+public enum SelectPage
 {
     Home,
     Search,

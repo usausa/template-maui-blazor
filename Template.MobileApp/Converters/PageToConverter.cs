@@ -2,9 +2,9 @@ namespace Template.MobileApp.Converters;
 
 using Template.MobileApp.Views;
 
-public abstract class SelectedToConverter<T> : IValueConverter
+public abstract class PageToConverter<T> : IValueConverter
 {
-    public SelectedPage Page { get; set; }
+    public SelectPage Page { get; set; }
 
     public T Default { get; set; } = default!;
 
@@ -18,10 +18,10 @@ public abstract class SelectedToConverter<T> : IValueConverter
     public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => throw new NotSupportedException();
 }
 
-public sealed class SelectedToColorConverter : SelectedToConverter<Color>
+public sealed class PageToColorConverter : PageToConverter<Color>
 {
 }
 
-public sealed class SelectedToImageSourceConverter : SelectedToConverter<ImageSource>
+public sealed class PageToImageSourceConverter : PageToConverter<ImageSource>
 {
 }

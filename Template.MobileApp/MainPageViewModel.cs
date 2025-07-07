@@ -6,12 +6,10 @@ using Template.MobileApp.Views;
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
 public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecycle
 {
-    private readonly IScreen screen;
-
     public IBusyView BusyView { get; }
 
     [ObservableProperty]
-    public partial SelectedPage Selected { get; set; }
+    public partial SelectPage Selected { get; set; }
 
     public ICommand PageCommand { get; }
 
@@ -20,30 +18,17 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
     //--------------------------------------------------------------------------------
 
     public MainPageViewModel(
-        ILogger<MainPageViewModel> log,
         IBusyView progressView,
-        IScreen screen,
-        IDialog dialog)
+        IReactiveMessenger messenger)
     {
         BusyView = progressView;
-        this.screen = screen;
 
-        Selected = SelectedPage.Home;
-
-        // TODO
-        PageCommand = MakeDelegateCommand<SelectedPage>(page => Selected = page);
-
-        // Screen lock detection
-        // ReSharper disable AsyncVoidLambda
-        Disposables.Add(screen.StateChangedAsObservable().ObserveOnCurrentContext().Subscribe(async x =>
+        Selected = SelectPage.Home;
+        PageCommand = MakeDelegateCommand<SelectPage>(page =>
         {
-            log.DebugScreenStateChanged(x.ScreenOn);
-            if (x.ScreenOn)
-            {
-                await dialog.Toast("Screen on", true);
-            }
-        }));
-        // ReSharper restore AsyncVoidLambda
+            Selected = page;
+            messenger.Send(page);
+        });
     }
 
     //--------------------------------------------------------------------------------
@@ -52,7 +37,6 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
 
     public void OnCreated()
     {
-        screen.EnableDetectScreenState(true);
     }
 
     public void OnActivated()
