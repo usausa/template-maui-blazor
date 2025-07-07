@@ -26,6 +26,7 @@ using Template.MobileApp.Behaviors;
 using Template.MobileApp.Components;
 using Template.MobileApp.Helpers;
 using Template.MobileApp.Helpers.Data;
+using Template.MobileApp.Interop;
 using Template.MobileApp.Services;
 using Template.MobileApp.Shell;
 using Template.MobileApp.Usecase;
@@ -246,6 +247,9 @@ public static class MauiProgram
         config.BindSingleton<NetworkOperator>();
 
         config.BindSingleton<NetworkUsecase>();
+
+        // Interop
+        config.BindSingleton<IPlatformInterop, PlatformInterop>();
 
         // Startup
         config.BindSingleton<IMauiInitializeService, ApplicationInitializer>();

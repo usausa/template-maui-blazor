@@ -1,4 +1,4 @@
-namespace Template.MobileApp.WebComponents;
+namespace Template.MobileApp.Views;
 
 public abstract class AppComponentBase : ComponentBase, IDisposable
 {

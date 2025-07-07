@@ -1,4 +1,4 @@
-﻿@page "/weather"
+@page "/weather"
 
 <PageTitle>Weather</PageTitle>
 
@@ -24,6 +24,7 @@ else
 @code {
     private IQueryable<WeatherForecast>? forecasts;
 
+#pragma warning disable CA5394
     protected override async Task OnInitializedAsync()
     {
         // Simulate asynchronous loading to demonstrate a loading indicator
@@ -38,6 +39,7 @@ else
             Summary = summaries[Random.Shared.Next(summaries.Length)]
         }).AsQueryable();
     }
+#pragma warning restore CA5394
 
     private class WeatherForecast
     {

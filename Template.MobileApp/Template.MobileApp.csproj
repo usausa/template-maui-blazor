@@ -111,9 +111,4 @@
     <PackageReference Include="Usa.Smart.Resolver.Extensions.DependencyInjection" Version="2.6.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="Converters\" />
-  </ItemGroup>
-
 </Project>

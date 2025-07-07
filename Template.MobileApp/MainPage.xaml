@@ -4,7 +4,7 @@
              xmlns:s="http://smart/maui"
              xmlns:local="clr-namespace:Template.MobileApp"
              xmlns:shell="clr-namespace:Template.MobileApp.Shell"
-             xmlns:webViews="clr-namespace:Template.MobileApp.WebViews"
+             xmlns:views="clr-namespace:Template.MobileApp.Views"
              x:Class="Template.MobileApp.MainPage"
              x:DataType="{x:Type local:MainPageViewModel}"
              s:BindingContextResolver.Type="{x:Type local:MainPageViewModel}"
@@ -21,7 +21,7 @@
         <BlazorWebView Grid.Row="0"
                        HostPage="wwwroot/index.html">
             <BlazorWebView.RootComponents>
-                <RootComponent ComponentType="{x:Type webViews:Routes}"
+                <RootComponent ComponentType="{x:Type views:Routes}"
                                Selector="#app" />
             </BlazorWebView.RootComponents>
         </BlazorWebView>
