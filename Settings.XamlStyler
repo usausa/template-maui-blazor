@@ -42,7 +42,7 @@
     "xmlns:helpers",
     "xmlns:markup",
     "xmlns:models",
-    "xmlns:module",
+    "xmlns:webViews",
 
     "xmlns:*",
 

@@ -4,7 +4,7 @@
              xmlns:s="http://smart/maui"
              xmlns:local="clr-namespace:Template.MobileApp"
              xmlns:shell="clr-namespace:Template.MobileApp.Shell"
-             xmlns:webView="clr-namespace:Template.MobileApp.WebView"
+             xmlns:webViews="clr-namespace:Template.MobileApp.WebViews"
              x:Class="Template.MobileApp.MainPage"
              x:DataType="{x:Type local:MainPageViewModel}"
              s:BindingContextResolver.Type="{x:Type local:MainPageViewModel}"
@@ -17,11 +17,22 @@
         <s:AppLifecycleBehavior />
     </ContentPage.Behaviors>
 
-    <BlazorWebView HostPage="wwwroot/index.html">
-        <BlazorWebView.RootComponents>
-            <RootComponent ComponentType="{x:Type webView:Routes}"
-                           Selector="#app" />
-        </BlazorWebView.RootComponents>
-    </BlazorWebView>
+    <Grid RowDefinitions="*,Auto">
+        <BlazorWebView Grid.Row="0"
+                       HostPage="wwwroot/index.html">
+            <BlazorWebView.RootComponents>
+                <RootComponent ComponentType="{x:Type webViews:Routes}"
+                               Selector="#app" />
+            </BlazorWebView.RootComponents>
+        </BlazorWebView>
+
+        <Grid Grid.Row="1"
+              ColumnDefinitions="*,*,*,*">
+            <Button Grid.Column="0" />
+            <Button Grid.Column="1" />
+            <Button Grid.Column="2" />
+            <Button Grid.Column="3" />
+        </Grid>
+    </Grid>
 
 </ContentPage>

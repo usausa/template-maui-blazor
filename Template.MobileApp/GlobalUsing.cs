@@ -28,6 +28,8 @@ global using BunnyTail.MemberAccessor;
 
 global using MauiComponents;
 
+global using Microsoft.AspNetCore.Components;
+
 global using Microsoft.Extensions.Logging;
 
 global using Smart;
