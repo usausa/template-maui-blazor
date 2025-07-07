@@ -1,6 +1,7 @@
 namespace Template.MobileApp;
 
 using Template.MobileApp.Shell;
+using Template.MobileApp.Views;
 
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
 public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecycle
@@ -10,36 +11,9 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
     public IBusyView BusyView { get; }
 
     [ObservableProperty]
-    public partial string Title { get; set; } = default!;
+    public partial SelectedPage Selected { get; set; }
 
-    [ObservableProperty]
-    public partial bool HeaderVisible { get; set; }
-
-    [ObservableProperty]
-    public partial bool FunctionVisible { get; set; }
-
-    [ObservableProperty]
-    public partial string Function1Text { get; set; } = default!;
-    [ObservableProperty]
-    public partial string Function2Text { get; set; } = default!;
-    [ObservableProperty]
-    public partial string Function3Text { get; set; } = default!;
-    [ObservableProperty]
-    public partial string Function4Text { get; set; } = default!;
-
-    [ObservableProperty]
-    public partial bool Function1Enabled { get; set; }
-    [ObservableProperty]
-    public partial bool Function2Enabled { get; set; }
-    [ObservableProperty]
-    public partial bool Function3Enabled { get; set; }
-    [ObservableProperty]
-    public partial bool Function4Enabled { get; set; }
-
-    public IObserveCommand Function1Command { get; }
-    public IObserveCommand Function2Command { get; }
-    public IObserveCommand Function3Command { get; }
-    public IObserveCommand Function4Command { get; }
+    public ICommand PageCommand { get; }
 
     //--------------------------------------------------------------------------------
     // Constructor
@@ -54,10 +28,10 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
         BusyView = progressView;
         this.screen = screen;
 
-        Function1Command = MakeDelegateCommand(() => { }, () => Function1Enabled);
-        Function2Command = MakeDelegateCommand(() => { }, () => Function2Enabled);
-        Function3Command = MakeDelegateCommand(() => { }, () => Function3Enabled);
-        Function4Command = MakeDelegateCommand(() => { }, () => Function4Enabled);
+        Selected = SelectedPage.Home;
+
+        // TODO
+        PageCommand = MakeDelegateCommand<SelectedPage>(page => Selected = page);
 
         // Screen lock detection
         // ReSharper disable AsyncVoidLambda
