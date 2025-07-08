@@ -17,7 +17,7 @@ public sealed class PageNavigator : ComponentBase, IDisposable
             switch (x)
             {
                 case SelectPage.Home:
-                    NavigationManager.NavigateTo("/home");
+                    NavigationManager.NavigateTo("/");
                     break;
                 case SelectPage.Search:
                     NavigationManager.NavigateTo("/search");
