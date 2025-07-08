@@ -24,18 +24,4 @@ public sealed class Settings
         get => preferences.Get<string>(nameof(ApiEndPoint), default!);
         set => preferences.Set(nameof(ApiEndPoint), value);
     }
-
-    // AI Service
-
-    public string AIServiceEndPoint
-    {
-        get => preferences.Get<string>(nameof(AIServiceEndPoint), default!);
-        set => preferences.Set(nameof(AIServiceEndPoint), value);
-    }
-
-    public string AIServiceKey
-    {
-        get => preferences.Get<string>(nameof(AIServiceKey), default!);
-        set => preferences.Set(nameof(AIServiceKey), value);
-    }
 }

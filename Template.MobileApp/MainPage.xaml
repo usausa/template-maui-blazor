@@ -22,6 +22,7 @@
 
         <Button Grid.RowSpan="3"
                 Style="{StaticResource CenterFloatingButton}"
+                Command="{Binding PayCommand}"
                 Text="支払い"
                 TextColor="White"
                 BackgroundColor="{StaticResource RedDefault}"

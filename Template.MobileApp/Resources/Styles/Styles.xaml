@@ -3,7 +3,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:s="http://smart/maui"
-                    xmlns:behaviors="clr-namespace:Template.MobileApp.Behaviors">
+                    xmlns:behaviors="clr-namespace:Template.MobileApp.Behaviors"
+                    xmlns:converters="clr-namespace:Template.MobileApp.Converters">
 
     <!-- ================================================================================ -->
     <!-- Converter -->
@@ -17,6 +18,10 @@
                            HandleEmptyString="True"
                            NullValue="False"
                            NonNullValue="True" />
+
+    <!-- Application -->
+
+    <converters:QrImageSourceConverter x:Key="QrImageSourceConverter" />
 
     <!-- ================================================================================ -->
     <!-- Main -->

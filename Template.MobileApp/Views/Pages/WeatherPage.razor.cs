@@ -1,27 +1,7 @@
-@page "/weather"
+namespace Template.MobileApp.Views.Pages;
 
-<PageTitle>Weather</PageTitle>
-
-<h1>Weather</h1>
-
-<p>This component demonstrates showing data.</p>
-
-@if (forecasts == null)
+public sealed partial class WeatherPage : AppComponentBase
 {
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <FluentDataGrid Id="weathergrid" Items="@forecasts" GridTemplateColumns="1fr 1fr 1fr 2fr" TGridItem="WeatherForecast">
-        <PropertyColumn Title="Date" Property="@(c => c!.Date)" Sortable="true" Align="Align.Start"/>
-        <PropertyColumn Title="Temp. (C)" Property="@(c => c!.TemperatureC)" Sortable="true" Align="Align.Center"/>
-        <PropertyColumn Title="Temp. (F)" Property="@(c => c!.TemperatureF)" Sortable="true" Align="Align.Center"/>
-        <PropertyColumn Title="Summary" Property="@(c => c!.Summary)" Sortable="true" Align="Align.End"/>
-    </FluentDataGrid>
-}
-
-
-@code {
     private IQueryable<WeatherForecast>? forecasts;
 
 #pragma warning disable CA5394
@@ -41,7 +21,7 @@ else
     }
 #pragma warning restore CA5394
 
-    private class WeatherForecast
+    private sealed class WeatherForecast
     {
         public DateOnly Date { get; init; }
         public int TemperatureC { get; init; }

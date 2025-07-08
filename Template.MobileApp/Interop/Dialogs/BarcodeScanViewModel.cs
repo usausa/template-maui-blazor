@@ -1,0 +1,31 @@
+namespace Template.MobileApp.Interop.Dialogs;
+
+using BarcodeScanning;
+
+public sealed class BarcodeScanViewModel : DialogViewModelBase
+{
+    public BarcodeController Controller { get; } = new();
+
+    public IObserveCommand DetectCommand { get; }
+
+    public IObserveCommand CloseCommand { get; }
+
+    public BarcodeScanViewModel(IPopupNavigator popupNavigator)
+    {
+        CloseCommand = MakeAsyncCommand(async () =>
+        {
+            Controller.Enable = false;
+            await popupNavigator.CloseAsync();
+        });
+        DetectCommand = MakeAsyncCommand<IReadOnlySet<BarcodeResult>>(async x =>
+        {
+            if (x.Count > 0)
+            {
+                Controller.Enable = false;
+                await popupNavigator.CloseAsync(x.First().DisplayValue);
+            }
+        });
+
+        Controller.Enable = true;
+    }
+}

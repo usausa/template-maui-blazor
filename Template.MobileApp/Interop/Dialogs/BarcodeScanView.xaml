@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:s="http://smart/maui"
+           xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+           xmlns:scanner="clr-namespace:BarcodeScanning;assembly=BarcodeScanning.Native.Maui"
+           xmlns:behaviors="clr-namespace:Template.MobileApp.Behaviors"
+           xmlns:dialogs="clr-namespace:Template.MobileApp.Interop.Dialogs"
+           x:Class="Template.MobileApp.Interop.Dialogs.BarcodeScanView"
+           x:DataType="{x:Type dialogs:BarcodeScanViewModel}"
+           s:BindingContextResolver.Type="{x:Type dialogs:BarcodeScanViewModel}"
+           WidthRequest="{x:Static dialogs:DialogSize.LargeWidth}">
+
+    <Grid RowDefinitions="*,Auto">
+        <scanner:CameraView Grid.Row="0"
+                            behaviors:BarcodeBind.Controller="{Binding Controller}"
+                            OnDetectionFinishedCommand="{Binding DetectCommand}" />
+
+        <Button Grid.Row="1"
+                Command="{Binding CloseCommand}"
+                Text="Close" />
+    </Grid>
+
+</mct:Popup>

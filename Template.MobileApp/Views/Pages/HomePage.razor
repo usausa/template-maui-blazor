@@ -1,0 +1,12 @@
+@page "/"
+@inherits AppComponentBase
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+<FluentButton Appearance="Appearance.Accent" @onclick="OnClickScan">Scan</FluentButton>
+
+<div>
+    Barcode: <FluentBadge Appearance="Appearance.Neutral">@barcode</FluentBadge>
+</div>

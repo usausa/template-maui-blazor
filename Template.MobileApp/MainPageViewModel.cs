@@ -1,5 +1,6 @@
 namespace Template.MobileApp;
 
+using Template.MobileApp.Interop;
 using Template.MobileApp.Shell;
 using Template.MobileApp.Views;
 
@@ -11,7 +12,9 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
     [ObservableProperty]
     public partial SelectPage Selected { get; set; }
 
-    public ICommand PageCommand { get; }
+    public IObserveCommand PayCommand { get; }
+
+    public IObserveCommand PageCommand { get; }
 
     //--------------------------------------------------------------------------------
     // Constructor
@@ -19,11 +22,17 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
 
     public MainPageViewModel(
         IBusyView progressView,
-        IReactiveMessenger messenger)
+        IReactiveMessenger messenger,
+        Settings settings,
+        IPlatformInterop platformInterop)
     {
         BusyView = progressView;
 
         Selected = SelectPage.Home;
+        PayCommand = MakeAsyncCommand(async () =>
+        {
+            await platformInterop.DisplayBarcodeAsync(settings.UniqId);
+        });
         PageCommand = MakeDelegateCommand<SelectPage>(page =>
         {
             Selected = page;

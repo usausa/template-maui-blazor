@@ -2,6 +2,7 @@ namespace Template.MobileApp.Interop;
 
 public interface IPlatformInterop
 {
-    // TODO
-    void Dummy();
+    ValueTask<string?> ScanBarcodeAsync();
+
+    ValueTask DisplayBarcodeAsync(string barcode);
 }

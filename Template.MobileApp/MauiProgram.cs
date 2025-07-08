@@ -27,11 +27,12 @@ using Template.MobileApp.Components;
 using Template.MobileApp.Helpers;
 using Template.MobileApp.Helpers.Data;
 using Template.MobileApp.Interop;
+using Template.MobileApp.Interop.Dialogs;
 using Template.MobileApp.Services;
 using Template.MobileApp.Shell;
 using Template.MobileApp.Usecase;
 
-public static class MauiProgram
+public static partial class MauiProgram
 {
     public static MauiApp CreateMauiApp() =>
         MauiApp.CreateBuilder()
@@ -207,7 +208,7 @@ public static class MauiProgram
             c.EnablePromptEnterAction = true;
             c.EnablePromptSelectAll = true;
         });
-        //config.AddComponentsPopup(static c => c.AutoRegister(DialogSource()));
+        config.AddComponentsPopup(static c => c.AutoRegister(DialogSource()));
         config.AddComponentsSerializer();
         config.AddComponentsScreen();
         config.AddComponentsLocation();
@@ -257,6 +258,6 @@ public static class MauiProgram
     // View & Dialog
     // ------------------------------------------------------------
 
-    //[PopupSource]
-    //public static partial IEnumerable<KeyValuePair<DialogId, Type>> DialogSource();
+    [PopupSource]
+    public static partial IEnumerable<KeyValuePair<DialogId, Type>> DialogSource();
 }
