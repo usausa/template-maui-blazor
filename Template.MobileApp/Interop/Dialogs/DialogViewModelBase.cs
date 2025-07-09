@@ -9,6 +9,11 @@ public abstract class DialogViewModelBase : ExtendViewModelBase, IValidatable
 
     private IAccessor? propertyAccessor;
 
+    protected DialogViewModelBase()
+        : base(new BusyState())
+    {
+    }
+
     protected override void Dispose(bool disposing)
     {
         base.Dispose(disposing);

@@ -12,7 +12,13 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
 
     public BarcodeScanViewModel(IPopupNavigator popupNavigator)
     {
-        CloseCommand = MakeAsyncCommand(async () => await popupNavigator.CloseAsync());
+        // TODO
+        //CloseCommand = MakeAsyncCommand(async () => await popupNavigator.CloseAsync());
+        CloseCommand = new AsyncCommand(async () =>
+        {
+            System.Diagnostics.Debug.WriteLine("****");
+            await popupNavigator.CloseAsync();
+        });
         DetectCommand = MakeAsyncCommand<IReadOnlySet<BarcodeResult>>(async x =>
         {
             if (x.Count > 0)
