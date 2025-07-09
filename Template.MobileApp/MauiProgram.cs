@@ -38,12 +38,12 @@ public static partial class MauiProgram
         MauiApp.CreateBuilder()
             .UseMauiApp<App>()
             .ConfigureFonts(ConfigureFonts)
-            .ConfigureLifecycleEvents(ConfigureLifecycle)
+            .ConfigureLifecycleEvents(ConfigureLifecycleEvents)
             .ConfigureEssentials(ConfigureEssentials)
             .ConfigureLogging()
             .ConfigureGlobalSettings()
             .UseBlazor()
-            .UseMauiCommunityToolkit()
+            .UseMauiCommunityToolkit(ConfigureMauiCommunityToolkit)
             .UseMauiCommunityToolkitCamera()
             .UseBarcodeScanning()
             .UseShiny()
@@ -100,7 +100,7 @@ public static partial class MauiProgram
     // ------------------------------------------------------------
 
     // ReSharper disable UnusedParameter.Local
-    private static void ConfigureLifecycle(ILifecycleBuilder effects)
+    private static void ConfigureLifecycleEvents(ILifecycleBuilder effects)
     {
     }
     // ReSharper restore UnusedParameter.Local
@@ -110,6 +110,21 @@ public static partial class MauiProgram
     {
     }
     // ReSharper restore UnusedParameter.Local
+
+    private static void ConfigureMauiCommunityToolkit(Options options)
+    {
+        options.SetPopupDefaults(new DefaultPopupSettings
+        {
+            CanBeDismissedByTappingOutsideOfPopup = true,
+            Padding = 0
+        });
+        options.SetPopupOptionsDefaults(new DefaultPopupOptionsSettings
+        {
+            CanBeDismissedByTappingOutsideOfPopup = true,
+            Shadow = null,
+            Shape = null
+        });
+    }
 
     private static MauiAppBuilder ConfigureGlobalSettings(this MauiAppBuilder builder)
     {
