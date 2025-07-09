@@ -19,15 +19,6 @@
     </ContentPage.Behaviors>
 
     <Grid RowDefinitions="*,Auto,Auto">
-
-        <Button Grid.RowSpan="3"
-                Style="{StaticResource CenterFloatingButton}"
-                Command="{Binding PayCommand}"
-                Text="支払い"
-                TextColor="White"
-                BackgroundColor="{StaticResource RedDefault}"
-                ImageSource="qr_code.png" />
-
         <BlazorWebView Grid.Row="0"
                        HostPage="wwwroot/index.html">
             <BlazorWebView.RootComponents>
@@ -71,6 +62,14 @@
                     TextColor="{Binding Selected, Converter={markup:PageToColor Page=Account, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
                     ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Account, Selected=account_selected.png, Default=account.png}}" />
         </Grid>
+
+        <Button Grid.RowSpan="3"
+                Style="{StaticResource CenterFloatingButton}"
+                Command="{Binding PayCommand}"
+                Text="支払い"
+                TextColor="White"
+                BackgroundColor="{StaticResource RedDefault}"
+                ImageSource="qr_code.png" />
     </Grid>
 
 </ContentPage>
