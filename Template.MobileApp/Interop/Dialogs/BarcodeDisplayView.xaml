@@ -6,8 +6,7 @@
            xmlns:dialogs="clr-namespace:Template.MobileApp.Interop.Dialogs"
            x:Class="Template.MobileApp.Interop.Dialogs.BarcodeDisplayView"
            x:DataType="{x:Type dialogs:BarcodeDisplayViewModel}"
-           s:BindingContextResolver.Type="{x:Type dialogs:BarcodeDisplayViewModel}"
-           WidthRequest="{x:Static dialogs:DialogSize.LargeWidth}">
+           s:BindingContextResolver.Type="{x:Type dialogs:BarcodeDisplayViewModel}">
 
     <VerticalStackLayout>
         <Image Source="{Binding Barcode, Converter={StaticResource QrImageSourceConverter}}" />

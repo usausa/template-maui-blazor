@@ -8,11 +8,11 @@
            xmlns:dialogs="clr-namespace:Template.MobileApp.Interop.Dialogs"
            x:Class="Template.MobileApp.Interop.Dialogs.BarcodeScanView"
            x:DataType="{x:Type dialogs:BarcodeScanViewModel}"
-           s:BindingContextResolver.Type="{x:Type dialogs:BarcodeScanViewModel}"
-           WidthRequest="{x:Static dialogs:DialogSize.LargeWidth}">
+           s:BindingContextResolver.Type="{x:Type dialogs:BarcodeScanViewModel}">
 
     <Grid RowDefinitions="*,Auto">
         <scanner:CameraView Grid.Row="0"
+                            HeightRequest="{x:Static dialogs:DialogSize.LargeWidth}"
                             behaviors:BarcodeBind.Controller="{Binding Controller}"
                             OnDetectionFinishedCommand="{Binding DetectCommand}" />
 
