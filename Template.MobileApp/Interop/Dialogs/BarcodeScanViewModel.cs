@@ -8,24 +8,17 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
 
     public IObserveCommand DetectCommand { get; }
 
-    public IObserveCommand CloseCommand { get; }
-
     public BarcodeScanViewModel(
         IPopupNavigator popupNavigator,
         IVibration vibration)
     {
-        // TODO
-        //CloseCommand = MakeAsyncCommand(async () => await popupNavigator.CloseAsync());
-        CloseCommand = new AsyncCommand(async () =>
-        {
-            System.Diagnostics.Debug.WriteLine("****");
-            await popupNavigator.CloseAsync();
-        });
-        DetectCommand = MakeAsyncCommand<IReadOnlySet<BarcodeResult>>(async x =>
+        DetectCommand = new AsyncCommand<IReadOnlySet<BarcodeResult>>(async x =>
         {
             if (x.Count > 0)
             {
                 vibration.Vibrate(200);
+                Controller.Enable = false;
+
                 await popupNavigator.CloseAsync(x.First().DisplayValue);
             }
         });
