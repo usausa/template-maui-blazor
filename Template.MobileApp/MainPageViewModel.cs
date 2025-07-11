@@ -1,14 +1,11 @@
 namespace Template.MobileApp;
 
 using Template.MobileApp.Interop;
-using Template.MobileApp.Shell;
 using Template.MobileApp.Views;
 
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
 public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecycle
 {
-    public IBusyView BusyView { get; }
-
     [ObservableProperty]
     public partial SelectPage Selected { get; set; }
 
@@ -21,13 +18,10 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
     //--------------------------------------------------------------------------------
 
     public MainPageViewModel(
-        IBusyView progressView,
         IReactiveMessenger messenger,
         Settings settings,
         IPlatformInterop platformInterop)
     {
-        BusyView = progressView;
-
         Selected = SelectPage.Home;
         PayCommand = MakeAsyncCommand(async () =>
         {

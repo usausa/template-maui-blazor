@@ -29,7 +29,6 @@ using Template.MobileApp.Helpers.Data;
 using Template.MobileApp.Interop;
 using Template.MobileApp.Interop.Dialogs;
 using Template.MobileApp.Services;
-using Template.MobileApp.Shell;
 using Template.MobileApp.Usecase;
 
 public static partial class MauiProgram
@@ -153,9 +152,6 @@ public static partial class MauiProgram
     {
         // Behaviors
         builder.ConfigureCustomBehaviors();
-
-        // Busy
-        builder.UseCustomBusyOverlay();
 
         return builder;
     }

@@ -10,7 +10,7 @@ public abstract class DialogViewModelBase : ExtendViewModelBase, IValidatable
     private IAccessor? propertyAccessor;
 
     protected DialogViewModelBase()
-        : base(new BusyState())
+        : base(new ExtendViewModelOptions { BusyState = new BusyState() })
     {
     }
 
