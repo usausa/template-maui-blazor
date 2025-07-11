@@ -10,7 +10,9 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
 
     public IObserveCommand CloseCommand { get; }
 
-    public BarcodeScanViewModel(IPopupNavigator popupNavigator)
+    public BarcodeScanViewModel(
+        IPopupNavigator popupNavigator,
+        IVibration vibration)
     {
         // TODO
         //CloseCommand = MakeAsyncCommand(async () => await popupNavigator.CloseAsync());
@@ -23,6 +25,7 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
         {
             if (x.Count > 0)
             {
+                vibration.Vibrate(200);
                 await popupNavigator.CloseAsync(x.First().DisplayValue);
             }
         });
