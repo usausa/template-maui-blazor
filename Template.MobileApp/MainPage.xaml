@@ -35,7 +35,7 @@
                      StyleClass="SeparatorBoxView" />
 
             <Grid Grid.Row="2"
-                  StyleClass="BottomSelectGrid}"
+                  StyleClass="BottomSelectGrid"
                   ColumnDefinitions="*,*,72,*,*">
                 <Button Grid.Column="0"
                         StyleClass="BottomSelectButton"
