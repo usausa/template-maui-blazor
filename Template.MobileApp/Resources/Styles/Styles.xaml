@@ -27,19 +27,19 @@
     <!-- Main -->
     <!-- ================================================================================ -->
 
-    <Style x:Key="SeparatorBoxView"
-           TargetType="BoxView">
+    <Style TargetType="BoxView"
+           Class="SeparatorBoxView">
         <Setter Property="HeightRequest" Value="0.5" />
         <Setter Property="Color" Value="{StaticResource GrayLighten1}" />
     </Style>
 
-    <Style x:Key="BottomSelectGrid"
-           TargetType="Grid">
+    <Style TargetType="Grid"
+           Class="BottomSelectGrid">
         <Setter Property="BackgroundColor" Value="White" />
     </Style>
 
-    <Style x:Key="BottomSelectButton"
-           TargetType="Button">
+    <Style TargetType="Button"
+           Class="BottomSelectButton">
         <Setter Property="BackgroundColor" Value="White" />
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="ContentLayout" Value="Top, 0" />
@@ -47,8 +47,8 @@
         <Setter Property="behaviors:ButtonOption.DisableRippleEffect" Value="True" />
     </Style>
 
-    <Style x:Key="CenterFloatingButton"
-           TargetType="Button">
+    <Style TargetType="Button"
+           Class="CenterFloatingButton">
         <Setter Property="WidthRequest" Value="72" />
         <Setter Property="HeightRequest" Value="72" />
         <Setter Property="CornerRadius" Value="36" />
