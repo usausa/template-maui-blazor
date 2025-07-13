@@ -37,34 +37,44 @@
             <Grid Grid.Row="2"
                   StyleClass="BottomSelectGrid"
                   ColumnDefinitions="*,*,72,*,*">
-                <Button Grid.Column="0"
-                        StyleClass="BottomSelectButton"
-                        Command="{Binding PageCommand}"
-                        CommandParameter="{x:Static views:SelectPage.Home}"
-                        Text="ホーム"
-                        TextColor="{Binding Selected, Converter={markup:PageToColor Page=Home, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
-                        ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Home, Selected=home_selected.png, Default=home.png}}" />
-                <Button Grid.Column="1"
-                        StyleClass="BottomSelectButton"
-                        Command="{Binding PageCommand}"
-                        CommandParameter="{x:Static views:SelectPage.Search}"
-                        Text="検索"
-                        TextColor="{Binding Selected, Converter={markup:PageToColor Page=Search, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
-                        ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Search, Selected=search_selected.png, Default=search.png}}" />
-                <Button Grid.Column="3"
-                        StyleClass="BottomSelectButton"
-                        Command="{Binding PageCommand}"
-                        CommandParameter="{x:Static views:SelectPage.Notifications}"
-                        Text="お知らせ"
-                        TextColor="{Binding Selected, Converter={markup:PageToColor Page=Notifications, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
-                        ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Notifications, Selected=notifications_selected.png, Default=notifications.png}}" />
-                <Button Grid.Column="4"
-                        StyleClass="BottomSelectButton"
-                        Command="{Binding PageCommand}"
-                        CommandParameter="{x:Static views:SelectPage.Account}"
-                        Text="アカウント"
-                        TextColor="{Binding Selected, Converter={markup:PageToColor Page=Account, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
-                        ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Account, Selected=account_selected.png, Default=account.png}}" />
+                <AbsoluteLayout Grid.Column="0">
+                    <Button StyleClass="BottomSelectButton"
+                            Command="{Binding PageCommand}"
+                            CommandParameter="{x:Static views:SelectPage.Home}"
+                            Text="ホーム"
+                            TextColor="{Binding Selected, Converter={markup:PageToColor Page=Home, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
+                            ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Home, Selected=home_selected.png, Default=home.png}}" />
+                </AbsoluteLayout>
+                <AbsoluteLayout Grid.Column="1">
+                    <Button StyleClass="BottomSelectButton"
+                            Command="{Binding PageCommand}"
+                            CommandParameter="{x:Static views:SelectPage.Search}"
+                            Text="検索"
+                            TextColor="{Binding Selected, Converter={markup:PageToColor Page=Search, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
+                            ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Search, Selected=search_selected.png, Default=search.png}}" />
+                </AbsoluteLayout>
+                <AbsoluteLayout Grid.Column="3">
+                    <Button StyleClass="BottomSelectButton"
+                            Command="{Binding PageCommand}"
+                            CommandParameter="{x:Static views:SelectPage.Notifications}"
+                            Text="お知らせ"
+                            TextColor="{Binding Selected, Converter={markup:PageToColor Page=Notifications, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
+                            ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Notifications, Selected=notifications_selected.png, Default=notifications.png}}" />
+                    <Border StyleClass="BottomSelectBadgeBorder"
+                            IsVisible="{Binding NotificationCount, Converter={StaticResource GreaterThanToBoolConverter}, ConverterParameter={s:Int32 Value=0}}"
+                            BackgroundColor="{StaticResource OrangeDefault}">
+                        <Label StyleClass="BottomSelectBadgeLabel"
+                               Text="{Binding NotificationCount}" />
+                    </Border>
+                </AbsoluteLayout>
+                <AbsoluteLayout Grid.Column="4">
+                    <Button StyleClass="BottomSelectButton"
+                            Command="{Binding PageCommand}"
+                            CommandParameter="{x:Static views:SelectPage.Account}"
+                            Text="アカウント"
+                            TextColor="{Binding Selected, Converter={markup:PageToColor Page=Account, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
+                            ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Account, Selected=account_selected.png, Default=account.png}}" />
+                </AbsoluteLayout>
             </Grid>
 
             <Button Grid.RowSpan="3"

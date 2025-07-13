@@ -9,6 +9,9 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
     [ObservableProperty]
     public partial SelectPage Selected { get; set; }
 
+    [ObservableProperty]
+    public partial int NotificationCount { get; set; }
+
     public IObserveCommand PayCommand { get; }
 
     public IObserveCommand PageCommand { get; }
@@ -32,6 +35,8 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
             Selected = page;
             messenger.Send(page);
         });
+
+        NotificationCount = 99;
     }
 
     //--------------------------------------------------------------------------------
