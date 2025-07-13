@@ -4,8 +4,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:s="http://smart/maui"
                     xmlns:behaviors="clr-namespace:Template.MobileApp.Behaviors"
-                    xmlns:converters="clr-namespace:Template.MobileApp.Converters"
-                    xmlns:expressions="clr-namespace:Smart.Mvvm.Expressions;assembly=Smart.Mvvm">
+                    xmlns:converters="clr-namespace:Template.MobileApp.Converters">
 
     <!-- ================================================================================ -->
     <!-- Converter -->
@@ -21,7 +20,7 @@
                            NonNullValue="True" />
 
     <s:CompareToBoolConverter x:Key="GreaterThanToBoolConverter"
-                              Expression="{x:Static expressions:CompareExpressions.GreaterThan}" />
+                              Expression="{x:Static s:CompareExpressions.GreaterThan}" />
 
     <!-- Application -->
 
