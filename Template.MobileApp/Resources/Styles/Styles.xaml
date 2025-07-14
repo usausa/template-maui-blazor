@@ -67,7 +67,7 @@
 
     <Style x:Key="BottomSelectBadgeBorder"
            TargetType="Border">
-        <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.875,0.125,20,20" />
+        <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.8,0.1,20,20" />
         <Setter Property="AbsoluteLayout.LayoutFlags" Value="PositionProportional" />
         <Setter Property="WidthRequest" Value="20" />
         <Setter Property="HeightRequest" Value="20" />
