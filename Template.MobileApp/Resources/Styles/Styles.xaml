@@ -67,10 +67,10 @@
 
     <Style x:Key="BottomSelectBadgeBorder"
            TargetType="Border">
-        <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.8,0,24,24" />
+        <Setter Property="AbsoluteLayout.LayoutBounds" Value="0.875,0.125,20,20" />
         <Setter Property="AbsoluteLayout.LayoutFlags" Value="PositionProportional" />
-        <Setter Property="WidthRequest" Value="24" />
-        <Setter Property="HeightRequest" Value="24" />
+        <Setter Property="WidthRequest" Value="20" />
+        <Setter Property="HeightRequest" Value="20" />
         <Setter Property="StrokeShape" Value="Ellipse" />
         <Setter Property="StrokeThickness" Value="0" />
     </Style>
@@ -81,7 +81,7 @@
         <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
         <Setter Property="VerticalTextAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="12" />
+        <Setter Property="FontSize" Value="10" />
         <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="TextColor" Value="White" />
     </Style>

@@ -12,6 +12,9 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
     [ObservableProperty]
     public partial int NotificationCount { get; set; }
 
+    [ObservableProperty]
+    public partial bool HasAccountAlert { get; set; }
+
     public IObserveCommand PayCommand { get; }
 
     public IObserveCommand PageCommand { get; }
@@ -37,6 +40,7 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
         });
 
         NotificationCount = 99;
+        HasAccountAlert = true;
     }
 
     //--------------------------------------------------------------------------------

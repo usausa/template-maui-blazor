@@ -74,6 +74,12 @@
                             Text="アカウント"
                             TextColor="{Binding Selected, Converter={markup:PageToColor Page=Account, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
                             ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Account, Selected=account_selected.png, Default=account.png}}" />
+                    <Border Style="{StaticResource BottomSelectBadgeBorder}"
+                            IsVisible="{Binding HasAccountAlert}"
+                            BackgroundColor="{StaticResource OrangeDefault}">
+                        <Label Style="{StaticResource BottomSelectBadgeLabel}"
+                               Text="!" />
+                    </Border>
                 </AbsoluteLayout>
             </Grid>
 
