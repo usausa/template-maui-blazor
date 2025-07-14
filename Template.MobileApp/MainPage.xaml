@@ -32,13 +32,13 @@
             </BlazorWebView>
 
             <BoxView Grid.Row="1"
-                     StyleClass="SeparatorBoxView" />
+                     Style="{StaticResource SeparatorBoxView}" />
 
             <Grid Grid.Row="2"
-                  StyleClass="BottomSelectGrid"
+                  Style="{StaticResource BottomSelectGrid}"
                   ColumnDefinitions="*,*,72,*,*">
                 <AbsoluteLayout Grid.Column="0">
-                    <Button StyleClass="BottomSelectButton"
+                    <Button Style="{StaticResource BottomSelectButton}"
                             Command="{Binding PageCommand}"
                             CommandParameter="{x:Static views:SelectPage.Home}"
                             Text="ホーム"
@@ -46,7 +46,7 @@
                             ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Home, Selected=home_selected.png, Default=home.png}}" />
                 </AbsoluteLayout>
                 <AbsoluteLayout Grid.Column="1">
-                    <Button StyleClass="BottomSelectButton"
+                    <Button Style="{StaticResource BottomSelectButton}"
                             Command="{Binding PageCommand}"
                             CommandParameter="{x:Static views:SelectPage.Search}"
                             Text="検索"
@@ -54,21 +54,21 @@
                             ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Search, Selected=search_selected.png, Default=search.png}}" />
                 </AbsoluteLayout>
                 <AbsoluteLayout Grid.Column="3">
-                    <Button StyleClass="BottomSelectButton"
+                    <Button Style="{StaticResource BottomSelectButton}"
                             Command="{Binding PageCommand}"
                             CommandParameter="{x:Static views:SelectPage.Notifications}"
                             Text="お知らせ"
                             TextColor="{Binding Selected, Converter={markup:PageToColor Page=Notifications, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
                             ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Notifications, Selected=notifications_selected.png, Default=notifications.png}}" />
-                    <Border StyleClass="BottomSelectBadgeBorder"
+                    <Border Style="{StaticResource BottomSelectBadgeBorder}"
                             IsVisible="{Binding NotificationCount, Converter={StaticResource GreaterThanToBoolConverter}, ConverterParameter={s:Int32 Value=0}}"
                             BackgroundColor="{StaticResource OrangeDefault}">
-                        <Label StyleClass="BottomSelectBadgeLabel"
+                        <Label Style="{StaticResource BottomSelectBadgeLabel}"
                                Text="{Binding NotificationCount}" />
                     </Border>
                 </AbsoluteLayout>
                 <AbsoluteLayout Grid.Column="4">
-                    <Button StyleClass="BottomSelectButton"
+                    <Button Style="{StaticResource BottomSelectButton}"
                             Command="{Binding PageCommand}"
                             CommandParameter="{x:Static views:SelectPage.Account}"
                             Text="アカウント"
@@ -78,7 +78,7 @@
             </Grid>
 
             <Button Grid.RowSpan="3"
-                    StyleClass="CenterFloatingButton"
+                    Style="{StaticResource CenterFloatingButton}"
                     Command="{Binding PayCommand}"
                     Text="支払い"
                     TextColor="White"
