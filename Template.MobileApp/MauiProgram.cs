@@ -228,6 +228,9 @@ public static partial class MauiProgram
         // Messenger
         config.BindSingleton<IReactiveMessenger>(ReactiveMessenger.Default);
 
+        // State
+        config.BindSingleton(BusyState.Default);
+
         // Components
         config.BindSingleton<IStorageManager, StorageManager>();
 
