@@ -6,6 +6,7 @@
              xmlns:shell="clr-namespace:Template.MobileApp.Shell"
              xmlns:markup="clr-namespace:Template.MobileApp.Markup"
              xmlns:views="clr-namespace:Template.MobileApp.Views"
+             xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit"
              x:Class="Template.MobileApp.MainPage"
              x:DataType="{x:Type local:MainPageViewModel}"
              s:BindingContextResolver.Type="{x:Type local:MainPageViewModel}"
@@ -22,6 +23,7 @@
                          Opacity="0.5" />
         </shell:OverwrapLayout.Overwrap>
 
+        <!-- Content -->
         <Grid RowDefinitions="*,Auto,Auto">
             <BlazorWebView Grid.Row="0"
                            HostPage="wwwroot/index.html">
@@ -31,65 +33,103 @@
                 </BlazorWebView.RootComponents>
             </BlazorWebView>
 
+
+            <!-- Bottom select -->
             <BoxView Grid.Row="1"
-                     Style="{StaticResource SeparatorBoxView}" />
+                     Style="{StaticResource BottomSelectSeparatorBoxView}" />
 
             <Grid Grid.Row="2"
                   Style="{StaticResource BottomSelectGrid}"
                   ColumnDefinitions="*,*,72,*,*">
-                <AbsoluteLayout Grid.Column="0">
-                    <Button Style="{StaticResource BottomSelectButton}"
-                            Command="{Binding PageCommand}"
-                            CommandParameter="{x:Static views:SelectPage.Home}"
-                            Text="ホーム"
-                            TextColor="{Binding Selected, Converter={markup:PageToColor Page=Home, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
-                            ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Home, Selected=home_selected.png, Default=home.png}}" />
-                </AbsoluteLayout>
-                <AbsoluteLayout Grid.Column="1">
-                    <Button Style="{StaticResource BottomSelectButton}"
-                            Command="{Binding PageCommand}"
-                            CommandParameter="{x:Static views:SelectPage.Search}"
-                            Text="検索"
-                            TextColor="{Binding Selected, Converter={markup:PageToColor Page=Search, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
-                            ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Search, Selected=search_selected.png, Default=search.png}}" />
-                </AbsoluteLayout>
-                <AbsoluteLayout Grid.Column="3">
-                    <Button Style="{StaticResource BottomSelectButton}"
-                            Command="{Binding PageCommand}"
-                            CommandParameter="{x:Static views:SelectPage.Notifications}"
-                            Text="お知らせ"
-                            TextColor="{Binding Selected, Converter={markup:PageToColor Page=Notifications, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
-                            ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Notifications, Selected=notifications_selected.png, Default=notifications.png}}" />
-                    <Border Style="{StaticResource BottomSelectBadgeBorder}"
-                            IsVisible="{Binding NotificationCount, Converter={StaticResource GreaterThanToBoolConverter}, ConverterParameter={s:Int32 Value=0}}"
-                            BackgroundColor="{StaticResource OrangeDefault}">
-                        <Label Style="{StaticResource BottomSelectBadgeLabel}"
-                               Text="{Binding NotificationCount}" />
-                    </Border>
-                </AbsoluteLayout>
-                <AbsoluteLayout Grid.Column="4">
-                    <Button Style="{StaticResource BottomSelectButton}"
-                            Command="{Binding PageCommand}"
-                            CommandParameter="{x:Static views:SelectPage.Account}"
-                            Text="アカウント"
-                            TextColor="{Binding Selected, Converter={markup:PageToColor Page=Account, Selected={StaticResource RedDefault}, Default={StaticResource GrayDefault}}}"
-                            ImageSource="{Binding Selected, Converter={markup:PageToImageSource Page=Account, Selected=account_selected.png, Default=account.png}}" />
-                    <Border Style="{StaticResource BottomSelectBadgeBorder}"
-                            IsVisible="{Binding HasAccountAlert}"
-                            BackgroundColor="{StaticResource OrangeDefault}">
-                        <Label Style="{StaticResource BottomSelectBadgeLabel}"
-                               Text="!" />
-                    </Border>
-                </AbsoluteLayout>
+
+                <toolkit:SfEffectsView Grid.Column="0"
+                                       TouchDownCommand="{Binding PageCommand}"
+                                       TouchDownCommandParameter="{x:Static views:SelectPage.Home}"
+                                       TouchDownEffects="None">
+                    <Grid RowDefinitions="*,Auto">
+                        <Image Grid.Row="0"
+                               Style="{StaticResource BottomSelectImage}"
+                               Source="{Binding Selected, Converter={markup:PageToImageSource Page=Home, Selected=home_selected.png, Default=home.png}}" />
+                        <Label Grid.Row="1"
+                               Style="{StaticResource BottomSelectLabel}"
+                               Text="ホーム"
+                               TextColor="{Binding Selected, Converter={markup:PageToColor Page=Home, Selected={StaticResource PinkAccent3}, Default={StaticResource GrayDefault}}}" />
+                    </Grid>
+                </toolkit:SfEffectsView>
+
+                <toolkit:SfEffectsView Grid.Column="1"
+                                       TouchDownCommand="{Binding PageCommand}"
+                                       TouchDownCommandParameter="{x:Static views:SelectPage.Search}"
+                                       TouchDownEffects="None">
+                    <Grid RowDefinitions="*,Auto">
+                        <Image Grid.Row="0"
+                               Style="{StaticResource BottomSelectImage}"
+                               Source="{Binding Selected, Converter={markup:PageToImageSource Page=Search, Selected=search_selected.png, Default=search.png}}" />
+                        <Label Grid.Row="1"
+                               Style="{StaticResource BottomSelectLabel}"
+                               Text="検索"
+                               TextColor="{Binding Selected, Converter={markup:PageToColor Page=Search, Selected={StaticResource PinkAccent3}, Default={StaticResource GrayDefault}}}" />
+                    </Grid>
+                </toolkit:SfEffectsView>
+
+                <toolkit:SfEffectsView Grid.Column="3"
+                                       TouchDownCommand="{Binding PageCommand}"
+                                       TouchDownCommandParameter="{x:Static views:SelectPage.Notifications}"
+                                       TouchDownEffects="None">
+                    <Grid RowDefinitions="*,Auto">
+                        <Image Grid.Row="0"
+                               Style="{StaticResource BottomSelectImage}"
+                               Source="{Binding Selected, Converter={markup:PageToImageSource Page=Notifications, Selected=notifications_selected.png, Default=notifications.png}}" />
+                        <Label Grid.Row="1"
+                               Style="{StaticResource BottomSelectLabel}"
+                               Text="お知らせ"
+                               TextColor="{Binding Selected, Converter={markup:PageToColor Page=Notifications, Selected={StaticResource PinkAccent3}, Default={StaticResource GrayDefault}}}" />
+                        <Border Grid.Row="0" Grid.RowSpan="2"
+                                Style="{StaticResource BottomSelectBadgeBorder}"
+                                IsVisible="{Binding HasAccountAlert}">
+                            <Label Style="{StaticResource BottomSelectBadgeLabel}"
+                                   Text="{Binding NotificationCount}" />
+                        </Border>
+                    </Grid>
+                </toolkit:SfEffectsView>
+
+                <toolkit:SfEffectsView Grid.Column="4"
+                                       TouchDownCommand="{Binding PageCommand}"
+                                       TouchDownCommandParameter="{x:Static views:SelectPage.Account}"
+                                       TouchDownEffects="None">
+                    <Grid RowDefinitions="*,Auto">
+                        <Image Grid.Row="0"
+                               Style="{StaticResource BottomSelectImage}"
+                               Source="{Binding Selected, Converter={markup:PageToImageSource Page=Account, Selected=account_selected.png, Default=account.png}}" />
+                        <Label Grid.Row="1"
+                               Style="{StaticResource BottomSelectLabel}"
+                               Text="アカウント"
+                               TextColor="{Binding Selected, Converter={markup:PageToColor Page=Account, Selected={StaticResource PinkAccent3}, Default={StaticResource GrayDefault}}}" />
+                        <Border Grid.Row="0" Grid.RowSpan="2"
+                                Style="{StaticResource BottomSelectBadgeBorder}"
+                                IsVisible="{Binding HasAccountAlert}">
+                            <Label Style="{StaticResource BottomSelectBadgeLabel}"
+                                   Text="!" />
+                        </Border>
+                    </Grid>
+                </toolkit:SfEffectsView>
+
             </Grid>
 
-            <Button Grid.RowSpan="3"
-                    Style="{StaticResource CenterFloatingButton}"
-                    Command="{Binding PayCommand}"
-                    Text="支払い"
-                    TextColor="White"
-                    BackgroundColor="{StaticResource RedDefault}"
-                    ImageSource="qr_code.png" />
+            <!-- Center button -->
+            <Border Grid.RowSpan="3"
+                    Style="{StaticResource CenterButtonBorder}">
+                <toolkit:SfEffectsView Style="{StaticResource CenterButtonView}"
+                                       TouchDownCommand="{Binding PayCommand}">
+                    <VerticalStackLayout Style="{StaticResource CenterButtonLayout}">
+                        <Image Style="{StaticResource CenterButtonImage}"
+                               Source="qr_code.png" />
+                        <Label Style="{StaticResource CenterButtonLabel}"
+                               Text="支払い" />
+                    </VerticalStackLayout>
+                </toolkit:SfEffectsView>
+            </Border>
+
         </Grid>
 
     </shell:OverwrapLayout>

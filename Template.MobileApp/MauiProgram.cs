@@ -22,6 +22,8 @@ using Shiny;
 using Smart.Data.Mapper;
 using Smart.Resolver;
 
+using Syncfusion.Maui.Toolkit.Hosting;
+
 using Template.MobileApp.Behaviors;
 using Template.MobileApp.Components;
 using Template.MobileApp.Helpers;
@@ -41,6 +43,7 @@ public static partial class MauiProgram
             .ConfigureEssentials(ConfigureEssentials)
             .ConfigureLogging()
             .ConfigureGlobalSettings()
+            .ConfigureSyncfusionToolkit()
             .UseBlazor()
             .UseMauiCommunityToolkit(ConfigureMauiCommunityToolkit)
             .UseMauiCommunityToolkitCamera()
