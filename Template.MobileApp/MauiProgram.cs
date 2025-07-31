@@ -19,6 +19,8 @@ using Rester;
 
 using Shiny;
 
+using SkiaSharp.Views.Maui.Controls.Hosting;
+
 using Smart.Data.Mapper;
 using Smart.Resolver;
 
@@ -45,6 +47,7 @@ public static partial class MauiProgram
             .ConfigureGlobalSettings()
             .ConfigureSyncfusionToolkit()
             .UseBlazor()
+            .UseSkiaSharp()
             .UseMauiCommunityToolkit(ConfigureMauiCommunityToolkit)
             .UseMauiCommunityToolkitCamera()
             .UseBarcodeScanning()
