@@ -2,16 +2,29 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:s="http://smart/maui"
+             xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit"
              xmlns:local="clr-namespace:Template.MobileApp"
              xmlns:shell="clr-namespace:Template.MobileApp.Shell"
-             xmlns:markup="clr-namespace:Template.MobileApp.Markup"
+             xmlns:fonts="clr-namespace:Fonts"
              xmlns:views="clr-namespace:Template.MobileApp.Views"
-             xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit"
              x:Class="Template.MobileApp.MainPage"
              x:DataType="{x:Type local:MainPageViewModel}"
              s:BindingContextResolver.Type="{x:Type local:MainPageViewModel}"
              IsEnabled="True"
              IsBusy="False">
+
+    <!-- ReSharper disable Xaml.RedundantResource -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <s:CompareToColorConverter x:Key="EqualToSelectColorConverter"
+                                       Expression="{x:Static s:CompareExpressions.Equal}"
+                                       TrueValue="{StaticResource PinkAccent3}"
+                                       FalseValue="{StaticResource GrayDefault}" />
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <!-- ReSharper restore Xaml.RedundantResource -->
 
     <ContentPage.Behaviors>
         <s:AppLifecycleBehavior />
@@ -48,12 +61,18 @@
                                        TouchDownEffects="None">
                     <Grid RowDefinitions="*,Auto">
                         <Image Grid.Row="0"
-                               Style="{StaticResource BottomSelectImage}"
-                               Source="{Binding Selected, Converter={markup:PageToImageSource Page=Home, Selected=home_selected.png, Default=home.png}}" />
+                               Style="{StaticResource BottomSelectImage}">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Home}}"
+                                                 Glyph="{x:Static fonts:MaterialIcons.Home}"
+                                                 Size="36" />
+                            </Image.Source>
+                        </Image>
                         <Label Grid.Row="1"
                                Style="{StaticResource BottomSelectLabel}"
                                Text="ホーム"
-                               TextColor="{Binding Selected, Converter={markup:PageToColor Page=Home, Selected={StaticResource PinkAccent3}, Default={StaticResource GrayDefault}}}" />
+                               TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Home}}" />
                     </Grid>
                 </toolkit:SfEffectsView>
 
@@ -63,12 +82,18 @@
                                        TouchDownEffects="None">
                     <Grid RowDefinitions="*,Auto">
                         <Image Grid.Row="0"
-                               Style="{StaticResource BottomSelectImage}"
-                               Source="{Binding Selected, Converter={markup:PageToImageSource Page=Search, Selected=search_selected.png, Default=search.png}}" />
+                               Style="{StaticResource BottomSelectImage}">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Search}}"
+                                                 Glyph="{x:Static fonts:MaterialIcons.Search}"
+                                                 Size="36" />
+                            </Image.Source>
+                        </Image>
                         <Label Grid.Row="1"
                                Style="{StaticResource BottomSelectLabel}"
                                Text="検索"
-                               TextColor="{Binding Selected, Converter={markup:PageToColor Page=Search, Selected={StaticResource PinkAccent3}, Default={StaticResource GrayDefault}}}" />
+                               TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Search}}" />
                     </Grid>
                 </toolkit:SfEffectsView>
 
@@ -78,12 +103,18 @@
                                        TouchDownEffects="None">
                     <Grid RowDefinitions="*,Auto">
                         <Image Grid.Row="0"
-                               Style="{StaticResource BottomSelectImage}"
-                               Source="{Binding Selected, Converter={markup:PageToImageSource Page=Notifications, Selected=notifications_selected.png, Default=notifications.png}}" />
+                               Style="{StaticResource BottomSelectImage}">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Notifications}}"
+                                                 Glyph="{x:Static fonts:MaterialIcons.Notifications_none}"
+                                                 Size="36" />
+                            </Image.Source>
+                        </Image>
                         <Label Grid.Row="1"
                                Style="{StaticResource BottomSelectLabel}"
                                Text="お知らせ"
-                               TextColor="{Binding Selected, Converter={markup:PageToColor Page=Notifications, Selected={StaticResource PinkAccent3}, Default={StaticResource GrayDefault}}}" />
+                               TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Notifications}}" />
                         <Border Grid.Row="0" Grid.RowSpan="2"
                                 Style="{StaticResource BottomSelectBadgeBorder}"
                                 IsVisible="{Binding HasAccountAlert}">
@@ -99,12 +130,18 @@
                                        TouchDownEffects="None">
                     <Grid RowDefinitions="*,Auto">
                         <Image Grid.Row="0"
-                               Style="{StaticResource BottomSelectImage}"
-                               Source="{Binding Selected, Converter={markup:PageToImageSource Page=Account, Selected=account_selected.png, Default=account.png}}" />
+                               Style="{StaticResource BottomSelectImage}">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Account}}"
+                                                 Glyph="{x:Static fonts:MaterialIcons.Account_circle}"
+                                                 Size="36" />
+                            </Image.Source>
+                        </Image>
                         <Label Grid.Row="1"
                                Style="{StaticResource BottomSelectLabel}"
                                Text="アカウント"
-                               TextColor="{Binding Selected, Converter={markup:PageToColor Page=Account, Selected={StaticResource PinkAccent3}, Default={StaticResource GrayDefault}}}" />
+                               TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Account}}" />
                         <Border Grid.Row="0" Grid.RowSpan="2"
                                 Style="{StaticResource BottomSelectBadgeBorder}"
                                 IsVisible="{Binding HasAccountAlert}">
@@ -122,8 +159,14 @@
                 <toolkit:SfEffectsView Style="{StaticResource CenterButtonView}"
                                        TouchDownCommand="{Binding PayCommand}">
                     <VerticalStackLayout Style="{StaticResource CenterButtonLayout}">
-                        <Image Style="{StaticResource CenterButtonImage}"
-                               Source="qr_code.png" />
+                        <Image Style="{StaticResource CenterButtonImage}">
+                            <Image.Source>
+                                <FontImageSource FontFamily="MaterialIcons"
+                                                 Color="White"
+                                                 Glyph="{x:Static fonts:MaterialIcons.Qr_code}"
+                                                 Size="36" />
+                            </Image.Source>
+                        </Image>
                         <Label Style="{StaticResource CenterButtonLabel}"
                                Text="支払い" />
                     </VerticalStackLayout>
