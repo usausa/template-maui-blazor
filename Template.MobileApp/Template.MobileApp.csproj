@@ -34,6 +34,20 @@
     <AndroidSigningStorePass>example</AndroidSigningStorePass>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <EmbeddedFlavor>Development</EmbeddedFlavor>
+    <EmbeddedApiEndPoint></EmbeddedApiEndPoint>
+  </PropertyGroup>
+
+  <Import Project="..\.EmbeddedProperty.props" Condition="Exists('..\.EmbeddedProperty.props')" />
+
+  <PropertyGroup>
+    <EmbeddedPropertyValues>
+      Flavor=string:$(EmbeddedFlavor),
+      ApiEndPoint=string:$(EmbeddedApiEndPoint)
+    </EmbeddedPropertyValues>
+  </PropertyGroup>
+
   <ItemGroup>
     <!-- App Icon -->
     <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" ForegroundScale="0.5" />
