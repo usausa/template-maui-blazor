@@ -241,6 +241,9 @@ public static partial class MauiProgram
         // Components
         config.BindSingleton<IStorageManager, StorageManager>();
 
+        // Resource
+        config.BindSingleton<ResourceDictionary>(_ => Application.Current!.Resources);
+
         // State
         config.BindSingleton<DeviceState>();
         config.BindSingleton<Session>();
