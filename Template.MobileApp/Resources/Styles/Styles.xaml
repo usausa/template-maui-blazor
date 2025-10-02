@@ -3,8 +3,8 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:s="http://smart/maui"
-                    xmlns:converters="clr-namespace:Template.MobileApp.Converters"
-                    xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit">
+                    xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit"
+                    xmlns:converters="clr-namespace:Template.MobileApp.Converters">
 
     <!-- ================================================================================ -->
     <!-- Converter -->
@@ -61,12 +61,12 @@
     <!-- Bottom select badge -->
     <Style x:Key="BottomSelectBadgeBorder"
            TargetType="Border">
+        <Setter Property="VerticalOptions" Value="Start" />
+        <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="WidthRequest" Value="20" />
         <Setter Property="HeightRequest" Value="20" />
         <Setter Property="TranslationX" Value="20" />
         <Setter Property="TranslationY" Value="4" />
-        <Setter Property="VerticalOptions" Value="Start" />
-        <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="BackgroundColor" Value="{StaticResource OrangeDefault}" />
         <Setter Property="StrokeShape" Value="Ellipse" />
         <Setter Property="StrokeThickness" Value="0" />
@@ -76,21 +76,21 @@
            TargetType="Label">
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="VerticalOptions" Value="Center" />
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="VerticalTextAlignment" Value="Center" />
+        <Setter Property="TextColor" Value="White" />
         <Setter Property="FontSize" Value="12" />
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="TextColor" Value="White" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="VerticalTextAlignment" Value="Center" />
     </Style>
 
     <!-- Center button -->
     <Style x:Key="CenterButtonBorder"
            TargetType="Border">
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="End" />
         <Setter Property="WidthRequest" Value="72" />
         <Setter Property="HeightRequest" Value="72" />
         <Setter Property="TranslationY" Value="-12" />
-        <Setter Property="HorizontalOptions" Value="Center" />
-        <Setter Property="VerticalOptions" Value="End" />
         <Setter Property="BackgroundColor" Value="{StaticResource PinkDefault}" />
         <Setter Property="StrokeShape" Value="Ellipse" />
         <Setter Property="StrokeThickness" Value="0" />
