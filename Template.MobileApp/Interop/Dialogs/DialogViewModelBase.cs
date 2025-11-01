@@ -30,7 +30,7 @@ public abstract class DialogViewModelBase : ExtendViewModelBase, IValidatable
         }
 
         var value = propertyAccessor.GetValue(this, name);
-        var context = new ValidationContext(this, DefaultResolveProvider.Default, null)
+        var context = new ValidationContext(this, ResolveProvider.Default, null)
         {
             MemberName = name
         };
