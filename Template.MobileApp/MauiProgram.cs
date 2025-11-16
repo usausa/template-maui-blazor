@@ -226,7 +226,6 @@ public static partial class MauiProgram
             c.EnablePromptSelectAll = true;
         });
         config.AddComponentsPopup(static c => c.AutoRegister(DialogSource()));
-        config.AddComponentsSerializer();
         config.AddComponentsScreen();
         config.AddComponentsLocation();
         config.AddComponentsSpeech();
