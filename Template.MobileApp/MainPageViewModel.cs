@@ -31,7 +31,7 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
         Selected = SelectPage.Home;
         PayCommand = MakeAsyncCommand(async () =>
         {
-            await platformInterop.DisplayBarcodeAsync(settings.UniqId);
+            await platformInterop.DisplayBarcodeAsync(settings.UniqueId);
         });
         PageCommand = MakeDelegateCommand<SelectPage>(page =>
         {
