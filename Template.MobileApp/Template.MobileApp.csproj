@@ -88,11 +88,11 @@
 
   <ItemGroup>
     <PackageReference Include="BarcodeScanning.Native.Maui" Version="2.2.1" />
-    <PackageReference Include="BunnyTail.EmbeddedBuildProperty" Version="1.7.0">
+    <PackageReference Include="BunnyTail.EmbeddedBuildProperty" Version="1.8.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="BunnyTail.MemberAccessor" Version="1.7.0" />
+    <PackageReference Include="BunnyTail.MemberAccessor" Version="1.8.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
     <PackageReference Include="CommunityToolkit.Maui.Camera" Version="5.0.0" />
     <PackageReference Include="Components.Maui" Version="1.25.0" />
@@ -127,7 +127,7 @@
     <PackageReference Include="Usa.Smart.Mapper" Version="0.9.0" />
     <PackageReference Include="Usa.Smart.Maui" Version="2.10.0" />
     <PackageReference Include="Usa.Smart.Maui.Extensions" Version="2.10.0" />
-    <PackageReference Include="Usa.Smart.Mvvm" Version="1.9.0" />
+    <PackageReference Include="Usa.Smart.Mvvm" Version="1.9.1" />
     <PackageReference Include="Usa.Smart.Reactive" Version="2.6.0" />
     <PackageReference Include="Usa.Smart.Resolver" Version="2.7.0" />
     <PackageReference Include="Usa.Smart.Resolver.Extensions.DependencyInjection" Version="2.7.0" />
