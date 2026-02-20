@@ -95,10 +95,10 @@
     <PackageReference Include="BunnyTail.MemberAccessor" Version="1.8.2" />
     <PackageReference Include="CommunityToolkit.Maui" Version="14.0.0" />
     <PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.0.0" />
-    <PackageReference Include="Components.Maui" Version="1.26.1" />
-    <PackageReference Include="Components.Maui.Resolver" Version="1.26.1" />
+    <PackageReference Include="Components.Maui" Version="1.26.2" />
+    <PackageReference Include="Components.Maui.Resolver" Version="1.26.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.40" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.41" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.3">
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">none</IncludeAssets>
@@ -107,8 +107,8 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.3" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.14.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.14.0" />
-    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.40" />
-    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.40" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.41" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.41" />
     <PackageReference Include="SkiaSharp" Version="3.119.2" />
     <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.119.2" />
     <PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
@@ -125,8 +125,8 @@
     <PackageReference Include="Usa.Smart.Data.Mapper" Version="2.8.0" />
     <PackageReference Include="Usa.Smart.Data.Mapper.Builders" Version="2.8.0" />
     <PackageReference Include="Usa.Smart.Mapper" Version="0.9.0" />
-    <PackageReference Include="Usa.Smart.Maui" Version="2.11.1" />
-    <PackageReference Include="Usa.Smart.Maui.Extensions" Version="2.11.1" />
+    <PackageReference Include="Usa.Smart.Maui" Version="2.11.2" />
+    <PackageReference Include="Usa.Smart.Maui.Extensions" Version="2.11.2" />
     <PackageReference Include="Usa.Smart.Mvvm" Version="1.9.2" />
     <PackageReference Include="Usa.Smart.Reactive" Version="2.6.0" />
     <PackageReference Include="Usa.Smart.Resolver" Version="2.7.1" />
