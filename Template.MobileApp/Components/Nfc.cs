@@ -23,9 +23,9 @@ public sealed class NfcEventArgs : EventArgs
 
 public interface INfcReader
 {
-    public event EventHandler<NfcEventArgs>? Detected;
+    event EventHandler<NfcEventArgs>? Detected;
 
-    public bool Enabled { get; set; }
+    bool Enabled { get; set; }
 }
 
 public sealed partial class NfcReader : INfcReader

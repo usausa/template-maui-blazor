@@ -34,7 +34,7 @@ public abstract class DialogViewModelBase : ExtendViewModelBase, IValidatable
         {
             MemberName = name
         };
-        validationResults ??= new List<ValidationResult>();
+        validationResults ??= [];
 
         if (!Validator.TryValidateProperty(value, context, validationResults))
         {

@@ -56,6 +56,7 @@ public static partial class MauiProgram
             .UseMauiComponents()
             .UseCommunityToolkitServices()
             .UseCustomView()
+            .ConfigureComponents()
             .ConfigureHttpClient()
             .ConfigureContainer()
             .Build();
