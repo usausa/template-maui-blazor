@@ -10,6 +10,7 @@
     <MauiStrictXamlCompilation>true</MauiStrictXamlCompilation>
     <MauiXamlInflator>SourceGen</MauiXamlInflator>
     <CodeAnalysisRuleSet>..\Analyzers.ruleset</CodeAnalysisRuleSet>
+    <NoWarn>$(NoWarn);NU1608</NoWarn>
 
     <!-- Display name -->
     <ApplicationTitle>BlazorApp</ApplicationTitle>
