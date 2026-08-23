@@ -11,6 +11,8 @@
     <MauiXamlInflator>SourceGen</MauiXamlInflator>
     <CodeAnalysisRuleSet>..\Analyzers.ruleset</CodeAnalysisRuleSet>
     <NoWarn>$(NoWarn);NU1608</NoWarn>
+    <!-- XA4301: BarcodeScanning.Native.Maui re-bundles libbarhopper_v3.so already provided by its MLKit dependency. Harmless duplicate, not fixable on the app side -->
+    <NoWarn>$(NoWarn);XA4301</NoWarn>
 
     <!-- Display name -->
     <ApplicationTitle>BlazorApp</ApplicationTitle>
@@ -112,8 +114,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.11">
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">none</IncludeAssets>
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">all</PrivateAssets>
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>none</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.11" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.14.4" />
