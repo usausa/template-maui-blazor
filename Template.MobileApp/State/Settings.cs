@@ -1,5 +1,6 @@
 namespace Template.MobileApp.State;
 
+#pragma warning disable CA1724
 public sealed class Settings
 {
     private readonly IPreferences preferences;
@@ -25,3 +26,4 @@ public sealed class Settings
         set => preferences.Set(nameof(ApiEndPoint), value);
     }
 }
+#pragma warning restore CA1724

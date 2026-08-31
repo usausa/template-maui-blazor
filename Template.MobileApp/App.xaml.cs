@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Template.MobileApp.Helpers;
 
+#pragma warning disable CA1724
 public sealed partial class App
 {
     private readonly IServiceProvider serviceProvider;
@@ -34,3 +35,4 @@ public sealed partial class App
         await Permissions.RequestLocationAsync();
     }
 }
+#pragma warning restore CA1724

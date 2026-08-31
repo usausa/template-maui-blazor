@@ -1,5 +1,6 @@
 namespace Template.MobileApp;
 
+#pragma warning disable CA1724
 public static class Permissions
 {
     public static async ValueTask<bool> RequestCameraAsync()
@@ -14,3 +15,4 @@ public static class Permissions
         return status is PermissionStatus.Granted;
     }
 }
+#pragma warning restore CA1724
