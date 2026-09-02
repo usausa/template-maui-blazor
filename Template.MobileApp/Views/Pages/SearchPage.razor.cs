@@ -1,5 +1,3 @@
 namespace Template.MobileApp.Views.Pages;
 
-public sealed partial class SearchPage : AppComponentBase
-{
-}
+public sealed partial class SearchPage : AppComponentBase;
