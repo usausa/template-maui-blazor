@@ -14,6 +14,15 @@ public sealed class ApplicationInitializer : IMauiInitializeService
         // Setup provider
         ResolveProvider.Default.Provider = services;
 
+#if DEBUG
+        if (services is BunnyTail.DependencyInjection.GeneratedServiceProvider generatedProvider)
+        {
+            foreach (var line in BunnyTail.DependencyInjection.Diagnostics.ServiceFactoryReportExtensions.DescribeRuntimeFallbacks(generatedProvider).Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+            {
+                System.Diagnostics.Debug.WriteLine(line);
+            }
+        }
+#endif
         var settings = services.GetRequiredService<Settings>();
 
         // Initial setting
