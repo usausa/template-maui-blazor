@@ -14,6 +14,8 @@ public sealed partial class MainPage
         //{
         //}
 
+        AndroidHelper.MoveTaskToBack();
+
         return true;
     }
 }
