@@ -23,6 +23,7 @@ using Shiny;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
 using Smart.Data.Mapper;
+using Smart.Mvvm.Resolver;
 
 using Syncfusion.Maui.Toolkit.Hosting;
 
@@ -58,8 +59,8 @@ public static partial class MauiProgram
             .UseMauiComponents()
             .UseCommunityToolkitServices()
             .UseCustomView()
-            .ConfigureContainer()
-            .Build();
+            .ConfigureComponents()
+            .BuildApplication();
 
     // ------------------------------------------------------------
     // Blazor
@@ -195,7 +196,7 @@ public static partial class MauiProgram
     // Container
     // ------------------------------------------------------------
 
-    private static MauiAppBuilder ConfigureContainer(this MauiAppBuilder builder)
+    private static MauiAppBuilder ConfigureComponents(this MauiAppBuilder builder)
     {
         builder.ConfigureContainer(
             new GeneratedServiceProviderFactory(static options => options.TrackTransientDisposables = false),
@@ -238,7 +239,7 @@ public static partial class MauiProgram
         services.AddSingleton<ResourceDictionary>(static _ => Application.Current!.Resources);
 
         // State
-        services.AddSingleton<IBusyState>(BusyState.Default);
+        services.AddSingleton(BusyState.Default);
         services.AddSingleton<DeviceState>();
         services.AddSingleton<Session>();
         services.AddSingleton<Settings>();
@@ -274,9 +275,6 @@ public static partial class MauiProgram
 
         // Interop
         services.AddSingleton<IPlatformInterop, PlatformInterop>();
-
-        // Startup
-        services.AddSingleton<IMauiInitializeService, ApplicationInitializer>();
     }
 
     // ------------------------------------------------------------
@@ -302,6 +300,54 @@ public static partial class MauiProgram
 //      handler.SslOptions.RemoteCertificateValidationCallback = static (_, _, _, _) => true;
 //#pragma warning restore CA5359
         return handler;
+    }
+
+    // ------------------------------------------------------------
+    // Build
+    // ------------------------------------------------------------
+
+    private static MauiApp BuildApplication(this MauiAppBuilder builder)
+    {
+        var app = builder.Build();
+
+        var services = app.Services;
+
+        // Setup provider
+        ResolveProvider.Default.Provider = services;
+
+#if DEBUG
+        // Diagnostics for GeneratedServiceProvider
+        if (services is GeneratedServiceProvider generatedProvider)
+        {
+            foreach (var line in BunnyTail.DependencyInjection.Diagnostics.ServiceFactoryReportExtensions.DescribeRuntimeFallbacks(generatedProvider).Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries))
+            {
+                System.Diagnostics.Debug.WriteLine(line);
+            }
+        }
+#endif
+
+        var settings = services.GetRequiredService<Settings>();
+
+        // Initial setting
+        if (String.IsNullOrEmpty(settings.ApiEndPoint) && !String.IsNullOrEmpty(EmbeddedProperty.ApiEndPoint))
+        {
+            settings.ApiEndPoint = EmbeddedProperty.ApiEndPoint;
+        }
+
+        // Setting
+        if (String.IsNullOrEmpty(settings.UniqueId))
+        {
+            var uniqueId = Guid.NewGuid();
+            settings.UniqueId = uniqueId.ToString();
+        }
+
+        var apiContext = services.GetRequiredService<ApiContext>();
+        if (!String.IsNullOrEmpty(settings.ApiEndPoint))
+        {
+            apiContext.BaseAddress = new Uri(settings.ApiEndPoint);
+        }
+
+        return app;
     }
 
     // ------------------------------------------------------------
