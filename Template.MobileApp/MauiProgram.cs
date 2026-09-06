@@ -193,7 +193,7 @@ public static partial class MauiProgram
     }
 
     // ------------------------------------------------------------
-    // Container
+    // Components
     // ------------------------------------------------------------
 
     private static MauiAppBuilder ConfigureComponents(this MauiAppBuilder builder)
