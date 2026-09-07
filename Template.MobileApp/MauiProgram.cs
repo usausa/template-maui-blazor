@@ -13,6 +13,7 @@ using CommunityToolkit.Maui;
 
 using Fonts;
 
+using Microsoft.Data.Sqlite;
 using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.Maui.LifecycleEvents;
 
@@ -22,7 +23,8 @@ using Shiny;
 
 using SkiaSharp.Views.Maui.Controls.Hosting;
 
-using Smart.Data.Mapper;
+using Smart.Data;
+using Smart.Data.Accessor.Attributes;
 using Smart.Mvvm.Resolver;
 
 using Syncfusion.Maui.Toolkit.Hosting;
@@ -30,7 +32,6 @@ using Syncfusion.Maui.Toolkit.Hosting;
 using Template.MobileApp.Behaviors;
 using Template.MobileApp.Components;
 using Template.MobileApp.Helpers;
-using Template.MobileApp.Helpers.Data;
 using Template.MobileApp.Interop;
 using Template.MobileApp.Interop.Dialogs;
 using Template.MobileApp.Services;
@@ -135,13 +136,6 @@ public static partial class MauiProgram
 
     private static MauiAppBuilder ConfigureGlobalSettings(this MauiAppBuilder builder)
     {
-        // Config DataMapper
-        SqlMapperConfig.Default.ConfigureTypeHandlers(static config =>
-        {
-            config[typeof(DateTime)] = new DateTimeTypeHandler();
-            config[typeof(Guid)] = new GuidTypeHandler();
-        });
-
         // Config Rest
         RestConfig.Default.UseJsonSerializer(static config =>
         {
@@ -253,18 +247,18 @@ public static partial class MauiProgram
         services.AddSingleton<ApiContext>();
 
         // Service
-        services.AddSingleton(static p =>
+        services.AddSingleton<IDbProvider>(static p =>
         {
             var storage = p.GetRequiredService<IStorageManager>();
-            return new DataServiceOptions
-            {
 #if DEBUG
-                Path = Path.Combine(storage.PublicFolder, "data.db")
+            var path = Path.Combine(storage.PublicFolder, "data.db");
 #else
-                Path = Path.Combine(storage.PrivateFolder, "data.db")
+            var path = Path.Combine(storage.PrivateFolder, "data.db");
 #endif
-            };
+            var connectionString = $"Data Source={path};Default Timeout=10";
+            return new DelegateDbProvider(() => new SqliteConnection(connectionString));
         });
+        services.AddDataAccessors();
         services.AddSingleton<DataService>();
 
         services.AddSingleton<HttpService>();
@@ -349,6 +343,14 @@ public static partial class MauiProgram
 
         return app;
     }
+
+    // ------------------------------------------------------------
+    // Data
+    // ------------------------------------------------------------
+
+    // ReSharper disable once UnusedMethodReturnValue.Local
+    [DataAccessorRegistration]
+    private static partial IServiceCollection AddDataAccessors(this IServiceCollection services);
 
     // ------------------------------------------------------------
     // View & ViewModel

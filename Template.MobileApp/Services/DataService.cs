@@ -3,44 +3,42 @@ namespace Template.MobileApp.Services;
 using Microsoft.Data.Sqlite;
 
 using Smart.Data;
-using Smart.Data.Mapper;
-using Smart.Data.Mapper.Builders;
-
-using Template.MobileApp.Helpers.Data;
-
-public sealed class DataServiceOptions
-{
-    public string Path { get; set; } = default!;
-}
 
 #pragma warning disable CA1002
 public sealed class DataService
 {
-    private readonly DataServiceOptions options;
+    private readonly IDbProvider provider;
 
-    private readonly DelegateDbProvider provider;
+    private readonly DataAccessor accessor;
 
-    public DataService(DataServiceOptions options)
+    public DataService(
+        IDbProvider provider,
+        DataAccessor accessor)
     {
-        this.options = options;
-
-        var connectionString = $"Data Source={options.Path}";
-        provider = new DelegateDbProvider(() => new SqliteConnection(connectionString));
+        this.provider = provider;
+        this.accessor = accessor;
     }
 
     public async ValueTask RebuildAsync()
     {
-        if (File.Exists(options.Path))
+        string dbPath;
+        await using (var con = provider.CreateConnection())
         {
-            File.Delete(options.Path);
+            dbPath = con.DataSource;
         }
 
-        await provider.UsingAsync(static async con =>
+        foreach (var path in new[] { dbPath, $"{dbPath}-wal", $"{dbPath}-shm" })
         {
-            await con.ExecuteAsync("PRAGMA AUTO_VACUUM=1");
-            await con.ExecuteAsync(SqlHelper.MakeCreate<DataEntity>());
-            await con.ExecuteAsync(SqlHelper.MakeCreate<BulkDataEntity>());
-            await con.ExecuteAsync(SqlHelper.MakeCreate<WorkEntity>());
+            if (File.Exists(path))
+            {
+                File.Delete(path);
+            }
+        }
+
+        await provider.UsingAsync(async con =>
+        {
+            await accessor.ExecutePragmaAsync(con);
+            await accessor.CreateTablesAsync(con);
         });
 
         await InsertWorkEnumerableAsync(
@@ -56,107 +54,92 @@ public sealed class DataService
     // CRUD
     //--------------------------------------------------------------------------------
 
-    public ValueTask<bool> InsertDataAsync(DataEntity entity) =>
-        provider.UsingAsync(async con =>
+    public async ValueTask<bool> InsertDataAsync(DataEntity entity)
+    {
+        try
         {
-            try
-            {
-                await con.ExecuteAsync(
-                    SqlInsert<DataEntity>.Values(), // "INSERT INTO Data (Id, Name, CreateAt) VALUES (@Id, @Name, @CreateAt)",
-                    entity);
+            await accessor.InsertDataAsync(entity);
 
-                return true;
-            }
-            catch (SqliteException e)
-            {
-                if (e.SqliteErrorCode == SQLitePCL.raw.SQLITE_CONSTRAINT)
-                {
-                    return false;
-                }
-                throw;
-            }
-        });
+            return true;
+        }
+        catch (SqliteException e) when (e.SqliteErrorCode == SQLitePCL.raw.SQLITE_CONSTRAINT)
+        {
+            return false;
+        }
+    }
 
     public ValueTask<int> UpdateDataAsync(long id, string name) =>
-        provider.UsingAsync(con =>
-            con.ExecuteAsync(
-                SqlUpdate<DataEntity>.Set("Name = @Name", "Id = @Id"), // "UPDATE Data SET Name = @Name WHERE Id = @Id",
-                new { Id = id, Name = name }));
+        accessor.UpdateDataAsync(id, name);
 
     public ValueTask<int> DeleteDataAsync(long id) =>
-        provider.UsingAsync(con =>
-            con.ExecuteAsync(
-                SqlDelete<DataEntity>.ByKey(), // "DELETE FROM Data WHERE Id = @Id",
-                new { Id = id }));
+        accessor.DeleteDataAsync(id);
 
     public ValueTask<DataEntity?> QueryDataAsync(long id) =>
-        provider.UsingAsync(con =>
-            con.QueryFirstOrDefaultAsync<DataEntity>(
-                SqlSelect<DataEntity>.ByKey(), // "SELECT * FROM Data WHERE Id = @Id",
-                new { Id = id }));
+        accessor.QueryDataAsync(id);
 
     // Bulk
 
-    public ValueTask<int> CountBulkDataAsync() =>
-        provider.UsingAsync(static con =>
-            con.ExecuteScalarAsync<int>(
-                SqlCount<BulkDataEntity>.All())); // "SELECT COUNT(*) FROM BulkData"));
+    public async ValueTask<int> CountBulkDataAsync() =>
+        (int)await accessor.CountBulkDataAsync();
 
     public void InsertBulkDataEnumerable(IEnumerable<BulkDataEntity> source) =>
-        provider.UsingTx((con, tx) =>
+        provider.UsingTx((_, tx) =>
         {
             foreach (var entity in source)
             {
-                con.Execute(
-                    SqlInsert<BulkDataEntity>.Values(), // "INSERT INTO BulkData (Key1, Key2, Key3, Value1, Value2, Value3, Value4, Value5) VALUES (@Key1, @Key2, @Key3, @Value1, @Value2, @Value3, @Value4, @Value5)",
-                    entity,
-                    tx);
+                accessor.InsertBulkData(tx, entity);
             }
 
             tx.Commit();
         });
 
     public ValueTask<int> DeleteAllBulkDataAsync() =>
-        provider.UsingAsync(static con => con.ExecuteAsync("DELETE FROM BulkData"));
+        accessor.DeleteAllBulkDataAsync();
 
-    public List<BulkDataEntity> QueryAllBulkDataList() =>
-        provider.Using(static con =>
-            con.QueryList<BulkDataEntity>(
-                SqlSelect<BulkDataEntity>.All())); // "SELECT * FROM BulkData ORDER BY Key1, Key2, Key3"));
+    public IReadOnlyList<BulkDataEntity> QueryAllBulkDataList() =>
+        accessor.QueryAllBulkDataList();
 
     //--------------------------------------------------------------------------------
     // Work
     //--------------------------------------------------------------------------------
 
     public ValueTask<List<WorkEntity>> QueryWorkListAsync() =>
-        provider.Using(static con => con.QueryListAsync<WorkEntity>(SqlSelect<WorkEntity>.All()));
+        accessor.QueryWorkListAsync();
 
     public ValueTask<WorkEntity?> QueryWorkAsync(int id) =>
-        provider.Using(con =>
-            con.QueryFirstOrDefaultAsync<WorkEntity>(SqlSelect<WorkEntity>.ByKey(), new { Id = id }));
+        accessor.QueryWorkAsync(id);
 
     public ValueTask InsertWorkEnumerableAsync(IEnumerable<WorkEntity> source) =>
-        provider.UsingTxAsync(async (con, tx) =>
+        provider.UsingTxAsync(async (_, tx) =>
         {
             foreach (var entity in source)
             {
-                await con.ExecuteAsync(SqlInsert<WorkEntity>.Values(), entity, tx);
+                await accessor.InsertWorkAsync(tx, entity);
             }
 
             await tx.CommitAsync();
         });
 
-    public ValueTask InsertWorkAsync(string name) =>
-        provider.UsingAsync(async con =>
+    public ValueTask ReplaceWorkEnumerableAsync(IEnumerable<WorkEntity> source) =>
+        provider.UsingTxAsync(async (_, tx) =>
         {
-            var maxId = await con.ExecuteScalarAsync<int>("SELECT MAX(Id) FROM Work");
-            await con.ExecuteAsync(SqlInsert<WorkEntity>.Values(), new WorkEntity { Id = maxId + 1, Name = name });
+            await accessor.DeleteAllWorkAsync(tx);
+
+            foreach (var entity in source)
+            {
+                await accessor.InsertWorkAsync(tx, entity);
+            }
+
+            await tx.CommitAsync();
         });
 
+    public async ValueTask InsertWorkAsync(string name) =>
+        await accessor.InsertWorkWithNextIdAsync(name);
+
     public ValueTask<int> UpdateWorkAsync(WorkEntity entity) =>
-        provider.UsingAsync(con => con.ExecuteAsync(SqlUpdate<WorkEntity>.Set("Name = @Name", "Id = @Id"), entity));
+        accessor.UpdateWorkAsync(entity);
 
     public ValueTask<int> DeleteWorkAsync(long id) =>
-        provider.UsingAsync(con => con.ExecuteAsync(SqlDelete<WorkEntity>.ByKey(), new { Id = id }));
+        accessor.DeleteWorkAsync(id);
 }
 #pragma warning restore CA1002

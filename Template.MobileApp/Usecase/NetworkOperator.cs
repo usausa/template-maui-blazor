@@ -11,6 +11,18 @@ public enum NetworkOperationResult
     NotFound
 }
 
+public enum NetworkErrorKind
+{
+    None,
+    Canceled,
+    NotFound,
+    HttpError,
+    Unknown
+}
+
+public sealed record NetworkError(NetworkErrorKind Kind, HttpStatusCode Status)
+    : Error($"Network error. kind=[{Kind}] status=[{(int)Status}]");
+
 public sealed class NetworkOperator
 {
     private readonly IDialog dialog;
@@ -29,11 +41,24 @@ public sealed class NetworkOperator
         this.httpService = httpService;
     }
 
-    public ValueTask<IResult<T>> ExecuteVerbose<T>(Func<HttpService, ValueTask<IRestResponse<T>>> func) => Execute(func, true);
+    public static NetworkErrorKind ClassifyError(IRestResponse response) =>
+        response.RestResult switch
+        {
+            RestResult.Success => NetworkErrorKind.None,
+            RestResult.Cancel => NetworkErrorKind.Canceled,
+            RestResult.RequestError or RestResult.HttpError =>
+                response.StatusCode == HttpStatusCode.NotFound ? NetworkErrorKind.NotFound : NetworkErrorKind.HttpError,
+            _ => NetworkErrorKind.Unknown
+        };
 
-    public ValueTask<IResult<T>> Execute<T>(Func<HttpService, ValueTask<IRestResponse<T>>> func) => Execute(func, false);
+    private static Result<T> Failure<T>(IRestResponse response) =>
+        Result.Failure<T>(new NetworkError(ClassifyError(response), response.StatusCode));
 
-    private async ValueTask<IResult<T>> Execute<T>(Func<HttpService, ValueTask<IRestResponse<T>>> func, bool verbose)
+    public ValueTask<Result<T>> ExecuteVerbose<T>(Func<HttpService, ValueTask<IRestResponse<T>>> func) => Execute(func, true);
+
+    public ValueTask<Result<T>> Execute<T>(Func<HttpService, ValueTask<IRestResponse<T>>> func) => Execute(func, false);
+
+    private async ValueTask<Result<T>> Execute<T>(Func<HttpService, ValueTask<IRestResponse<T>>> func, bool verbose)
     {
         while (true)
         {
@@ -43,7 +68,7 @@ public sealed class NetworkOperator
                 {
                     await dialog.InformationAsync("Network is not connected.");
                 }
-                return Result.Failed<T>();
+                return Result.Failure<T>("Network is unavailable.");
             }
 
             IRestResponse<T> response;
@@ -59,7 +84,7 @@ public sealed class NetworkOperator
                 case RestResult.Cancel:
                     if (!verbose || !await dialog.ConfirmAsync("Canceled.\r\nRetry ?"))
                     {
-                        return Result.Failed<T>();
+                        return Failure<T>(response);
                     }
                     break;
                 case RestResult.RequestError:
@@ -75,12 +100,12 @@ public sealed class NetworkOperator
                         message.AppendLine("Retry ?");
                         if (!await dialog.ConfirmAsync(message.ToString()))
                         {
-                            return Result.Failed<T>();
+                            return Failure<T>(response);
                         }
                     }
                     else
                     {
-                        return Result.Failed<T>();
+                        return Failure<T>(response);
                     }
                     break;
                 default:
@@ -88,7 +113,7 @@ public sealed class NetworkOperator
                     {
                         await dialog.InformationAsync("Unknown error.");
                     }
-                    return Result.Failed<T>();
+                    return Failure<T>(response);
             }
         }
     }

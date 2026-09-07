@@ -45,6 +45,7 @@ global using Smart.Mvvm;
 global using Smart.Mvvm.Messaging;
 global using Smart.Mvvm.ViewModels;
 global using Smart.Reactive;
+global using Smart.Results;
 global using Smart.Text;
 
 global using SkiaSharp;
