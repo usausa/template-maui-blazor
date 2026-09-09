@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Template.MobileApp"
              xmlns:shell="clr-namespace:Template.MobileApp.Shell"
              xmlns:fonts="clr-namespace:Fonts"
+             xmlns:markup="clr-namespace:Template.MobileApp.Markup"
              xmlns:views="clr-namespace:Template.MobileApp.Views"
              x:Class="Template.MobileApp.MainPage"
              x:DataType="{x:Type local:MainPageViewModel}"
@@ -156,14 +157,8 @@
             <toolkit:SfEffectsView Style="{StaticResource CenterButtonView}"
                                    TouchDownCommand="{Binding PayCommand}">
                 <VerticalStackLayout Style="{StaticResource CenterButtonLayout}">
-                    <Image Style="{StaticResource CenterButtonImage}">
-                        <Image.Source>
-                            <FontImageSource FontFamily="MaterialIcons"
-                                             Color="White"
-                                             Glyph="{x:Static fonts:MaterialIcons.Qr_code}"
-                                             Size="36" />
-                        </Image.Source>
-                    </Image>
+                    <Image Style="{StaticResource CenterButtonImage}"
+                           Source="{x:Static markup:AppIcons.Pay}" />
                     <Label Style="{StaticResource CenterButtonLabel}"
                            Text="支払い" />
                 </VerticalStackLayout>

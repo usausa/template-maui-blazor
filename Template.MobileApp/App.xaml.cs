@@ -4,6 +4,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 
 using Template.MobileApp.Helpers;
+using Template.MobileApp.Markup;
 using Template.MobileApp.Services;
 
 #pragma warning disable CA1724
@@ -31,6 +32,10 @@ public sealed partial class App
     {
         // Report previous exception
         await CrashReport.ShowReport();
+
+        // Warm up icon fonts
+        AppIcons.WarmTypefaces(serviceProvider);
+        await AppIcons.WarmStartupAsync(serviceProvider);
 
         // Initialize database
         var initializeError = await InitializeDataAsync();
