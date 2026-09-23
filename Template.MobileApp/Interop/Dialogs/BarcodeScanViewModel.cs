@@ -8,6 +8,10 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
 
     public IObserveCommand DetectCommand { get; }
 
+    //--------------------------------------------------------------------------------
+    // Constructor
+    //--------------------------------------------------------------------------------
+
     public BarcodeScanViewModel(
         IPopupNavigator popupNavigator,
         IVibration vibration)

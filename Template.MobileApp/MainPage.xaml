@@ -61,9 +61,9 @@
                     <Image Grid.Row="0"
                            Style="{StaticResource BottomSelectImage}">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialIcons"
+                            <FontImageSource Glyph="{x:Static fonts:MaterialIcons.Home}"
+                                             FontFamily="MaterialIcons"
                                              Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Home}}"
-                                             Glyph="{x:Static fonts:MaterialIcons.Home}"
                                              Size="36" />
                         </Image.Source>
                     </Image>
@@ -82,9 +82,9 @@
                     <Image Grid.Row="0"
                            Style="{StaticResource BottomSelectImage}">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialIcons"
+                            <FontImageSource Glyph="{x:Static fonts:MaterialIcons.Search}"
+                                             FontFamily="MaterialIcons"
                                              Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Search}}"
-                                             Glyph="{x:Static fonts:MaterialIcons.Search}"
                                              Size="36" />
                         </Image.Source>
                     </Image>
@@ -103,9 +103,9 @@
                     <Image Grid.Row="0"
                            Style="{StaticResource BottomSelectImage}">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialIcons"
+                            <FontImageSource Glyph="{x:Static fonts:MaterialIcons.Notifications_none}"
+                                             FontFamily="MaterialIcons"
                                              Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Notifications}}"
-                                             Glyph="{x:Static fonts:MaterialIcons.Notifications_none}"
                                              Size="36" />
                         </Image.Source>
                     </Image>
@@ -130,9 +130,9 @@
                     <Image Grid.Row="0"
                            Style="{StaticResource BottomSelectImage}">
                         <Image.Source>
-                            <FontImageSource FontFamily="MaterialIcons"
+                            <FontImageSource Glyph="{x:Static fonts:MaterialIcons.Account_circle}"
+                                             FontFamily="MaterialIcons"
                                              Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Account}}"
-                                             Glyph="{x:Static fonts:MaterialIcons.Account_circle}"
                                              Size="36" />
                         </Image.Source>
                     </Image>

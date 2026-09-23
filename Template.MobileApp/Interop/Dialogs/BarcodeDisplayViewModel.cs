@@ -5,6 +5,10 @@ public sealed partial class BarcodeDisplayViewModel : DialogViewModelBase, IPopu
     [ObservableProperty]
     public partial string? Barcode { get; set; }
 
+    //--------------------------------------------------------------------------------
+    // Operation
+    //--------------------------------------------------------------------------------
+
     public void Initialize(string parameter)
     {
         Barcode = parameter;
