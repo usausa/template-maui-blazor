@@ -27,3 +27,9 @@ public sealed class Settings
     }
 }
 #pragma warning restore CA1724
+
+public static class SettingsExtensions
+{
+    public static bool IsApiConfigured(this Settings settings) =>
+        Uri.TryCreate(settings.ApiEndPoint, UriKind.Absolute, out _);
+}

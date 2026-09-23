@@ -19,13 +19,18 @@ public sealed class DataService
         this.accessor = accessor;
     }
 
+    public string DatabasePath
+    {
+        get
+        {
+            using var con = provider.CreateConnection();
+            return con.DataSource;
+        }
+    }
+
     public async ValueTask RebuildAsync()
     {
-        string dbPath;
-        await using (var con = provider.CreateConnection())
-        {
-            dbPath = con.DataSource;
-        }
+        var dbPath = DatabasePath;
 
         foreach (var path in new[] { dbPath, $"{dbPath}-wal", $"{dbPath}-shm" })
         {

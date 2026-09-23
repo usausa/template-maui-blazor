@@ -5,8 +5,10 @@ using CommunityToolkit.Maui.Views;
 
 using Smart.Maui.Interactivity;
 
-public static class CameraBind
+public static partial class CameraBind
 {
+    private static partial CameraInfo CorrectCameraInfo(CameraInfo camera);
+
     public static readonly BindableProperty ControllerProperty = BindableProperty.CreateAttached(
         "Controller",
         typeof(CameraController),
@@ -130,7 +132,7 @@ public static class CameraBind
             }
 
 #pragma warning disable CA2012
-            e.Task = e.Enable ? StartCameraPreview(AssociatedObject) : StopCameraPreview(AssociatedObject);
+            e.Task = e.Enable ? StartCameraPreview(AssociatedObject, controller) : StopCameraPreview(AssociatedObject);
 #pragma warning restore CA2012
         }
 
@@ -148,13 +150,28 @@ public static class CameraBind
 #pragma warning restore CA2012
         }
 
-        private static ValueTask<IReadOnlyList<CameraInfo>> GetAvailableCameras(CameraView cameraView)
+        private static async ValueTask<IReadOnlyList<CameraInfo>> GetAvailableCameras(CameraView cameraView)
         {
-            return cameraView.GetAvailableCameras(CancellationToken.None);
+            var cameras = await cameraView.GetAvailableCameras(CancellationToken.None);
+            return cameras.Select(CorrectCameraInfo).ToArray();
         }
 
-        private static async ValueTask StartCameraPreview(CameraView cameraView)
+        private static async ValueTask StartCameraPreview(CameraView cameraView, CameraController? controller)
         {
+            if (controller is not null)
+            {
+                var cameras = await GetAvailableCameras(cameraView);
+                var current = controller.Selected;
+                var corrected = current is null
+                    ? cameras.FirstOrDefault(static x => x.Position == CameraPosition.Rear) ?? (cameras.Count > 0 ? cameras[0] : null)
+                    : cameras.FirstOrDefault(x => x.DeviceId == current.DeviceId);
+                if ((corrected is not null) && !ReferenceEquals(corrected, current))
+                {
+                    controller.Selected = null;
+                    controller.Selected = corrected;
+                }
+            }
+
             await cameraView.StartCameraPreview(CancellationToken.None);
         }
 
@@ -179,8 +196,16 @@ public static class CameraBind
             {
                 view.MediaCaptured += OnMediaCaptured;
                 view.MediaCaptureFailed += OnMediaCaptureFailed;
-                await view.CaptureImage(token);
-                return await result.Task;
+                try
+                {
+                    await view.CaptureImage(token);
+                    return await result.Task.WaitAsync(token);
+                }
+                finally
+                {
+                    view.MediaCaptured -= OnMediaCaptured;
+                    view.MediaCaptureFailed -= OnMediaCaptureFailed;
+                }
             }
 
             private void OnMediaCaptured(object? sender, MediaCapturedEventArgs e) => OnMediaCaptured(e.Media);
@@ -189,8 +214,6 @@ public static class CameraBind
 
             private void OnMediaCaptured(Stream? stream)
             {
-                view.MediaCaptured -= OnMediaCaptured;
-                view.MediaCaptureFailed -= OnMediaCaptureFailed;
                 result.TrySetResult(stream);
             }
         }

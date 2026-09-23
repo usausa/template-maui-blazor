@@ -2,6 +2,7 @@ namespace Template.MobileApp;
 
 using System.Net.Http.Headers;
 using System.Text.Encodings.Web;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Unicode;
 
@@ -139,6 +140,8 @@ public static partial class MauiProgram
         // Config Rest
         RestConfig.Default.UseJsonSerializer(static config =>
         {
+            config.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            config.PropertyNameCaseInsensitive = true;
             config.Converters.Add(new Template.MobileApp.Helpers.Json.DateTimeConverter());
             config.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
             config.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -264,7 +267,6 @@ public static partial class MauiProgram
         services.AddSingleton<HttpService>();
 
         // Usecase
-        services.AddSingleton<NetworkOperator>();
         services.AddSingleton<NetworkUsecase>();
 
         // Interop
@@ -336,7 +338,7 @@ public static partial class MauiProgram
         }
 
         var apiContext = services.GetRequiredService<ApiContext>();
-        if (!String.IsNullOrEmpty(settings.ApiEndPoint))
+        if (settings.IsApiConfigured())
         {
             apiContext.BaseAddress = new Uri(settings.ApiEndPoint);
         }

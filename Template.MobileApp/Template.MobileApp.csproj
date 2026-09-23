@@ -25,9 +25,13 @@
     <ApplicationVersion>1</ApplicationVersion>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
+
+    <!--
+    <UseMaterial3>true</UseMaterial3>
+    -->
   </PropertyGroup>
 
-  <!--
+  <!-- Shiny requires the Mono runtime to be disabled for Android builds, but this is not yet supported in .NET 10
   <PropertyGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
     <UseMonoRuntime>false</UseMonoRuntime>
   </PropertyGroup>
@@ -110,7 +114,7 @@
     <PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.1.0" />
     <PackageReference Include="Components.Maui" Version="1.46.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.101" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.110" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12">
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">none</IncludeAssets>
@@ -119,14 +123,14 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.12" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="4.14.4" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="4.14.4" />
-    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.101" />
-    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.101" />
+    <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.110" />
     <PackageReference Include="SkiaSharp" Version="4.152.1" />
     <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="4.152.1" />
     <PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
     <PackageReference Include="QRCoder" Version="1.8.0" />
     <PackageReference Include="Rester" Version="2.17.0" />
-    <PackageReference Include="Shiny.BluetoothLE" version="5.5.0" />
+    <PackageReference Include="Shiny.BluetoothLE" version="5.7.2" />
     <PackageReference Include="Shiny.BluetoothLE.Hosting" Version="5.7.2" />
     <PackageReference Include="Shiny.Hosting.Maui" Version="5.7.2" />
     <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.11" />
@@ -135,7 +139,7 @@
     <PackageReference Include="Usa.Smart.Core" Version="2.20.0" />
     <PackageReference Include="Usa.Smart.Data" Version="2.11.0" />
     <PackageReference Include="Usa.Smart.Data.Accessor" Version="3.0.0-beta11" />
-    <PackageReference Include="Usa.Smart.Mapper" Version="1.0.0-beta8" />
+    <PackageReference Include="Usa.Smart.Mapper" Version="1.0.0-beta9" />
     <PackageReference Include="Usa.Smart.Maui" Version="2.26.0" />
     <PackageReference Include="Usa.Smart.Maui.Extensions" Version="2.26.0" />
     <PackageReference Include="Usa.Smart.Mvvm" Version="2.12.0" />

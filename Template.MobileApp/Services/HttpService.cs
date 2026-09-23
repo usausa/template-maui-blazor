@@ -2,6 +2,50 @@ namespace Template.MobileApp.Services;
 
 using Rester;
 
+//--------------------------------------------------------------------------------
+// Models
+//--------------------------------------------------------------------------------
+
+public class AccountLoginRequest
+{
+    public string Id { get; set; } = default!;
+}
+
+public class AccountLoginResponse
+{
+    public string Token { get; set; } = default!;
+}
+
+public sealed class ServerTimeResponse
+{
+    public DateTime DateTime { get; set; }
+}
+
+public class SecretMessageResponse
+{
+    public string Message { get; set; } = default!;
+}
+
+public sealed class DataListEntry
+{
+    public long Id { get; set; }
+
+    public string Name { get; set; } = default!;
+}
+
+#pragma warning disable CA1819
+public sealed class DataListResponse
+{
+    public DataListEntry[] Entries { get; set; } = default!;
+
+    public int Total { get; set; }
+}
+#pragma warning restore CA1819
+
+//--------------------------------------------------------------------------------
+// Service
+//--------------------------------------------------------------------------------
+
 public sealed class HttpService
 {
     private readonly IHttpClientFactory httpClientFactory;
@@ -12,132 +56,58 @@ public sealed class HttpService
     }
 
     //--------------------------------------------------------------------------------
+    // Account
+    //--------------------------------------------------------------------------------
+
+    public ValueTask<IRestResponse<AccountLoginResponse>> PostAccountLoginAsync(AccountLoginRequest request, CancellationToken cancellationToken = default)
+    {
+        var client = httpClientFactory.CreateClient(ApiNames.Default);
+        return client.PostAsync<AccountLoginResponse>("api/account/login", request, cancel: cancellationToken);
+    }
+
+    //--------------------------------------------------------------------------------
     // Basic
     //--------------------------------------------------------------------------------
 
-    public async ValueTask<IRestResponse<ServerTimeResponse>> GetServerTimeAsync()
+    public ValueTask<IRestResponse<ServerTimeResponse>> GetServerTimeAsync(CancellationToken cancellationToken = default)
     {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        return await client.GetAsync<ServerTimeResponse>("api/server/time");
+        var client = httpClientFactory.CreateClient(ApiNames.Default);
+        return client.GetAsync<ServerTimeResponse>("api/server/time", cancel: cancellationToken);
     }
 
     //--------------------------------------------------------------------------------
     // Data
     //--------------------------------------------------------------------------------
 
-    public async ValueTask<IRestResponse<DataListResponse>> GetDataListAsync()
+    public ValueTask<IRestResponse<DataListResponse>> GetDataListAsync(CancellationToken cancellationToken = default)
     {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        return await client.GetAsync<DataListResponse>("api/data/list");
+        var client = httpClientFactory.CreateClient(ApiNames.Default);
+        return client.GetAsync<DataListResponse>("api/data/list", cancel: cancellationToken);
     }
 
     //--------------------------------------------------------------------------------
     // Secret
     //--------------------------------------------------------------------------------
 
-    public async ValueTask<IRestResponse<SecretMessageResponse>> GetSecretMessageAsync()
+    public ValueTask<IRestResponse<SecretMessageResponse>> GetSecretMessageAsync(CancellationToken cancellationToken = default)
     {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        return await client.GetAsync<SecretMessageResponse>("api/secret/message");
-    }
-
-    public async ValueTask<IRestResponse<AccountLoginResponse>> PostAccountLoginAsync(AccountLoginRequest request)
-    {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        return await client.PostAsync<AccountLoginResponse>("api/account/login", request);
-    }
-
-    //--------------------------------------------------------------------------------
-    // Storage
-    //--------------------------------------------------------------------------------
-
-    public async ValueTask<IRestResponse> DownloadAsync(string path, string filename, Action<double> action)
-    {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        var progress = -1d;
-        return await client.DownloadAsync(
-            $"api/storage/{path}",
-            filename,
-            progress: (processed, total) =>
-            {
-                var percent = Math.Floor((double)processed / total * 100);
-                if (percent > progress)
-                {
-                    progress = percent;
-                    action(percent);
-                }
-            });
-    }
-
-    public async ValueTask<IRestResponse> DownloadAsync(string path, Stream stream, Action<double> action)
-    {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        var progress = -1d;
-        return await client.DownloadAsync(
-            $"api/storage/{path}",
-            stream,
-            progress: (processed, total) =>
-            {
-                var percent = Math.Floor((double)processed / total * 100);
-                if (percent > progress)
-                {
-                    progress = percent;
-                    action(percent);
-                }
-            });
-    }
-
-    public async ValueTask<IRestResponse> UploadAsync(string path, string filename, Action<double> action)
-    {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        var progress = -1d;
-        return await client.UploadAsync(
-            $"api/storage/{path}",
-            filename,
-            compress: CompressOption.Gzip,
-            progress: (processed, total) =>
-            {
-                var percent = Math.Floor((double)processed / total * 100);
-                if (percent > progress)
-                {
-                    progress = percent;
-                    action(percent);
-                }
-            });
-    }
-
-    public async ValueTask<IRestResponse> UploadAsync(string path, Stream stream, Action<double> action)
-    {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        var progress = -1d;
-        return await client.UploadAsync(
-            $"api/storage/{path}",
-            stream,
-            compress: CompressOption.Gzip,
-            progress: (processed, total) =>
-            {
-                var percent = Math.Floor((double)processed / total * 100);
-                if (percent > progress)
-                {
-                    progress = percent;
-                    action(percent);
-                }
-            });
+        var client = httpClientFactory.CreateClient(ApiNames.Default);
+        return client.GetAsync<SecretMessageResponse>("api/secret/message", cancel: cancellationToken);
     }
 
     //--------------------------------------------------------------------------------
     // Test
     //--------------------------------------------------------------------------------
 
-    public async ValueTask<IRestResponse<object>> GetTestErrorAsync(int code)
+    public ValueTask<IRestResponse> GetTestErrorAsync(int code, CancellationToken cancellationToken = default)
     {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        return await client.GetAsync<object>($"api/test/error/{code}");
+        var client = httpClientFactory.CreateClient(ApiNames.Default);
+        return client.SendAsync(HttpMethod.Get, $"api/test/error/{code}", cancel: cancellationToken);
     }
 
-    public async ValueTask<IRestResponse<object>> GetTestDelayAsync(int timeout)
+    public ValueTask<IRestResponse> GetTestDelayAsync(int timeout, CancellationToken cancellationToken = default)
     {
-        using var client = httpClientFactory.CreateClient(ApiNames.Default);
-        return await client.GetAsync<object>($"api/test/delay/{timeout}");
+        var client = httpClientFactory.CreateClient(ApiNames.Default);
+        return client.SendAsync(HttpMethod.Get, $"api/test/delay/{timeout}", cancel: cancellationToken);
     }
 }
