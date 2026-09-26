@@ -32,6 +32,7 @@ using Syncfusion.Maui.Toolkit.Hosting;
 
 using Template.MobileApp.Behaviors;
 using Template.MobileApp.Components;
+using Template.MobileApp.Diagnostics;
 using Template.MobileApp.Helpers;
 using Template.MobileApp.Interop;
 using Template.MobileApp.Interop.Dialogs;
@@ -226,6 +227,7 @@ public static partial class MauiProgram
         services.AddSingleton<IReactiveMessenger>(ReactiveMessenger.Default);
 
         // Components
+        services.AddSingleton<DeviceInformation>();
         services.AddSingleton<IStorageManager, StorageManager>();
 
         // Bluetooth
@@ -310,6 +312,9 @@ public static partial class MauiProgram
 
         // Setup provider
         ResolveProvider.Default.Provider = services;
+
+        // Start device information
+        services.GetRequiredService<DeviceInformation>().Start();
 
 #if DEBUG
         // Diagnostics for GeneratedServiceProvider

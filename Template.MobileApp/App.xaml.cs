@@ -3,7 +3,7 @@ namespace Template.MobileApp;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 
-using Template.MobileApp.Helpers;
+using Template.MobileApp.Diagnostics;
 using Template.MobileApp.Markup;
 using Template.MobileApp.Services;
 
