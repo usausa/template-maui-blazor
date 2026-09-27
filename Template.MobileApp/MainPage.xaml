@@ -5,7 +5,6 @@
              xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit"
              xmlns:local="clr-namespace:Template.MobileApp"
              xmlns:shell="clr-namespace:Template.MobileApp.Shell"
-             xmlns:fonts="clr-namespace:Fonts"
              xmlns:markup="clr-namespace:Template.MobileApp.Markup"
              xmlns:views="clr-namespace:Template.MobileApp.Views"
              x:Class="Template.MobileApp.MainPage"
@@ -59,14 +58,8 @@
                                    TouchDownEffects="None">
                 <Grid RowDefinitions="*,Auto">
                     <Image Grid.Row="0"
-                           Style="{StaticResource BottomSelectImage}">
-                        <Image.Source>
-                            <FontImageSource Glyph="{x:Static fonts:MaterialIcons.Home}"
-                                             FontFamily="MaterialIcons"
-                                             Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Home}}"
-                                             Size="36" />
-                        </Image.Source>
-                    </Image>
+                           Style="{StaticResource BottomSelectImage}"
+                           Source="{x:Static markup:AppIcons.Home}" />
                     <Label Grid.Row="1"
                            Style="{StaticResource BottomSelectLabel}"
                            Text="ホーム"
@@ -80,14 +73,8 @@
                                    TouchDownEffects="None">
                 <Grid RowDefinitions="*,Auto">
                     <Image Grid.Row="0"
-                           Style="{StaticResource BottomSelectImage}">
-                        <Image.Source>
-                            <FontImageSource Glyph="{x:Static fonts:MaterialIcons.Search}"
-                                             FontFamily="MaterialIcons"
-                                             Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Search}}"
-                                             Size="36" />
-                        </Image.Source>
-                    </Image>
+                           Style="{StaticResource BottomSelectImage}"
+                           Source="{x:Static markup:AppIcons.Search}" />
                     <Label Grid.Row="1"
                            Style="{StaticResource BottomSelectLabel}"
                            Text="検索"
@@ -101,14 +88,8 @@
                                    TouchDownEffects="None">
                 <Grid RowDefinitions="*,Auto">
                     <Image Grid.Row="0"
-                           Style="{StaticResource BottomSelectImage}">
-                        <Image.Source>
-                            <FontImageSource Glyph="{x:Static fonts:MaterialIcons.Notifications_none}"
-                                             FontFamily="MaterialIcons"
-                                             Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Notifications}}"
-                                             Size="36" />
-                        </Image.Source>
-                    </Image>
+                           Style="{StaticResource BottomSelectImage}"
+                           Source="{x:Static markup:AppIcons.Notifications}" />
                     <Label Grid.Row="1"
                            Style="{StaticResource BottomSelectLabel}"
                            Text="お知らせ"
@@ -128,14 +109,8 @@
                                    TouchDownEffects="None">
                 <Grid RowDefinitions="*,Auto">
                     <Image Grid.Row="0"
-                           Style="{StaticResource BottomSelectImage}">
-                        <Image.Source>
-                            <FontImageSource Glyph="{x:Static fonts:MaterialIcons.Account_circle}"
-                                             FontFamily="MaterialIcons"
-                                             Color="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Account}}"
-                                             Size="36" />
-                        </Image.Source>
-                    </Image>
+                           Style="{StaticResource BottomSelectImage}"
+                           Source="{x:Static markup:AppIcons.Account}" />
                     <Label Grid.Row="1"
                            Style="{StaticResource BottomSelectLabel}"
                            Text="アカウント"

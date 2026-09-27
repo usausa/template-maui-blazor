@@ -1,6 +1,7 @@
 namespace Template.MobileApp;
 
 using Template.MobileApp.Interop;
+using Template.MobileApp.Markup;
 using Template.MobileApp.Views;
 
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
@@ -29,6 +30,7 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
         IPlatformInterop platformInterop)
     {
         Selected = SelectPage.Home;
+        AppIcons.SetNavigationSelection(Selected);
         PayCommand = MakeAsyncCommand(async () =>
         {
             await platformInterop.DisplayBarcodeAsync(settings.UniqueId);
@@ -36,6 +38,7 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
         PageCommand = MakeDelegateCommand<SelectPage>(page =>
         {
             Selected = page;
+            AppIcons.SetNavigationSelection(page);
             messenger.Send(page);
         });
 

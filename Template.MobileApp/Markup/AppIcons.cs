@@ -2,7 +2,7 @@ namespace Template.MobileApp.Markup;
 
 using Fonts;
 
-using Microsoft.Extensions.DependencyInjection;
+using Template.MobileApp.Views;
 
 public static class AppIcons
 {
@@ -15,50 +15,25 @@ public static class AppIcons
     public static readonly FontImageSource Pay = Create(MaterialIcons.Qr_code, SelectSize, Colors.White);
 
     //--------------------------------------------------------------------------------
-    // Warmup
+    // Bottom navigation (Material / 36)
     //--------------------------------------------------------------------------------
 
-    public static void WarmTypefaces(IServiceProvider provider)
+    public static readonly FontImageSource Home = Create(MaterialIcons.Home, SelectSize, ResourceColor("PinkAccent3"));
+
+    public static readonly FontImageSource Search = Create(MaterialIcons.Search, SelectSize, ResourceColor("GrayDefault"));
+
+    public static readonly FontImageSource Notifications = Create(MaterialIcons.Notifications_none, SelectSize, ResourceColor("GrayDefault"));
+
+    public static readonly FontImageSource Account = Create(MaterialIcons.Account_circle, SelectSize, ResourceColor("GrayDefault"));
+
+    public static void SetNavigationSelection(SelectPage selected)
     {
-        var fontManager = provider.GetRequiredService<IFontManager>();
-        fontManager.GetTypeface(Microsoft.Maui.Font.OfSize(MaterialIcons.FontFamily, SelectSize));
-    }
-
-    public static ValueTask WarmStartupAsync(IServiceProvider provider) => WarmAsync(provider, EnumerateStartup());
-
-    private static IEnumerable<FontImageSource> EnumerateStartup()
-    {
-        yield return Pay;
-
         var selectedColor = ResourceColor("PinkAccent3");
         var unselectedColor = ResourceColor("GrayDefault");
-        string[] glyphs = [MaterialIcons.Home, MaterialIcons.Search, MaterialIcons.Notifications_none, MaterialIcons.Account_circle];
-        foreach (var glyph in glyphs)
-        {
-            yield return Create(glyph, SelectSize, selectedColor);
-            yield return Create(glyph, SelectSize, unselectedColor);
-        }
-    }
-
-    private static async ValueTask WarmAsync(IServiceProvider provider, IEnumerable<FontImageSource> sources)
-    {
-#if ANDROID
-        var imageSourceServiceProvider = provider.GetService<IImageSourceServiceProvider>();
-        if (imageSourceServiceProvider is null)
-        {
-            return;
-        }
-
-        var context = Android.App.Application.Context;
-        var pending = new List<Task>();
-        foreach (var source in sources)
-        {
-            var service = imageSourceServiceProvider.GetRequiredImageSourceService(source);
-            pending.Add(service.GetDrawableAsync(source, context));
-        }
-
-        await Task.WhenAll(pending).ConfigureAwait(true);
-#endif
+        Home.Color = selected == SelectPage.Home ? selectedColor : unselectedColor;
+        Search.Color = selected == SelectPage.Search ? selectedColor : unselectedColor;
+        Notifications.Color = selected == SelectPage.Notifications ? selectedColor : unselectedColor;
+        Account.Color = selected == SelectPage.Account ? selectedColor : unselectedColor;
     }
 
     //--------------------------------------------------------------------------------

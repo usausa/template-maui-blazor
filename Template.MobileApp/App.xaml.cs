@@ -33,10 +33,6 @@ public sealed partial class App
         // Report previous exception
         await CrashReport.ShowReport();
 
-        // Warm up icon fonts
-        AppIcons.WarmTypefaces(serviceProvider);
-        await AppIcons.WarmStartupAsync(serviceProvider);
-
         // Initialize database
         var initializeError = await InitializeDataAsync();
         if (initializeError is not null)
