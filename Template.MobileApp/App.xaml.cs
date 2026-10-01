@@ -4,7 +4,6 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 
 using Template.MobileApp.Diagnostics;
-using Template.MobileApp.Markup;
 using Template.MobileApp.Services;
 
 #pragma warning disable CA1724
