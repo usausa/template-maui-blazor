@@ -158,6 +158,11 @@ public static partial class MauiProgram
         // Behaviors
         builder.ConfigureCustomBehaviors();
 
+#if ANDROID
+        // Font icons
+        builder.ConfigureImageSources(static services => services.AddService<FontImageSource>(static provider => new DirectFontImageSourceService(provider.GetRequiredService<IFontManager>())));
+#endif
+
         return builder;
     }
 
