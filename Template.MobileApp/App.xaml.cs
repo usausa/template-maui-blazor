@@ -58,7 +58,12 @@ public sealed partial class App
     {
         try
         {
-            await serviceProvider.GetRequiredService<DataService>().RebuildAsync();
+            var dataService = serviceProvider.GetRequiredService<DataService>();
+            await dataService.RebuildAsync();
+
+            // Dummy data
+            await PrepareDummyDataAsync(dataService);
+
             return null;
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or SqliteException)
@@ -66,6 +71,17 @@ public sealed partial class App
             log.ErrorDatabaseInitializeFailed(ex);
             return ex;
         }
+    }
+
+    private static async ValueTask PrepareDummyDataAsync(DataService dataService)
+    {
+        await dataService.InsertWorkEnumerableAsync(
+        [
+            new WorkEntity { Id = 1, Name = "Sample-1" },
+            new WorkEntity { Id = 2, Name = "Sample-2" },
+            new WorkEntity { Id = 3, Name = "Sample-3" },
+            new WorkEntity { Id = 4, Name = "Sample-4" }
+        ]);
     }
 }
 #pragma warning restore CA1724

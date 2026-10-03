@@ -3,7 +3,9 @@ namespace Template.MobileApp.Interop.Dialogs;
 using Smart.Mvvm.Resolver;
 
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
-public abstract class DialogViewModelBase : ExtendViewModelBase, IValidatable
+public abstract class DialogViewModelBase :
+    ExtendViewModelBase,
+    IValidatable
 {
     private List<ValidationResult>? validationResults;
 

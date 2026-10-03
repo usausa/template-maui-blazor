@@ -28,10 +28,11 @@ public sealed class DataService
         }
     }
 
-    public async ValueTask RebuildAsync()
+    public ValueTask RebuildAsync()
     {
         var dbPath = DatabasePath;
 
+        // Delete with WAL and SHM files
         foreach (var path in new[] { dbPath, $"{dbPath}-wal", $"{dbPath}-shm" })
         {
             if (File.Exists(path))
@@ -40,19 +41,11 @@ public sealed class DataService
             }
         }
 
-        await provider.UsingAsync(async con =>
+        return provider.UsingAsync(async con =>
         {
             await accessor.ExecutePragmaAsync(con);
             await accessor.CreateTablesAsync(con);
         });
-
-        await InsertWorkEnumerableAsync(
-        [
-            new WorkEntity { Id = 1, Name = "Sample-1" },
-            new WorkEntity { Id = 2, Name = "Sample-2" },
-            new WorkEntity { Id = 3, Name = "Sample-3" },
-            new WorkEntity { Id = 4, Name = "Sample-4" }
-        ]);
     }
 
     //--------------------------------------------------------------------------------
