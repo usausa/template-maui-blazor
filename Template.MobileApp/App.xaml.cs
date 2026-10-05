@@ -73,9 +73,9 @@ public sealed partial class App
         }
     }
 
-    private static async ValueTask PrepareDummyDataAsync(DataService dataService)
+    private static ValueTask PrepareDummyDataAsync(DataService dataService)
     {
-        await dataService.InsertWorkEnumerableAsync(
+        return dataService.InsertWorkEnumerableAsync(
         [
             new WorkEntity { Id = 1, Name = "Sample-1" },
             new WorkEntity { Id = 2, Name = "Sample-2" },
