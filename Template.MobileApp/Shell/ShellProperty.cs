@@ -30,7 +30,7 @@ public static class ShellProperty
             return;
         }
 
-        if (oldValue is not null)
+        if (oldValue is true)
         {
             var behavior = view.Behaviors.FirstOrDefault(static x => x is BusyOverlayBehavior);
             if (behavior is not null)
@@ -39,7 +39,7 @@ public static class ShellProperty
             }
         }
 
-        if (newValue is not null)
+        if (newValue is true)
         {
             view.Behaviors.Add(new BusyOverlayBehavior());
         }

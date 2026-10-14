@@ -113,14 +113,14 @@
     <PackageReference Include="CommunityToolkit.Maui" Version="15.0.1" />
     <PackageReference Include="CommunityToolkit.Maui.Camera" Version="6.1.0" />
     <PackageReference Include="Components.Maui" Version="1.50.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.110" />
-    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.12" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.12">
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.13" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.13">
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">none</IncludeAssets>
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.13" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.0" />
     <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.0.0" />
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
@@ -139,7 +139,7 @@
     <PackageReference Include="Usa.Smart.Core" Version="2.20.0" />
     <PackageReference Include="Usa.Smart.Data" Version="2.11.0" />
     <PackageReference Include="Usa.Smart.Data.Accessor" Version="3.0.0-beta15" />
-    <PackageReference Include="Usa.Smart.Mapper" Version="1.0.0-beta9" />
+    <PackageReference Include="Usa.Smart.Mapper" Version="1.0.0-beta14" />
     <PackageReference Include="Usa.Smart.Maui" Version="2.33.0" />
     <PackageReference Include="Usa.Smart.Maui.Extensions" Version="2.33.0" />
     <PackageReference Include="Usa.Smart.Mvvm" Version="2.16.0" />
