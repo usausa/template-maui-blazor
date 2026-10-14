@@ -4,8 +4,6 @@ using BarcodeScanning;
 
 public sealed class BarcodeScanViewModel : DialogViewModelBase
 {
-    private readonly IPopupNavigator popupNavigator;
-
     private readonly IVibration vibration;
 
     public BarcodeController Controller { get; } = new();
@@ -16,11 +14,8 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
     // Constructor
     //--------------------------------------------------------------------------------
 
-    public BarcodeScanViewModel(
-        IPopupNavigator popupNavigator,
-        IVibration vibration)
+    public BarcodeScanViewModel(IVibration vibration)
     {
-        this.popupNavigator = popupNavigator;
         this.vibration = vibration;
 
         DetectCommand = MakeDelegateCommand<IReadOnlySet<BarcodeResult>>(CommandMode.Simple, x => _ = DetectAsync(x));
@@ -39,7 +34,7 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
             vibration.Vibrate(200);
             Controller.Enable = false;
 
-            await popupNavigator.CloseAsync(barcodes.First().DisplayValue);
+            await CloseAsync(barcodes.First().DisplayValue);
         }
     }
 }

@@ -28,11 +28,10 @@ using Smart.Data;
 using Smart.Data.Accessor.Attributes;
 using Smart.Mvvm.Resolver;
 
-using Syncfusion.Maui.Toolkit.Hosting;
-
 using Template.MobileApp.Behaviors;
 using Template.MobileApp.Components;
 using Template.MobileApp.Diagnostics;
+using Template.MobileApp.Extender;
 using Template.MobileApp.Interop;
 using Template.MobileApp.Interop.Dialogs;
 using Template.MobileApp.Services;
@@ -51,7 +50,6 @@ public static partial class MauiProgram
             .ConfigureEssentials(ConfigureEssentials)
             .ConfigureLogging()
             .ConfigureGlobalSettings()
-            .ConfigureSyncfusionToolkit()
             .UseBlazor()
             .UseSkiaSharp()
             .UseMauiCommunityToolkit(ConfigureMauiCommunityToolkit)
@@ -176,8 +174,7 @@ public static partial class MauiProgram
         fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
         fonts.AddFont("FluentSystemIcons-Regular.ttf", FluentUI.FontFamily);
         fonts.AddFont("MaterialIcons-Regular.ttf", MaterialIcons.FontFamily);
-        fonts.AddFont("851Gkktt_005.ttf", "Gkktt");
-        fonts.AddFont("DSEG7Classic-Regular.ttf", "DSEG7");
+        fonts.AddFont("JetBrainsMono-Regular.ttf", "JetBrainsMono");
     }
 
     private static void ConfigureDialogDesign(DialogConfig config)
@@ -222,6 +219,7 @@ public static partial class MauiProgram
             c.EnablePromptSelectAll = true;
         });
         services.AddComponentsPopup(static c => c.AutoRegister(DialogSource()));
+        services.AddComponentsPopupPlugin<PopupActivationPlugin>();
         services.AddComponentsScreen();
         services.AddComponentsLocation();
         services.AddComponentsSpeech();

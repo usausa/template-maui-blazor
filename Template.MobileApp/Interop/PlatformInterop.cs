@@ -16,8 +16,8 @@ public sealed class PlatformInterop : IPlatformInterop
         return popupNavigator.PopupAsync<string?>(DialogId.BarcodeScan);
     }
 
-    public ValueTask DisplayBarcodeAsync(string barcode)
+    public ValueTask DisplayBarcodeAsync()
     {
-        return popupNavigator.PopupAsync(DialogId.BarcodeDisplay, barcode);
+        return popupNavigator.PopupAsync(DialogId.BarcodeDisplay);
     }
 }

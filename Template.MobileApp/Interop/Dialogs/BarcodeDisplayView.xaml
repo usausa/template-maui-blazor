@@ -3,13 +3,96 @@
            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
            xmlns:s="http://smart/maui"
            xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-           xmlns:dialogs="clr-namespace:Template.MobileApp.Interop.Dialogs"
+           xmlns:controls="clr-namespace:Template.MobileApp.Controls"
+           xmlns:module="clr-namespace:Template.MobileApp.Interop.Dialogs"
            x:Class="Template.MobileApp.Interop.Dialogs.BarcodeDisplayView"
-           x:DataType="{x:Type dialogs:BarcodeDisplayViewModel}"
-           s:BindingContextResolver.Type="{x:Type dialogs:BarcodeDisplayViewModel}">
+           x:DataType="{x:Type module:BarcodeDisplayViewModel}"
+           s:BindingContextResolver.Type="{x:Type module:BarcodeDisplayViewModel}"
+           WidthRequest="{x:Static module:DialogSize.LargeWidth}">
 
-    <VerticalStackLayout>
-        <Image Source="{Binding Barcode, Converter={StaticResource QrImageSourceConverter}}" />
+    <mct:Popup.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="PaymentStack"
+                   TargetType="VerticalStackLayout">
+                <Setter Property="Padding" Value="20" />
+                <Setter Property="Spacing" Value="12" />
+            </Style>
+
+            <Style x:Key="PaymentTitleLabel"
+                   TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource GrayDarken3}" />
+            </Style>
+
+            <Style x:Key="PaymentCodeBorder"
+                   TargetType="Border">
+                <Setter Property="Padding" Value="16" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="Stroke" Value="{StaticResource GrayLighten2}" />
+                <Setter Property="StrokeThickness" Value="1" />
+                <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+            </Style>
+
+            <Style x:Key="PaymentCodeStack"
+                   TargetType="VerticalStackLayout">
+                <Setter Property="Spacing" Value="8" />
+            </Style>
+
+            <Style x:Key="PaymentBarcode"
+                   TargetType="controls:BarcodeView">
+                <Setter Property="HeightRequest" Value="72" />
+            </Style>
+
+            <Style x:Key="PaymentCodeLabel"
+                   TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="FontFamily" Value="JetBrainsMono" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="TextColor" Value="{StaticResource GrayDarken3}" />
+            </Style>
+
+            <Style x:Key="PaymentQrImage"
+                   TargetType="Image">
+                <Setter Property="WidthRequest" Value="180" />
+                <Setter Property="HeightRequest" Value="180" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="PaymentProgressBar"
+                   TargetType="ProgressBar">
+                <Setter Property="ProgressColor" Value="{StaticResource PinkDefault}" />
+            </Style>
+
+            <Style x:Key="PaymentRemainLabel"
+                   TargetType="Label">
+                <Setter Property="Margin" Value="0,-8,0,0" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="FontSize" Value="12" />
+                <Setter Property="TextColor" Value="{StaticResource GrayDefault}" />
+            </Style>
+
+        </ResourceDictionary>
+    </mct:Popup.Resources>
+
+    <VerticalStackLayout Style="{StaticResource PaymentStack}">
+        <Label Style="{StaticResource PaymentTitleLabel}"
+               Text="支払い" />
+        <Border Style="{StaticResource PaymentCodeBorder}">
+            <VerticalStackLayout Style="{StaticResource PaymentCodeStack}">
+                <controls:BarcodeView Style="{StaticResource PaymentBarcode}"
+                                      Value="{Binding PaymentCode}" />
+                <Label Style="{StaticResource PaymentCodeLabel}"
+                       Text="{Binding PaymentCode}" />
+                <Image Style="{StaticResource PaymentQrImage}"
+                       Source="{Binding PaymentCode, Converter={StaticResource QrImageSourceConverter}}" />
+            </VerticalStackLayout>
+        </Border>
+        <ProgressBar Style="{StaticResource PaymentProgressBar}"
+                     Progress="{Binding PaymentProgress}" />
+        <Label Style="{StaticResource PaymentRemainLabel}"
+               Text="{Binding PaymentRemain, StringFormat='あと {0} 秒でコードを更新'}" />
     </VerticalStackLayout>
 
 </mct:Popup>

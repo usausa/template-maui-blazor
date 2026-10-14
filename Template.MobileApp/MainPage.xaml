@@ -2,14 +2,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:s="http://smart/maui"
-             xmlns:toolkit="http://schemas.syncfusion.com/maui/toolkit"
-             xmlns:local="clr-namespace:Template.MobileApp"
+             xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:application="clr-namespace:Template.MobileApp"
              xmlns:shell="clr-namespace:Template.MobileApp.Shell"
+             xmlns:behaviors="clr-namespace:Template.MobileApp.Behaviors"
              xmlns:markup="clr-namespace:Template.MobileApp.Markup"
              xmlns:views="clr-namespace:Template.MobileApp.Views"
              x:Class="Template.MobileApp.MainPage"
-             x:DataType="{x:Type local:MainPageViewModel}"
-             s:BindingContextResolver.Type="{x:Type local:MainPageViewModel}">
+             x:DataType="{x:Type application:MainPageViewModel}"
+             s:BindingContextResolver.Type="{x:Type application:MainPageViewModel}">
 
     <!-- ReSharper disable Xaml.RedundantResource -->
     <ContentPage.Resources>
@@ -26,6 +27,7 @@
 
     <ContentPage.Behaviors>
         <s:AppLifecycleBehavior />
+        <mct:StatusBarBehavior ApplyOn="OnBehaviorAttachedTo" StatusBarColor="White" StatusBarStyle="DarkContent" />
     </ContentPage.Behaviors>
 
     <!-- Content -->
@@ -52,93 +54,78 @@
               Style="{StaticResource BottomSelectGrid}"
               ColumnDefinitions="*,*,72,*,*">
 
-            <toolkit:SfEffectsView Grid.Column="0"
-                                   TouchDownCommand="{Binding PageCommand}"
-                                   TouchDownCommandParameter="{x:Static views:SelectPage.Home}"
-                                   TouchDownEffects="None">
-                <Grid RowDefinitions="*,Auto">
-                    <Image Grid.Row="0"
-                           Style="{StaticResource BottomSelectImage}"
-                           Source="{x:Static markup:AppIcons.Home}" />
-                    <Label Grid.Row="1"
-                           Style="{StaticResource BottomSelectLabel}"
-                           Text="ホーム"
-                           TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Home}}" />
-                </Grid>
-            </toolkit:SfEffectsView>
+            <Grid Grid.Column="0"
+                  RowDefinitions="*,Auto"
+                  behaviors:TouchOption.ClickCommand="{Binding PageCommand}"
+                  behaviors:TouchOption.ClickCommandParameter="{x:Static views:SelectPage.Home}">
+                <Image Grid.Row="0"
+                       Style="{StaticResource BottomSelectImage}"
+                       Source="{x:Static markup:AppIcons.Home}" />
+                <Label Grid.Row="1"
+                       Style="{StaticResource BottomSelectLabel}"
+                       Text="ホーム"
+                       TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Home}}" />
+            </Grid>
 
-            <toolkit:SfEffectsView Grid.Column="1"
-                                   TouchDownCommand="{Binding PageCommand}"
-                                   TouchDownCommandParameter="{x:Static views:SelectPage.Search}"
-                                   TouchDownEffects="None">
-                <Grid RowDefinitions="*,Auto">
-                    <Image Grid.Row="0"
-                           Style="{StaticResource BottomSelectImage}"
-                           Source="{x:Static markup:AppIcons.Search}" />
-                    <Label Grid.Row="1"
-                           Style="{StaticResource BottomSelectLabel}"
-                           Text="検索"
-                           TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Search}}" />
-                </Grid>
-            </toolkit:SfEffectsView>
+            <Grid Grid.Column="1"
+                  RowDefinitions="*,Auto"
+                  behaviors:TouchOption.ClickCommand="{Binding PageCommand}"
+                  behaviors:TouchOption.ClickCommandParameter="{x:Static views:SelectPage.Search}">
+                <Image Grid.Row="0"
+                       Style="{StaticResource BottomSelectImage}"
+                       Source="{x:Static markup:AppIcons.Search}" />
+                <Label Grid.Row="1"
+                       Style="{StaticResource BottomSelectLabel}"
+                       Text="検索"
+                       TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Search}}" />
+            </Grid>
 
-            <toolkit:SfEffectsView Grid.Column="3"
-                                   TouchDownCommand="{Binding PageCommand}"
-                                   TouchDownCommandParameter="{x:Static views:SelectPage.Notifications}"
-                                   TouchDownEffects="None">
-                <Grid RowDefinitions="*,Auto">
-                    <Image Grid.Row="0"
-                           Style="{StaticResource BottomSelectImage}"
-                           Source="{x:Static markup:AppIcons.Notifications}" />
-                    <Label Grid.Row="1"
-                           Style="{StaticResource BottomSelectLabel}"
-                           Text="お知らせ"
-                           TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Notifications}}" />
-                    <Border Grid.Row="0" Grid.RowSpan="2"
-                            Style="{StaticResource BottomSelectBadgeBorder}"
-                            IsVisible="{Binding HasAccountAlert}">
-                        <Label Style="{StaticResource BottomSelectBadgeLabel}"
-                               Text="{Binding NotificationCount}" />
-                    </Border>
-                </Grid>
-            </toolkit:SfEffectsView>
+            <Grid Grid.Column="3"
+                  RowDefinitions="*,Auto"
+                  behaviors:TouchOption.ClickCommand="{Binding PageCommand}"
+                  behaviors:TouchOption.ClickCommandParameter="{x:Static views:SelectPage.Notifications}">
+                <Image Grid.Row="0"
+                       Style="{StaticResource BottomSelectImage}"
+                       Source="{x:Static markup:AppIcons.Notifications}" />
+                <Label Grid.Row="1"
+                       Style="{StaticResource BottomSelectLabel}"
+                       Text="お知らせ"
+                       TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Notifications}}" />
+                <Border Grid.Row="0" Grid.RowSpan="2"
+                        Style="{StaticResource BottomSelectBadgeBorder}"
+                        IsVisible="{Binding HasAccountAlert}">
+                    <Label Style="{StaticResource BottomSelectBadgeLabel}"
+                           Text="{Binding NotificationCount}" />
+                </Border>
+            </Grid>
 
-            <toolkit:SfEffectsView Grid.Column="4"
-                                   TouchDownCommand="{Binding PageCommand}"
-                                   TouchDownCommandParameter="{x:Static views:SelectPage.Account}"
-                                   TouchDownEffects="None">
-                <Grid RowDefinitions="*,Auto">
-                    <Image Grid.Row="0"
-                           Style="{StaticResource BottomSelectImage}"
-                           Source="{x:Static markup:AppIcons.Account}" />
-                    <Label Grid.Row="1"
-                           Style="{StaticResource BottomSelectLabel}"
-                           Text="アカウント"
-                           TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Account}}" />
-                    <Border Grid.Row="0" Grid.RowSpan="2"
-                            Style="{StaticResource BottomSelectBadgeBorder}"
-                            IsVisible="{Binding HasAccountAlert}">
-                        <Label Style="{StaticResource BottomSelectBadgeLabel}"
-                               Text="!" />
-                    </Border>
-                </Grid>
-            </toolkit:SfEffectsView>
+            <Grid Grid.Column="4"
+                  RowDefinitions="*,Auto"
+                  behaviors:TouchOption.ClickCommand="{Binding PageCommand}"
+                  behaviors:TouchOption.ClickCommandParameter="{x:Static views:SelectPage.Account}">
+                <Image Grid.Row="0"
+                       Style="{StaticResource BottomSelectImage}"
+                       Source="{x:Static markup:AppIcons.Account}" />
+                <Label Grid.Row="1"
+                       Style="{StaticResource BottomSelectLabel}"
+                       Text="アカウント"
+                       TextColor="{Binding Selected, Converter={StaticResource EqualToSelectColorConverter}, ConverterParameter={x:Static views:SelectPage.Account}}" />
+                <Border Grid.Row="0" Grid.RowSpan="2"
+                        Style="{StaticResource BottomSelectBadgeBorder}"
+                        IsVisible="{Binding HasAccountAlert}">
+                    <Label Style="{StaticResource BottomSelectBadgeLabel}"
+                           Text="!" />
+                </Border>
+            </Grid>
 
         </Grid>
 
         <!-- Center button -->
-        <Border Grid.RowSpan="3"
-                Style="{StaticResource CenterButtonBorder}">
-            <toolkit:SfEffectsView Style="{StaticResource CenterButtonView}"
-                                   TouchDownCommand="{Binding PayCommand}">
-                <VerticalStackLayout Style="{StaticResource CenterButtonLayout}">
-                    <Image Style="{StaticResource CenterButtonImage}"
-                           Source="{x:Static markup:AppIcons.Pay}" />
-                    <Label Style="{StaticResource CenterButtonLabel}"
-                           Text="支払い" />
-                </VerticalStackLayout>
-            </toolkit:SfEffectsView>
-        </Border>
+        <Button Grid.RowSpan="3"
+                Style="{StaticResource CenterButton}"
+                Command="{Binding PayCommand}"
+                Text="支払い"
+                ImageSource="{x:Static markup:AppIcons.Pay}" />
 
     </Grid>
 

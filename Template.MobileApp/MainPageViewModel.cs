@@ -26,14 +26,13 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
 
     public MainPageViewModel(
         IReactiveMessenger messenger,
-        Settings settings,
         IPlatformInterop platformInterop)
     {
         Selected = SelectPage.Home;
         AppIcons.SetNavigationSelection(Selected);
         PayCommand = MakeAsyncCommand(async () =>
         {
-            await platformInterop.DisplayBarcodeAsync(settings.UniqueId);
+            await platformInterop.DisplayBarcodeAsync();
         });
         PageCommand = MakeDelegateCommand<SelectPage>(page =>
         {

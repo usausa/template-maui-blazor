@@ -18,6 +18,9 @@ public sealed partial class App
         this.serviceProvider = serviceProvider;
         this.log = log;
 
+        // Light theme based application
+        Current!.UserAppTheme = AppTheme.Light;
+
         InitializeComponent();
     }
 

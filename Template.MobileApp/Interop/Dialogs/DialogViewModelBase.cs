@@ -1,15 +1,13 @@
 namespace Template.MobileApp.Interop.Dialogs;
 
-using Smart.Mvvm.Resolver;
-
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
 public abstract class DialogViewModelBase :
     ExtendViewModelBase,
-    IValidatable
+    IValidatable,
+    IPopupNavigatorAware,
+    IPopupClosing
 {
-    private List<ValidationResult>? validationResults;
-
-    private IAccessor? propertyAccessor;
+    private IPopupNavigator popupNavigator = default!;
 
     protected DialogViewModelBase()
         : base(new ExtendViewModelOptions { BusyState = new BusyState() })
@@ -25,24 +23,14 @@ public abstract class DialogViewModelBase :
 
     public void Validate(string name)
     {
-        propertyAccessor ??= AccessorProvider.FindAccessor(GetType());
-        if (propertyAccessor is null)
-        {
-            throw new InvalidOperationException($"Accessor is not supported. type=[{GetType()}]");
-        }
-
-        var value = propertyAccessor.GetValue(this, name);
-        var context = new ValidationContext(this, ResolveProvider.Default, null)
-        {
-            MemberName = name
-        };
-        validationResults ??= [];
-
-        if (!Validator.TryValidateProperty(value, context, validationResults))
-        {
-            Errors.AddError(name, validationResults[0].ErrorMessage!);
-        }
-
-        validationResults.Clear();
+        ValidationHelper.Validate(this, name, Errors);
     }
+
+    public void SetPopupNavigator(IPopupNavigator navigator) => popupNavigator = navigator;
+
+    public void OnClosing() => AcceptsCommand = false;
+
+    protected ValueTask CloseAsync() => popupNavigator.CloseAsync();
+
+    protected ValueTask CloseAsync<TResult>(TResult result) => popupNavigator.CloseAsync(result);
 }

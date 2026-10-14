@@ -48,7 +48,10 @@ global using Smart.Reactive;
 global using Smart.Results;
 global using Smart.Text;
 
+global using SkiaExtension;
+
 global using SkiaSharp;
+global using SkiaSharp.Views.Maui.Controls;
 
 global using Template.MobileApp;
 global using Template.MobileApp.Domain;

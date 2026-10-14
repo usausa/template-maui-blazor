@@ -4,5 +4,5 @@ public interface IPlatformInterop
 {
     ValueTask<string?> ScanBarcodeAsync();
 
-    ValueTask DisplayBarcodeAsync(string barcode);
+    ValueTask DisplayBarcodeAsync();
 }
