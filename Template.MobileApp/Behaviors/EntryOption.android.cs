@@ -2,7 +2,6 @@ namespace Template.MobileApp.Behaviors;
 
 using Android.Text;
 using Android.Views;
-using Android.Views.InputMethods;
 using Android.Widget;
 
 using Java.Lang;
@@ -93,7 +92,7 @@ public static partial class EntryOption
 
     private static void OnEditorAction(object? sender, TextView.EditorActionEventArgs e)
     {
-        if ((e.ActionId == ImeAction.ImeNull) && (e.Event?.KeyCode == Keycode.Enter))
+        if (e.Event?.KeyCode == Keycode.Enter)
         {
             e.Handled = true;
         }
