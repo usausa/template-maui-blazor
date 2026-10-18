@@ -139,5 +139,86 @@ public sealed class DataService
 
     public ValueTask<int> DeleteWorkAsync(long id) =>
         accessor.DeleteWorkAsync(id);
+
+    //--------------------------------------------------------------------------------
+    // Store
+    //--------------------------------------------------------------------------------
+
+    public ValueTask<List<StoreEntity>> QueryStoreListAsync(string? keyword, StoreCategory? category) =>
+        accessor.QueryStoreListAsync(MakeContainsPattern(keyword), category);
+
+    public ValueTask InsertStoreEnumerableAsync(IEnumerable<StoreEntity> source) =>
+        provider.UsingTxAsync(async (_, tx) =>
+        {
+            foreach (var entity in source)
+            {
+                await accessor.InsertStoreAsync(tx, entity);
+            }
+
+            await tx.CommitAsync();
+        });
+
+    //--------------------------------------------------------------------------------
+    // Notice
+    //--------------------------------------------------------------------------------
+
+    public ValueTask<List<NoticeEntity>> QueryNoticeListAsync() =>
+        accessor.QueryNoticeListAsync();
+
+    public ValueTask<int> UpdateNoticeReadAsync(long id) =>
+        accessor.UpdateNoticeReadAsync(id);
+
+    public ValueTask<int> UpdateNoticeReadAllAsync() =>
+        accessor.UpdateNoticeReadAllAsync();
+
+    public ValueTask InsertNoticeEnumerableAsync(IEnumerable<NoticeEntity> source) =>
+        provider.UsingTxAsync(async (_, tx) =>
+        {
+            foreach (var entity in source)
+            {
+                await accessor.InsertNoticeAsync(tx, entity);
+            }
+
+            await tx.CommitAsync();
+        });
+
+    //--------------------------------------------------------------------------------
+    // History
+    //--------------------------------------------------------------------------------
+
+    public ValueTask<List<HistoryEntity>> QueryHistoryListAsync(int limit) =>
+        accessor.QueryHistoryListAsync(limit);
+
+    public async ValueTask<AccountSummary> QueryAccountSummaryAsync() =>
+        await accessor.QueryAccountSummaryAsync(HistoryKind.Payment, HistoryKind.Charge, HistoryKind.Point) ?? new AccountSummary();
+
+    public ValueTask InsertHistoryEnumerableAsync(IEnumerable<HistoryEntity> source) =>
+        provider.UsingTxAsync(async (_, tx) =>
+        {
+            foreach (var entity in source)
+            {
+                await accessor.InsertHistoryAsync(tx, entity);
+            }
+
+            await tx.CommitAsync();
+        });
+
+    //--------------------------------------------------------------------------------
+    // Helper
+    //--------------------------------------------------------------------------------
+
+    private static string? MakeContainsPattern(string? keyword)
+    {
+        if (String.IsNullOrWhiteSpace(keyword))
+        {
+            return null;
+        }
+
+        var escaped = keyword.Trim()
+            .Replace("\\", "\\\\", StringComparison.Ordinal)
+            .Replace("%", "\\%", StringComparison.Ordinal)
+            .Replace("_", "\\_", StringComparison.Ordinal);
+        return $"%{escaped}%";
+    }
 }
 #pragma warning restore CA1002

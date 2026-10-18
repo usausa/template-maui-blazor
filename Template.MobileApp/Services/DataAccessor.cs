@@ -84,4 +84,46 @@ public sealed partial class DataAccessor
     [Execute]
     [Delete(typeof(WorkEntity))]
     public partial ValueTask<int> DeleteWorkAsync(long id);
+
+    //--------------------------------------------------------------------------------
+    // Store
+    //--------------------------------------------------------------------------------
+
+    [Query]
+    public partial ValueTask<List<StoreEntity>> QueryStoreListAsync(string? keyword, StoreCategory? category);
+
+    [Execute]
+    [Insert(typeof(StoreEntity))]
+    public partial ValueTask<int> InsertStoreAsync(DbTransaction tx, StoreEntity entity);
+
+    //--------------------------------------------------------------------------------
+    // Notice
+    //--------------------------------------------------------------------------------
+
+    [Query]
+    public partial ValueTask<List<NoticeEntity>> QueryNoticeListAsync();
+
+    [Execute]
+    public partial ValueTask<int> UpdateNoticeReadAsync(long id);
+
+    [Execute]
+    public partial ValueTask<int> UpdateNoticeReadAllAsync();
+
+    [Execute]
+    [Insert(typeof(NoticeEntity))]
+    public partial ValueTask<int> InsertNoticeAsync(DbTransaction tx, NoticeEntity entity);
+
+    //--------------------------------------------------------------------------------
+    // History
+    //--------------------------------------------------------------------------------
+
+    [Query]
+    public partial ValueTask<List<HistoryEntity>> QueryHistoryListAsync(int limit);
+
+    [QueryFirst]
+    public partial ValueTask<AccountSummary?> QueryAccountSummaryAsync(HistoryKind payment, HistoryKind charge, HistoryKind point);
+
+    [Execute]
+    [Insert(typeof(HistoryEntity))]
+    public partial ValueTask<int> InsertHistoryAsync(DbTransaction tx, HistoryEntity entity);
 }

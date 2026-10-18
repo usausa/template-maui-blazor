@@ -1,0 +1,1 @@
+SELECT * FROM Notice ORDER BY PublishedAt DESC, Id DESC

@@ -1,6 +1,106 @@
 @page "/account"
 @inherits AppComponentBase
 
-<PageTitle>Account</PageTitle>
+<PageTitle>アカウント</PageTitle>
 
-<h1>Account</h1>
+<FluentStack Orientation="Orientation.Vertical"
+             HorizontalAlignment="HorizontalAlignment.Stretch"
+             VerticalGap="var(--spacingVerticalL)">
+    <FluentText As="TextTag.H1"
+                Size="TextSize.Size600"
+                Weight="TextWeight.Semibold">アカウント</FluentText>
+
+    <div class="profile">
+        <FluentAvatar Name="@UserName"
+                      Initials="@UserInitials"
+                      Color="AvatarColor.Brand"
+                      Size="AvatarSize.Size56" />
+        <div>
+            <FluentText Block="true"
+                        Size="TextSize.Size500"
+                        Weight="TextWeight.Semibold">@UserName</FluentText>
+            <FluentText Block="true"
+                        Size="TextSize.Size200"
+                        Color="Color.Custom"
+                        CustomColor="@SubTextColor">ID @UserId</FluentText>
+        </div>
+    </div>
+
+    @if (summary is null)
+    {
+        <FluentSkeleton Height="88px" />
+    }
+    else
+    {
+        <div class="summary">
+            <FluentCard>
+                <FluentText Block="true"
+                            Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">残高</FluentText>
+                <FluentText Block="true"
+                            Size="TextSize.Size700"
+                            Weight="TextWeight.Bold">@FormatYen(summary.Balance)</FluentText>
+            </FluentCard>
+            <FluentCard>
+                <FluentText Block="true"
+                            Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">ポイント</FluentText>
+                <FluentText Block="true"
+                            Size="TextSize.Size700"
+                            Weight="TextWeight.Bold"
+                            Color="Color.Primary">@FormatPoint(summary.Point)</FluentText>
+            </FluentCard>
+        </div>
+    }
+
+    <div>
+        <FluentText As="TextTag.H2"
+                    Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold">最近の取引</FluentText>
+        @if (histories is null)
+        {
+            <FluentSkeleton Height="48px" />
+            <FluentSkeleton Height="48px" />
+        }
+        else
+        {
+            @foreach (var history in histories)
+            {
+                <div class="list-row">
+                    <FluentText Size="TextSize.Size200"
+                                Color="Color.Custom"
+                                CustomColor="@SubTextColor">@FormatDateTime(history.OccurredAt)</FluentText>
+                    <FluentText>@history.Title</FluentText>
+                    <FluentText Weight="TextWeight.Semibold"
+                                Color="@HistoryAmountColor(history.Kind)">@FormatHistoryAmount(history)</FluentText>
+                </div>
+                <FluentDivider />
+            }
+        }
+    </div>
+
+    <div>
+        <FluentText As="TextTag.H2"
+                    Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold">メニュー</FluentText>
+        <div class="list-row">
+            <FluentIcon Value="@(new Icons.Regular.Size20.Payment())" />
+            <FluentText>支払い方法</FluentText>
+            <FluentIcon Value="@(new Icons.Regular.Size20.ChevronRight())" />
+        </div>
+        <FluentDivider />
+        <div class="list-row">
+            <FluentIcon Value="@(new Icons.Regular.Size20.Alert())" />
+            <FluentText>通知</FluentText>
+            <FluentIcon Value="@(new Icons.Regular.Size20.ChevronRight())" />
+        </div>
+        <FluentDivider />
+        <div class="list-row">
+            <FluentIcon Value="@(new Icons.Regular.Size20.QuestionCircle())" />
+            <FluentText>ヘルプ</FluentText>
+            <FluentIcon Value="@(new Icons.Regular.Size20.ChevronRight())" />
+        </div>
+    </div>
+</FluentStack>

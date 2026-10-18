@@ -21,4 +21,32 @@ CREATE TABLE Work (
     Id INTEGER NOT NULL,
     Name TEXT NOT NULL,
     PRIMARY KEY (Id)
+);
+
+CREATE TABLE Store (
+    Id INTEGER NOT NULL,
+    Name TEXT NOT NULL,
+    Category INTEGER NOT NULL,
+    Area TEXT NOT NULL,
+    PointRate INTEGER NOT NULL,
+    PRIMARY KEY (Id)
+);
+
+CREATE TABLE Notice (
+    Id INTEGER NOT NULL,
+    Category INTEGER NOT NULL,
+    Title TEXT NOT NULL,
+    Body TEXT NOT NULL,
+    PublishedAt INTEGER NOT NULL,
+    IsRead INTEGER NOT NULL,
+    PRIMARY KEY (Id)
+);
+
+CREATE TABLE History (
+    Id INTEGER NOT NULL,
+    Kind INTEGER NOT NULL,
+    Title TEXT NOT NULL,
+    Amount INTEGER NOT NULL,
+    OccurredAt INTEGER NOT NULL,
+    PRIMARY KEY (Id)
 )

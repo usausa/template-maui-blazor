@@ -52,6 +52,9 @@ public sealed partial class App
         // Start
         log.InfoApplicationStart(typeof(App).Assembly.GetName().Version, Environment.Version);
 
+        // Completed
+        serviceProvider.GetRequiredService<StartupState>().NotifyCompleted();
+
         // Permissions
         await Permissions.RequestCameraAsync();
         await Permissions.RequestLocationAsync();
@@ -65,7 +68,11 @@ public sealed partial class App
             await dataService.RebuildAsync();
 
             // Dummy data
+            var now = DateTime.Now;
             await dataService.InsertWorkEnumerableAsync(DataSample.LoadWorks());
+            await dataService.InsertStoreEnumerableAsync(DataSample.LoadStores());
+            await dataService.InsertNoticeEnumerableAsync(DataSample.LoadNotices(now));
+            await dataService.InsertHistoryEnumerableAsync(DataSample.LoadHistories(now));
 
             return null;
         }

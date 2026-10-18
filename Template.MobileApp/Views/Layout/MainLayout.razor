@@ -1,7 +1,21 @@
 @inherits LayoutComponentBase
 
 <div class="content">
-    @Body
+    @if (Startup.IsCompleted)
+    {
+        @Body
+    }
+    else
+    {
+        <FluentStack Orientation="Orientation.Vertical"
+                     HorizontalAlignment="HorizontalAlignment.Center"
+                     VerticalAlignment="VerticalAlignment.Center"
+                     VerticalGap="var(--spacingVerticalM)"
+                     Height="100%">
+            <FluentSpinner />
+            <FluentText>Loading</FluentText>
+        </FluentStack>
+    }
 </div>
 
 <PageNavigator />

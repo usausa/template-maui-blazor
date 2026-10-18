@@ -1,6 +1,70 @@
 @page "/search"
 @inherits AppComponentBase
 
-<PageTitle>Search</PageTitle>
+<PageTitle>検索</PageTitle>
 
-<h1>Search</h1>
+<FluentStack Orientation="Orientation.Vertical"
+             HorizontalAlignment="HorizontalAlignment.Stretch"
+             VerticalGap="var(--spacingVerticalM)">
+    <FluentText As="TextTag.H1"
+                Size="TextSize.Size600"
+                Weight="TextWeight.Semibold">検索</FluentText>
+
+    <FluentTextInput @bind-Value="keyword"
+                     @bind-Value:after="SearchAsync"
+                     TextInputType="TextInputType.Search"
+                     Placeholder="お店の名前・エリア"
+                     Immediate="true"
+                     ImmediateDelay="300"
+                     Width="100%">
+        <StartTemplate>
+            <FluentIcon Value="@(new Icons.Regular.Size20.Search())" />
+        </StartTemplate>
+    </FluentTextInput>
+
+    <FluentStack HorizontalGap="var(--spacingHorizontalS)"
+                 VerticalGap="var(--spacingVerticalS)"
+                 Wrap="true">
+        <FluentButton Appearance="@SelectAppearance(category is null)"
+                      OnClick="@(() => SelectCategoryAsync(null))">すべて</FluentButton>
+        @foreach (var item in Categories)
+        {
+            <FluentButton Appearance="@SelectAppearance(category == item)"
+                          OnClick="@(() => SelectCategoryAsync(item))">@StoreCategoryText(item)</FluentButton>
+        }
+    </FluentStack>
+
+    @if (stores is null)
+    {
+        <FluentSkeleton Height="56px" />
+        <FluentSkeleton Height="56px" />
+        <FluentSkeleton Height="56px" />
+    }
+    else if (stores.Count == 0)
+    {
+        <FluentText Color="Color.Custom"
+                    CustomColor="@SubTextColor">見つかりませんでした</FluentText>
+    }
+    else
+    {
+        <div>
+            @foreach (var store in stores)
+            {
+                <div class="list-row">
+                    <FluentText Size="TextSize.Size600">@StoreCategoryEmoji(store.Category)</FluentText>
+                    <div>
+                        <FluentText Block="true"
+                                    Weight="TextWeight.Semibold">@store.Name</FluentText>
+                        <FluentText Block="true"
+                                    Size="TextSize.Size200"
+                                    Color="Color.Custom"
+                                    CustomColor="@SubTextColor">@StoreCategoryText(store.Category)・@store.Area</FluentText>
+                    </div>
+                    <FluentBadge Color="BadgeColor.Brand"
+                                 Appearance="BadgeAppearance.Tint">@FormatPointRate(store.PointRate)</FluentBadge>
+                </div>
+                <FluentDivider />
+            }
+        </div>
+    }
+</FluentStack>

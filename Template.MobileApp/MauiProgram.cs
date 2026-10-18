@@ -253,6 +253,7 @@ public static partial class MauiProgram
 
         // State
         services.AddSingleton(BusyState.Default);
+        services.AddSingleton<StartupState>();
         services.AddSingleton<DeviceState>();
         services.AddSingleton<Session>();
         services.AddSingleton<Settings>();

@@ -6,6 +6,41 @@
     overflow-y: auto;
 }
 
+.list-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--spacingHorizontalM);
+    padding: var(--spacingVerticalS) 0;
+}
+
+.notice-header {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--spacingHorizontalS);
+    width: 100%;
+}
+
+.notice-title {
+    display: flex;
+    align-items: center;
+    gap: var(--spacingHorizontalXS);
+}
+
+.profile {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--spacingHorizontalM);
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacingHorizontalM);
+}
+
 #blazor-error-ui {
     display: none;
     position: fixed;

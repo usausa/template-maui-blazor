@@ -9,6 +9,14 @@ public sealed partial class MainLayout : LayoutComponentBase
     [Inject]
     public required IThemeService ThemeService { get; set; }
 
+    [Inject]
+    public required StartupState Startup { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        return Startup.Completed;
+    }
+
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)

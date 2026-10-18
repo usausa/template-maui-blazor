@@ -1,6 +1,56 @@
 @page "/notification"
 @inherits AppComponentBase
 
-<PageTitle>Notification</PageTitle>
+<PageTitle>お知らせ</PageTitle>
 
-<h1>Notification</h1>
+<FluentStack Orientation="Orientation.Vertical"
+             HorizontalAlignment="HorizontalAlignment.Stretch"
+             VerticalGap="var(--spacingVerticalM)">
+    <FluentStack VerticalAlignment="VerticalAlignment.Center">
+        <FluentText As="TextTag.H1"
+                    Size="TextSize.Size600"
+                    Weight="TextWeight.Semibold">お知らせ</FluentText>
+        <FluentSpacer />
+        <FluentButton Appearance="ButtonAppearance.Outline"
+                      Disabled="@(!HasUnread)"
+                      OnClick="ReadAllAsync">すべて既読</FluentButton>
+    </FluentStack>
+
+    @if (notices is null)
+    {
+        <FluentSkeleton Height="48px" />
+        <FluentSkeleton Height="48px" />
+        <FluentSkeleton Height="48px" />
+    }
+    else
+    {
+        <FluentAccordion ExpandMode="AccordionExpandMode.Multi"
+                         Block="true">
+            @foreach (var notice in notices)
+            {
+                <FluentAccordionItem ExpandedChanged="@(expanded => ExpandAsync(notice, expanded))">
+                    <HeaderTemplate>
+                        <div class="notice-header">
+                            <FluentBadge Color="@NoticeCategoryColor(notice.Category)"
+                                         Appearance="@NoticeCategoryAppearance(notice.Category)">@NoticeCategoryText(notice.Category)</FluentBadge>
+                            <div class="notice-title">
+                                @if (!notice.IsRead)
+                                {
+                                    <FluentBadge Size="BadgeSize.Tiny"
+                                                 Color="BadgeColor.Brand" />
+                                }
+                                <FluentText Weight="@NoticeTitleWeight(notice.IsRead)">@notice.Title</FluentText>
+                            </div>
+                            <FluentText Size="TextSize.Size200"
+                                        Color="Color.Custom"
+                                        CustomColor="@SubTextColor">@FormatDate(notice.PublishedAt)</FluentText>
+                        </div>
+                    </HeaderTemplate>
+                    <ChildContent>
+                        <FluentText>@notice.Body</FluentText>
+                    </ChildContent>
+                </FluentAccordionItem>
+            }
+        </FluentAccordion>
+    }
+</FluentStack>
