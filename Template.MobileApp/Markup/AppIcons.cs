@@ -18,7 +18,7 @@ public static class AppIcons
     // Bottom navigation (Material / 36)
     //--------------------------------------------------------------------------------
 
-    public static readonly FontImageSource Home = Create(MaterialIcons.Home, SelectSize, ResourceColor("PinkAccent3"));
+    public static readonly FontImageSource Home = Create(MaterialIcons.Home, SelectSize, ResourceColor("PinkDefault"));
 
     public static readonly FontImageSource Search = Create(MaterialIcons.Search, SelectSize, ResourceColor("GrayDefault"));
 
@@ -28,7 +28,7 @@ public static class AppIcons
 
     public static void SetNavigationSelection(SelectPage selected)
     {
-        var selectedColor = ResourceColor("PinkAccent3");
+        var selectedColor = ResourceColor("PinkDefault");
         var unselectedColor = ResourceColor("GrayDefault");
         Home.Color = selected == SelectPage.Home ? selectedColor : unselectedColor;
         Search.Color = selected == SelectPage.Search ? selectedColor : unselectedColor;

@@ -308,9 +308,6 @@ public static partial class MauiProgram
             AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
             PooledConnectionLifetime = TimeSpan.FromMinutes(1)
         };
-//#pragma warning disable CA5359
-//      handler.SslOptions.RemoteCertificateValidationCallback = static (_, _, _, _) => true;
-//#pragma warning restore CA5359
         return handler;
     }
 

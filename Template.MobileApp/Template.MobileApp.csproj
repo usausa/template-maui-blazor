@@ -131,7 +131,7 @@
     <PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
     <PackageReference Include="QRCoder" Version="1.8.1" />
     <PackageReference Include="Rester" Version="2.17.0" />
-    <PackageReference Include="Shiny.BluetoothLE" version="6.2.0" />
+    <PackageReference Include="Shiny.BluetoothLE" version="6.3.0" />
     <PackageReference Include="Shiny.BluetoothLE.Hosting" Version="6.3.0" />
     <PackageReference Include="Shiny.Hosting.Maui" Version="6.3.0" />
     <PackageReference Include="System.Reactive" Version="7.0.0" />

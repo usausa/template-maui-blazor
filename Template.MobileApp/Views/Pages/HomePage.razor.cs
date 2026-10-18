@@ -13,8 +13,11 @@ public sealed partial class HomePage : AppComponentBase
     [Inject]
     public required IPlatformInterop PlatformInterop { get; set; }
 
-    private async Task OnClickScan()
+    private Task OnClickScan()
     {
-        barcode = await PlatformInterop.ScanBarcodeAsync();
+        return ExecuteAsync(async () =>
+        {
+            barcode = await PlatformInterop.ScanBarcodeAsync();
+        });
     }
 }

@@ -19,7 +19,7 @@
 
             <s:CompareToColorConverter x:Key="EqualToSelectColorConverter"
                                        Expression="{x:Static s:CompareExpressions.Equal}"
-                                       TrueValue="{StaticResource PinkAccent3}"
+                                       TrueValue="{StaticResource PinkDefault}"
                                        FalseValue="{StaticResource GrayDefault}" />
 
         </ResourceDictionary>

@@ -9,11 +9,6 @@ public sealed partial class MainPage
 
     protected override bool OnBackButtonPressed()
     {
-        // TODO
-        //if (BindingContext is MainPageViewModel { BusyState.IsBusy: false } context)
-        //{
-        //}
-
         AndroidHelper.MoveTaskToBack();
 
         return true;

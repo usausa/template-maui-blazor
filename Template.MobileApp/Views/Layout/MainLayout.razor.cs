@@ -1,3 +1,21 @@
 namespace Template.MobileApp.Views.Layout;
 
-public sealed partial class MainLayout : LayoutComponentBase;
+using Microsoft.FluentUI.AspNetCore.Components;
+
+public sealed partial class MainLayout : LayoutComponentBase
+{
+    private const string ThemeColor = "#E91E63";
+
+    [Inject]
+    public required IThemeService ThemeService { get; set; }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            return ThemeService.SetThemeAsync(new ThemeSettings(ThemeColor, Mode: ThemeMode.Light, IsExact: true));
+        }
+
+        return Task.CompletedTask;
+    }
+}
