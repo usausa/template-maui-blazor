@@ -9,4 +9,8 @@ public static class DialogSize
     // Dialog
 
     public static double LargeWidth { get; } = ScreenWidth * 0.8;
+
+    // Camera
+
+    public static double CameraHeight { get; } = LargeWidth * 4 / 3;
 }

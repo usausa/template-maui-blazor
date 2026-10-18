@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:s="http://smart/maui"
+           xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+           xmlns:behaviors="clr-namespace:Template.MobileApp.Behaviors"
+           xmlns:module="clr-namespace:Template.MobileApp.Interop.Dialogs"
+           x:Class="Template.MobileApp.Interop.Dialogs.CameraCaptureView"
+           x:DataType="{x:Type module:CameraCaptureViewModel}"
+           s:BindingContextResolver.Type="{x:Type module:CameraCaptureViewModel}"
+           WidthRequest="{x:Static module:DialogSize.LargeWidth}">
+
+    <mct:Popup.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="CaptureCameraView"
+                   TargetType="mct:CameraView">
+                <Setter Property="HeightRequest" Value="{x:Static module:DialogSize.CameraHeight}" />
+            </Style>
+
+            <Style x:Key="CaptureButtonGrid"
+                   TargetType="Grid">
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="ColumnSpacing" Value="12" />
+            </Style>
+
+            <Style x:Key="CaptureButton"
+                   TargetType="Button">
+                <Setter Property="HeightRequest" Value="44" />
+                <Setter Property="CornerRadius" Value="0" />
+                <Setter Property="BorderWidth" Value="1" />
+                <Setter Property="BorderColor" Value="{StaticResource PinkDefault}" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+
+            <Style x:Key="CaptureCancelButton"
+                   TargetType="Button"
+                   BasedOn="{StaticResource CaptureButton}">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="TextColor" Value="{StaticResource PinkDefault}" />
+            </Style>
+
+            <Style x:Key="CaptureShootButton"
+                   TargetType="Button"
+                   BasedOn="{StaticResource CaptureButton}">
+                <Setter Property="BackgroundColor" Value="{StaticResource PinkDefault}" />
+                <Setter Property="TextColor" Value="White" />
+            </Style>
+
+        </ResourceDictionary>
+    </mct:Popup.Resources>
+
+    <!-- Content -->
+    <Grid RowDefinitions="*,Auto">
+        <mct:CameraView Grid.Row="0"
+                        Style="{StaticResource CaptureCameraView}"
+                        behaviors:CameraBind.Controller="{Binding Controller}" />
+        <Grid Grid.Row="1"
+              Style="{StaticResource CaptureButtonGrid}"
+              ColumnDefinitions="*,*">
+            <Button Grid.Column="0"
+                    Style="{StaticResource CaptureCancelButton}"
+                    Command="{Binding CancelCommand}"
+                    Text="キャンセル" />
+            <Button Grid.Column="1"
+                    Style="{StaticResource CaptureShootButton}"
+                    Command="{Binding CaptureCommand}"
+                    Text="撮影" />
+        </Grid>
+    </Grid>
+
+</mct:Popup>

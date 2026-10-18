@@ -1,12 +1,187 @@
 @page "/"
 @inherits AppComponentBase
 
-<PageTitle>Home</PageTitle>
+<PageTitle>ホーム</PageTitle>
 
-<h1>Hello, world!</h1>
+<FluentStack Orientation="Orientation.Vertical"
+             HorizontalAlignment="HorizontalAlignment.Stretch"
+             VerticalGap="var(--spacingVerticalL)">
+    <div class="wallet">
+        <div class="wallet-summary">
+            <div>
+                <FluentText Block="true"
+                            Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@OnBrandTextColor">残高</FluentText>
+                @if (summary is null)
+                {
+                    <FluentSkeleton Height="40px" />
+                }
+                else
+                {
+                    <FluentText Block="true"
+                                Size="TextSize.Size700"
+                                Weight="TextWeight.Bold"
+                                Color="Color.Custom"
+                                CustomColor="@OnBrandTextColor">@FormatYen(summary.Balance)</FluentText>
+                }
+            </div>
+            <div>
+                <FluentText Block="true"
+                            Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@OnBrandTextColor">ポイント</FluentText>
+                @if (summary is null)
+                {
+                    <FluentSkeleton Height="40px" />
+                }
+                else
+                {
+                    <FluentText Block="true"
+                                Size="TextSize.Size700"
+                                Weight="TextWeight.Bold"
+                                Color="Color.Custom"
+                                CustomColor="@OnBrandTextColor">@FormatPoint(summary.Point)</FluentText>
+                }
+            </div>
+        </div>
+        <div class="wallet-actions">
+            @foreach (var action in walletActions)
+            {
+                <div class="wallet-action">
+                    <FluentButton Appearance="ButtonAppearance.Subtle"
+                                  Shape="ButtonShape.Circular"
+                                  Size="ButtonSize.Large"
+                                  IconOnly="true"
+                                  IconStart="@action.Icon"
+                                  BackgroundColor="@WalletActionBackgroundColor(action.IsSample)"
+                                  Color="@WalletActionIconColor(action.IsSample)"
+                                  Title="@action.Name"
+                                  OnClick="@action.Execute" />
+                    <FluentText Size="TextSize.Size200"
+                                Color="Color.Custom"
+                                CustomColor="@OnBrandTextColor">@action.Name</FluentText>
+                </div>
+            }
+        </div>
+    </div>
 
-<FluentButton Appearance="ButtonAppearance.Primary" OnClick="OnClickScan">Scan</FluentButton>
+    <div>
+        <FluentText As="TextTag.H2"
+                    Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold">キャンペーン</FluentText>
+        <div class="banners">
+            @foreach (var banner in Banners)
+            {
+                <FluentCard Class="banner"
+                            OnClick="ShowSampleAsync">
+                    <FluentText Size="TextSize.Size800">@banner.Emoji</FluentText>
+                    <div>
+                        <FluentText Block="true"
+                                    Weight="TextWeight.Semibold"
+                                    Color="Color.Primary">@banner.Title</FluentText>
+                        <FluentText Block="true"
+                                    Size="TextSize.Size200"
+                                    Color="Color.Custom"
+                                    CustomColor="@SubTextColor">@banner.Text</FluentText>
+                    </div>
+                    <FluentBadge Class="banner-badge"
+                                 Color="BadgeColor.Informative"
+                                 Appearance="BadgeAppearance.Tint">見本</FluentBadge>
+                </FluentCard>
+            }
+        </div>
+    </div>
 
-<div>
-    Barcode: <FluentBadge Appearance="BadgeAppearance.Filled" Color="BadgeColor.Subtle">@barcode</FluentBadge>
-</div>
+    <div>
+        <FluentText As="TextTag.H2"
+                    Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold">ネイティブの機能</FluentText>
+        <div class="tiles">
+            @foreach (var action in nativeActions)
+            {
+                <div class="tile">
+                    <FluentButton Appearance="ButtonAppearance.Subtle"
+                                  Size="ButtonSize.Large"
+                                  IconOnly="true"
+                                  IconStart="@action.Icon"
+                                  BackgroundColor="@TileBackgroundColor"
+                                  Color="@BrandIconColor"
+                                  Title="@action.Name"
+                                  OnClick="@action.Execute" />
+                    <FluentText Size="TextSize.Size200">@action.Name</FluentText>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div>
+        <FluentText As="TextTag.H2"
+                    Size="TextSize.Size400"
+                    Weight="TextWeight.Semibold">見本</FluentText>
+        <FluentText Block="true"
+                    Size="TextSize.Size200"
+                    Color="Color.Custom"
+                    CustomColor="@SubTextColor">押すと「見本です」と出ます</FluentText>
+        <div class="tiles">
+            @foreach (var action in sampleActions)
+            {
+                <div class="tile">
+                    <FluentButton Appearance="ButtonAppearance.Subtle"
+                                  Size="ButtonSize.Large"
+                                  IconOnly="true"
+                                  IconStart="@action.Icon"
+                                  BackgroundColor="@SampleTileBackgroundColor"
+                                  Color="@SubTextColor"
+                                  Title="@action.Name"
+                                  OnClick="@action.Execute" />
+                    <FluentText Size="TextSize.Size200"
+                                Color="Color.Custom"
+                                CustomColor="@SubTextColor">@action.Name</FluentText>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (recentActivities.Count > 0)
+    {
+        <div>
+            <FluentText As="TextTag.H2"
+                        Size="TextSize.Size400"
+                        Weight="TextWeight.Semibold">最近の操作</FluentText>
+            @foreach (var activity in recentActivities)
+            {
+                <div class="list-row">
+                    <div class="recent-lead">
+                        @if (activity.ImageUrl is null)
+                        {
+                            <FluentIcon Value="@activity.Icon"
+                                        Color="Color.Primary" />
+                        }
+                        else
+                        {
+                            <img src="@activity.ImageUrl"
+                                 alt="@activity.Text" />
+                        }
+                    </div>
+                    <div>
+                        <FluentText Block="true"
+                                    Nowrap="true"
+                                    Truncate="true">@activity.Text</FluentText>
+                        @if (activity.SubText is not null)
+                        {
+                            <FluentText Block="true"
+                                        Size="TextSize.Size200"
+                                        Color="Color.Custom"
+                                        CustomColor="@SubTextColor">@activity.SubText</FluentText>
+                        }
+                    </div>
+                    <FluentText Size="TextSize.Size200"
+                                Color="Color.Custom"
+                                CustomColor="@SubTextColor">@FormatDateTime(activity.OccurredAt)</FluentText>
+                </div>
+                <FluentDivider />
+            }
+        </div>
+    }
+</FluentStack>

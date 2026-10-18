@@ -1,6 +1,9 @@
 namespace Template.MobileApp.Views.Pages;
 
+using Microsoft.FluentUI.AspNetCore.Components;
+
 using Template.MobileApp.Services;
+using Template.MobileApp.Views.Dialogs;
 
 public sealed partial class AccountPage : AppComponentBase
 {
@@ -14,6 +17,8 @@ public sealed partial class AccountPage : AppComponentBase
 
     private const int HistoryCount = 10;
 
+    private const string DiagnosticsTitle = "WebView の診断";
+
     private AccountSummary? summary;
 
     private List<HistoryEntity>? histories;
@@ -23,9 +28,30 @@ public sealed partial class AccountPage : AppComponentBase
     [Inject]
     public required DataService DataService { get; set; }
 
+    [Inject]
+    public required IDialogService DialogService { get; set; }
+
+    private bool DiagnosticsEnabled { get; }
+
+    public AccountPage()
+    {
+#if DEBUG
+        DiagnosticsEnabled = true;
+#endif
+    }
+
     protected override async Task OnInitializedAsync()
     {
         summary = await DataService.QueryAccountSummaryAsync();
         histories = await DataService.QueryHistoryListAsync(HistoryCount);
+    }
+
+    private async Task ShowDiagnosticsAsync()
+    {
+        await DialogService.ShowDialogAsync<WebViewDiagnosticsDialog>(static options =>
+        {
+            options.Header.Title = DiagnosticsTitle;
+            options.Header.CloseAction.Visible = true;
+        });
     }
 }

@@ -1,0 +1,94 @@
+@inherits AppComponentBase
+
+<FluentDialogBody>
+    @if (script is null)
+    {
+        <FluentSkeleton Height="320px" />
+    }
+    else
+    {
+        <div class="diagnostics">
+            <FluentText As="TextTag.H3"
+                        Size="TextSize.Size300"
+                        Weight="TextWeight.Semibold">初期化</FluentText>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">パッケージ</FluentText>
+                <FluentText Size="TextSize.Size200">@(diagnostics.PackageName ?? "-")</FluentText>
+            </div>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">版</FluentText>
+                <FluentText Size="TextSize.Size200">@(diagnostics.PackageVersion ?? "-")</FluentText>
+            </div>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">User-Agent</FluentText>
+                <FluentText Size="TextSize.Size200">@script.UserAgent</FluentText>
+            </div>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">開くまで</FluentText>
+                <FluentText Size="TextSize.Size200">@FormatMilliseconds(diagnostics.StartupTime?.TotalMilliseconds)</FluentText>
+            </div>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">作り直し</FluentText>
+                <FluentText Size="TextSize.Size200">@FormatTimes(diagnostics.RecreateCount)</FluentText>
+            </div>
+
+            <FluentText As="TextTag.H3"
+                        Size="TextSize.Size300"
+                        Weight="TextWeight.Semibold">JS 連携</FluentText>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">往復(平均)</FluentText>
+                <FluentText Size="TextSize.Size200">@FormatMilliseconds(pingTime)</FluentText>
+            </div>
+            <FluentButton Appearance="ButtonAppearance.Outline"
+                          OnClick="MeasureAsync">測る</FluentButton>
+
+            <FluentText As="TextTag.H3"
+                        Size="TextSize.Size300"
+                        Weight="TextWeight.Semibold">通信</FluentText>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">端末</FluentText>
+                <FluentText Size="TextSize.Size200">@NetworkAccessText(diagnostics.NetworkAccess)</FluentText>
+            </div>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">WebView</FluentText>
+                <FluentText Size="TextSize.Size200">@OnlineText(script.Online)</FluentText>
+            </div>
+
+            <FluentText As="TextTag.H3"
+                        Size="TextSize.Size300"
+                        Weight="TextWeight.Semibold">キャッシュ</FluentText>
+            <div class="diagnostics-row">
+                <FluentText Size="TextSize.Size200"
+                            Color="Color.Custom"
+                            CustomColor="@SubTextColor">localStorage</FluentText>
+                <FluentText Size="TextSize.Size200">@FormatStorage(script.StorageCount, script.StorageSize)</FluentText>
+            </div>
+
+            <FluentText As="TextTag.H3"
+                        Size="TextSize.Size300"
+                        Weight="TextWeight.Semibold">操作</FluentText>
+            <FluentButton Appearance="ButtonAppearance.Primary"
+                          OnClick="@(() => ReloadAsync(false))">再読込</FluentButton>
+            <FluentButton Appearance="ButtonAppearance.Outline"
+                          OnClick="@(() => ReloadAsync(true))">キャッシュを消して再読込</FluentButton>
+            <FluentButton Appearance="ButtonAppearance.Outline"
+                          OnClick="StopRendererAsync">描画のプロセスを止める</FluentButton>
+        </div>
+    }
+</FluentDialogBody>

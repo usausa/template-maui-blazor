@@ -36,6 +36,7 @@ using Template.MobileApp.Interop;
 using Template.MobileApp.Interop.Dialogs;
 using Template.MobileApp.Services;
 using Template.MobileApp.Usecase;
+using Template.MobileApp.Views;
 
 public static partial class MauiProgram
 {
@@ -68,6 +69,7 @@ public static partial class MauiProgram
 
     private static MauiAppBuilder UseBlazor(this MauiAppBuilder builder)
     {
+        builder.Services.AddScoped<Microsoft.AspNetCore.Components.Web.IErrorBoundaryLogger, ErrorBoundaryLogger>();
         builder.Services.AddMauiBlazorWebView();
         builder.Services.AddFluentUIComponents();
         return builder;
@@ -243,6 +245,7 @@ public static partial class MauiProgram
         // Components
         services.AddSingleton<DeviceInformation>();
         services.AddSingleton<IStorageManager, StorageManager>();
+        services.AddSingleton<Components.INotificationService, Components.NotificationService>();
 
         // Bluetooth
         services.AddBluetoothLE();
@@ -254,6 +257,7 @@ public static partial class MauiProgram
         // State
         services.AddSingleton(BusyState.Default);
         services.AddSingleton<StartupState>();
+        services.AddSingleton<WebViewState>();
         services.AddSingleton<DeviceState>();
         services.AddSingleton<Session>();
         services.AddSingleton<Settings>();

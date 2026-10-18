@@ -3,7 +3,22 @@
 <div class="content">
     @if (Startup.IsCompleted)
     {
-        @Body
+        <ErrorBoundary @ref="errorBoundary">
+            <ChildContent>
+                @Body
+            </ChildContent>
+            <ErrorContent>
+                <FluentStack Orientation="Orientation.Vertical"
+                             HorizontalAlignment="HorizontalAlignment.Stretch"
+                             VerticalGap="var(--spacingVerticalM)">
+                    <FluentMessageBar Intent="MessageBarIntent.Error"
+                                      Title="画面でエラーが起きました"
+                                      AllowDismiss="false" />
+                    <FluentButton Appearance="ButtonAppearance.Primary"
+                                  OnClick="Recover">やり直す</FluentButton>
+                </FluentStack>
+            </ErrorContent>
+        </ErrorBoundary>
     }
     else
     {

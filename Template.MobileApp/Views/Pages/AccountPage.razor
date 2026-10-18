@@ -102,5 +102,15 @@
             <FluentText>ヘルプ</FluentText>
             <FluentIcon Value="@(new Icons.Regular.Size20.ChevronRight())" />
         </div>
+        @if (DiagnosticsEnabled)
+        {
+            <FluentDivider />
+            <div class="list-row"
+                 @onclick="ShowDiagnosticsAsync">
+                <FluentIcon Value="@(new Icons.Regular.Size20.Stethoscope())" />
+                <FluentText>WebView の診断</FluentText>
+                <FluentIcon Value="@(new Icons.Regular.Size20.ChevronRight())" />
+            </div>
+        }
     </div>
 </FluentStack>

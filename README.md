@@ -1,20 +1,13 @@
 # template-maui-blazor
 
-## 📝 TODO
+## ✅ Implement
 
-- MAUI
-  - [ ] Style
-- Blazor
-  - [ ] Style
-  - [ ] Executing state
-  - [ ] View helper
-- Interop
-  - [ ] Camera
-  - [ ] QR
-- Services
-  - [ ] Data
-- Features
-  - [ ] Local notification
+| Category | Feature |
+| --- | --- |
+| MAUI | Style / Popup / WebView host |
+| Blazor | Style (FluentUI v5) / Executing state / View helper / Error boundary / WebView diagnostics |
+| Interop | QR / Camera / Local notification / Toast |
+| Data | SQLite |
 
 ## 🔗 Ref
 

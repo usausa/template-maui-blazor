@@ -182,6 +182,15 @@ public sealed class DataService
             await tx.CommitAsync();
         });
 
+    public ValueTask InsertNoticeAsync(NoticeEntity entity) =>
+        provider.UsingTxAsync(async (_, tx) =>
+        {
+            entity.Id = await accessor.QueryNextNoticeIdAsync(tx);
+            await accessor.InsertNoticeAsync(tx, entity);
+
+            await tx.CommitAsync();
+        });
+
     //--------------------------------------------------------------------------------
     // History
     //--------------------------------------------------------------------------------
@@ -199,6 +208,15 @@ public sealed class DataService
             {
                 await accessor.InsertHistoryAsync(tx, entity);
             }
+
+            await tx.CommitAsync();
+        });
+
+    public ValueTask InsertHistoryAsync(HistoryEntity entity) =>
+        provider.UsingTxAsync(async (_, tx) =>
+        {
+            entity.Id = await accessor.QueryNextHistoryIdAsync(tx);
+            await accessor.InsertHistoryAsync(tx, entity);
 
             await tx.CommitAsync();
         });

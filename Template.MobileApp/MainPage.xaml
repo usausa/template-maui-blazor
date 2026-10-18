@@ -39,13 +39,41 @@
                    IsVisible="{Binding BusyState.IsBusy}" />
 
         <!-- Web -->
-        <BlazorWebView Grid.Row="0"
-                       HostPage="wwwroot/index.html">
-            <BlazorWebView.RootComponents>
-                <RootComponent ComponentType="{x:Type views:Routes}"
-                               Selector="#app" />
-            </BlazorWebView.RootComponents>
-        </BlazorWebView>
+        <ContentView Grid.Row="0"
+                     behaviors:WebViewBind.Controller="{Binding WebView}">
+            <behaviors:WebViewBind.Template>
+                <DataTemplate>
+                    <BlazorWebView HostPage="wwwroot/index.html">
+                        <BlazorWebView.RootComponents>
+                            <RootComponent ComponentType="{x:Type views:Routes}"
+                                           Selector="#app" />
+                        </BlazorWebView.RootComponents>
+                    </BlazorWebView>
+                </DataTemplate>
+            </behaviors:WebViewBind.Template>
+        </ContentView>
+
+        <!-- Web error -->
+        <Grid Grid.Row="0"
+              Style="{StaticResource WebErrorGrid}"
+              IsVisible="{Binding WebView.IsFailed}">
+            <VerticalStackLayout Style="{StaticResource WebErrorStack}">
+                <Label Style="{StaticResource WebErrorTitleLabel}"
+                       Text="{Binding WebErrorTitle}" />
+                <Label Style="{StaticResource WebErrorMessageLabel}"
+                       Text="{Binding WebErrorMessage}" />
+                <Label Style="{StaticResource WebErrorDetailLabel}"
+                       IsVisible="{Binding WebView.FailureDetail, Converter={StaticResource NotEmptyConverter}}"
+                       Text="{Binding WebView.FailureDetail}" />
+                <Button Style="{StaticResource WebErrorButton}"
+                        Command="{Binding RetryCommand}"
+                        Text="再試行" />
+                <Button Style="{StaticResource WebErrorSubButton}"
+                        IsVisible="{Binding CanUpdateWebView}"
+                        Command="{Binding UpdateWebViewCommand}"
+                        Text="WebView を更新" />
+            </VerticalStackLayout>
+        </Grid>
 
         <!-- Bottom select -->
         <BoxView Grid.Row="1"

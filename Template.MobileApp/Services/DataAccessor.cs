@@ -113,6 +113,9 @@ public sealed partial class DataAccessor
     [Insert(typeof(NoticeEntity))]
     public partial ValueTask<int> InsertNoticeAsync(DbTransaction tx, NoticeEntity entity);
 
+    [ExecuteScalar]
+    public partial ValueTask<long> QueryNextNoticeIdAsync(DbTransaction tx);
+
     //--------------------------------------------------------------------------------
     // History
     //--------------------------------------------------------------------------------
@@ -126,4 +129,7 @@ public sealed partial class DataAccessor
     [Execute]
     [Insert(typeof(HistoryEntity))]
     public partial ValueTask<int> InsertHistoryAsync(DbTransaction tx, HistoryEntity entity);
+
+    [ExecuteScalar]
+    public partial ValueTask<long> QueryNextHistoryIdAsync(DbTransaction tx);
 }

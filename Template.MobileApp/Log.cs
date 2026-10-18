@@ -20,4 +20,23 @@ internal static partial class Log
 
     [LoggerMessage(Level = LogLevel.Debug, Message = "Connectivity changed. profile=[{profile}], access=[{access}]")]
     public static partial void DebugConnectivityState(this ILogger logger, NetworkProfile profile, NetworkAccess access);
+
+    // WebView
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "WebView creating. package=[{package}], version=[{version}], count=[{count}]")]
+    public static partial void InfoWebViewCreating(this ILogger logger, string? package, string? version, int count);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "WebView started. elapsed=[{elapsed}]")]
+    public static partial void InfoWebViewStarted(this ILogger logger, long elapsed);
+
+    [LoggerMessage(Level = LogLevel.Error, Message = "WebView failed. failure=[{failure}], detail=[{detail}]")]
+    public static partial void ErrorWebViewFailed(this ILogger logger, WebViewFailure failure, string? detail);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "WebView reload requested. clearCache=[{clearCache}]")]
+    public static partial void InfoWebViewReloadRequested(this ILogger logger, bool clearCache);
+
+    // View
+
+    [LoggerMessage(Level = LogLevel.Error, Message = "Unhandled component exception.")]
+    public static partial void ErrorComponentException(this ILogger logger, Exception exception);
 }

@@ -95,4 +95,60 @@
         <Setter Property="behaviors:ButtonOption.PressEffect" Value="True" />
     </Style>
 
+    <!-- Web error -->
+    <Style x:Key="WebErrorGrid"
+           TargetType="Grid">
+        <Setter Property="Padding" Value="24" />
+        <Setter Property="BackgroundColor" Value="White" />
+    </Style>
+
+    <Style x:Key="WebErrorStack"
+           TargetType="VerticalStackLayout">
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="Spacing" Value="12" />
+    </Style>
+
+    <Style x:Key="WebErrorTitleLabel"
+           TargetType="Label">
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource GrayDarken3}" />
+    </Style>
+
+    <Style x:Key="WebErrorMessageLabel"
+           TargetType="Label">
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="{StaticResource GrayDarken3}" />
+    </Style>
+
+    <Style x:Key="WebErrorDetailLabel"
+           TargetType="Label">
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="{StaticResource GrayDefault}" />
+    </Style>
+
+    <Style x:Key="WebErrorButton"
+           TargetType="Button">
+        <Setter Property="Margin" Value="0,12,0,0" />
+        <Setter Property="HeightRequest" Value="44" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BackgroundColor" Value="{StaticResource PinkDefault}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style x:Key="WebErrorSubButton"
+           TargetType="Button">
+        <Setter Property="HeightRequest" Value="44" />
+        <Setter Property="CornerRadius" Value="0" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="BorderColor" Value="{StaticResource PinkDefault}" />
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="TextColor" Value="{StaticResource PinkDefault}" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
 </ResourceDictionary>

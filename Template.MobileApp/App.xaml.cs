@@ -54,10 +54,6 @@ public sealed partial class App
 
         // Completed
         serviceProvider.GetRequiredService<StartupState>().NotifyCompleted();
-
-        // Permissions
-        await Permissions.RequestCameraAsync();
-        await Permissions.RequestLocationAsync();
     }
 
     private async Task<Exception?> InitializeDataAsync()

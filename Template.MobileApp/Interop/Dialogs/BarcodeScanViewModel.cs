@@ -16,6 +16,8 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
 
     public IObserveCommand DetectCommand { get; }
 
+    public IObserveCommand CancelCommand { get; }
+
     //--------------------------------------------------------------------------------
     // Constructor
     //--------------------------------------------------------------------------------
@@ -25,6 +27,7 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
         this.vibration = vibration;
 
         DetectCommand = MakeDelegateCommand<IReadOnlySet<BarcodeResult>>(CommandMode.Simple, x => _ = DetectAsync(x));
+        CancelCommand = MakeAsyncCommand(async () => await CloseAsync());
 
         Controller.Enable = true;
     }
@@ -40,7 +43,8 @@ public sealed class BarcodeScanViewModel : DialogViewModelBase
             vibration.Vibrate(200);
             Controller.Enable = false;
 
-            await CloseAsync(barcodes.First().DisplayValue);
+            var barcode = barcodes.First();
+            await CloseAsync(new ScanResult(barcode.DisplayValue, barcode.BarcodeFormat.ToString()));
         }
     }
 }

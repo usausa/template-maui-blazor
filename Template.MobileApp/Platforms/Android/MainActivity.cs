@@ -3,6 +3,7 @@
 namespace Template.MobileApp;
 
 using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 
@@ -32,6 +33,15 @@ public sealed class MainActivity : MauiAppCompatActivity
 
         backPressedCallback = new BackPressedCallback(this);
         OnBackPressedDispatcher.AddCallback(this, backPressedCallback);
+
+        // Handle launch from notification tap
+        Components.NotificationService.HandleIntent(Intent);
+    }
+
+    protected override void OnNewIntent(Intent? intent)
+    {
+        base.OnNewIntent(intent);
+        Components.NotificationService.HandleIntent(intent);
     }
 
     protected override void Dispose(bool disposing)

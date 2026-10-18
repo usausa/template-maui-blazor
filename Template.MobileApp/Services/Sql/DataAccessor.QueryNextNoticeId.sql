@@ -1,0 +1,1 @@
+SELECT COALESCE(MAX(Id), 0) + 1 FROM Notice

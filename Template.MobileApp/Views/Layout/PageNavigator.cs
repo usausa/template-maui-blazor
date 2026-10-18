@@ -17,16 +17,16 @@ public sealed class PageNavigator : ComponentBase, IDisposable
             switch (x)
             {
                 case SelectPage.Home:
-                    NavigationManager.NavigateTo("/");
+                    NavigationManager.NavigateTo("/", replace: true);
                     break;
                 case SelectPage.Search:
-                    NavigationManager.NavigateTo("/search");
+                    NavigationManager.NavigateTo("/search", replace: true);
                     break;
                 case SelectPage.Notifications:
-                    NavigationManager.NavigateTo("/notification");
+                    NavigationManager.NavigateTo("/notification", replace: true);
                     break;
                 case SelectPage.Account:
-                    NavigationManager.NavigateTo("/account");
+                    NavigationManager.NavigateTo("/account", replace: true);
                     break;
             }
         });
