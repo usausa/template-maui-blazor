@@ -24,6 +24,20 @@ public static partial class EntryOption
         {
             EntryHandler.Mapper.AppendToMapping(DisableShowSoftInputOnFocusProperty.PropertyName, static (handler, _) => UpdateDisableShowSoftInputOnFocus(handler.PlatformView, (Entry)handler.VirtualView));
             EditorHandler.Mapper.AppendToMapping(DisableShowSoftInputOnFocusProperty.PropertyName, static (handler, _) => UpdateDisableShowSoftInputOnFocus(handler.PlatformView, (Editor)handler.VirtualView));
+            EntryHandler.CommandMapper.ModifyMapping(nameof(IEntry.Focus), static (handler, view, args, next) =>
+            {
+                if (!SuppressFocusSoftInput(handler.PlatformView, view, args))
+                {
+                    next?.Invoke(handler, view, args);
+                }
+            });
+            EditorHandler.CommandMapper.ModifyMapping(nameof(IEditor.Focus), static (handler, view, args, next) =>
+            {
+                if (!SuppressFocusSoftInput(handler.PlatformView, view, args))
+                {
+                    next?.Invoke(handler, view, args);
+                }
+            });
         }
 
         // SelectAllOnFocus
@@ -45,6 +59,17 @@ public static partial class EntryOption
     {
         var value = GetDisableShowSoftInputOnFocus(element);
         editText.ShowSoftInputOnFocus = !value;
+    }
+
+    private static bool SuppressFocusSoftInput(TextView editText, IView view, object? args)
+    {
+        if ((args is not FocusRequest request) || !view.IsFocused || editText.ShowSoftInputOnFocus)
+        {
+            return false;
+        }
+
+        request.TrySetResult(true);
+        return true;
     }
 
     private static void UpdateSelectAllOnFocus(TextView editText, BindableObject element)
@@ -80,13 +105,11 @@ public static partial class EntryOption
     private static void UpdateHandleEnterKey(EditText editText, BindableObject element)
     {
         var value = GetHandleEnterKey(element);
+
+        editText.EditorAction -= OnEditorAction;
         if (value)
         {
             editText.EditorAction += OnEditorAction;
-        }
-        else
-        {
-            editText.EditorAction -= OnEditorAction;
         }
     }
 
