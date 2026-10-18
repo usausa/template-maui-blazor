@@ -76,6 +76,7 @@
         </ResourceDictionary>
     </mct:Popup.Resources>
 
+    <!-- Content -->
     <VerticalStackLayout Style="{StaticResource PaymentStack}">
         <Label Style="{StaticResource PaymentTitleLabel}"
                Text="支払い" />

@@ -58,4 +58,5 @@ global using Template.MobileApp.Domain;
 global using Template.MobileApp.Messaging;
 global using Template.MobileApp.Models;
 global using Template.MobileApp.Models.Entity;
+global using Template.MobileApp.Models.Sample;
 global using Template.MobileApp.State;

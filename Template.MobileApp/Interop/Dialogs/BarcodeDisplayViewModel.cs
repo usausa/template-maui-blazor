@@ -5,9 +5,13 @@ using System.Security.Cryptography;
 
 public sealed partial class BarcodeDisplayViewModel : DialogViewModelBase
 {
+    // Field
+
     private const int PaymentSeconds = 30;
 
     private readonly IDispatcherTimer timer;
+
+    // Property
 
     [ObservableProperty]
     public partial string PaymentCode { get; set; } = string.Empty;

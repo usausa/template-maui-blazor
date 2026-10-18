@@ -1,6 +1,6 @@
 # template-maui-blazor
 
-## TODO
+## 📝 TODO
 
 - MAUI
   - [ ] Style
@@ -23,6 +23,6 @@
   - [ ] Biometric
   - [ ] Authentication
 
-## Ref
+## 🔗 Ref
 
 - [template-maui](https://github.com/usausa/template-maui)

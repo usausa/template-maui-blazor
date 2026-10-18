@@ -65,7 +65,7 @@ public sealed partial class App
             await dataService.RebuildAsync();
 
             // Dummy data
-            await PrepareDummyDataAsync(dataService);
+            await dataService.InsertWorkEnumerableAsync(DataSample.LoadWorks());
 
             return null;
         }
@@ -74,17 +74,6 @@ public sealed partial class App
             log.ErrorDatabaseInitializeFailed(ex);
             return ex;
         }
-    }
-
-    private static ValueTask PrepareDummyDataAsync(DataService dataService)
-    {
-        return dataService.InsertWorkEnumerableAsync(
-        [
-            new WorkEntity { Id = 1, Name = "Sample-1" },
-            new WorkEntity { Id = 2, Name = "Sample-2" },
-            new WorkEntity { Id = 3, Name = "Sample-3" },
-            new WorkEntity { Id = 4, Name = "Sample-4" }
-        ]);
     }
 }
 #pragma warning restore CA1724

@@ -21,9 +21,11 @@ public sealed class NfcEventArgs : EventArgs
     }
 }
 
-public interface INfcReader
+public interface INfcReader : IDisposable
 {
     event EventHandler<NfcEventArgs>? Detected;
+
+    bool IsSupported { get; }
 
     bool Enabled { get; set; }
 }
@@ -31,6 +33,8 @@ public interface INfcReader
 public sealed partial class NfcReader : INfcReader
 {
     public event EventHandler<NfcEventArgs>? Detected;
+
+    public partial bool IsSupported { get; }
 
     public bool Enabled
     {

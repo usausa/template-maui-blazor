@@ -10,6 +10,7 @@
            x:DataType="{x:Type module:BarcodeScanViewModel}"
            s:BindingContextResolver.Type="{x:Type module:BarcodeScanViewModel}">
 
+    <!-- Content -->
     <Grid RowDefinitions="*">
         <scanner:CameraView Grid.Row="0"
                             HeightRequest="{x:Static module:DialogSize.LargeWidth}"

@@ -12,9 +12,10 @@
              x:DataType="{x:Type application:MainPageViewModel}"
              s:BindingContextResolver.Type="{x:Type application:MainPageViewModel}">
 
-    <!-- ReSharper disable Xaml.RedundantResource -->
     <ContentPage.Resources>
         <ResourceDictionary>
+
+            <!-- Converter -->
 
             <s:CompareToColorConverter x:Key="EqualToSelectColorConverter"
                                        Expression="{x:Static s:CompareExpressions.Equal}"
@@ -23,7 +24,6 @@
 
         </ResourceDictionary>
     </ContentPage.Resources>
-    <!-- ReSharper restore Xaml.RedundantResource -->
 
     <ContentPage.Behaviors>
         <s:AppLifecycleBehavior />
@@ -32,12 +32,13 @@
 
     <!-- Content -->
     <Grid RowDefinitions="*,Auto,Auto">
-        <!-- overlay -->
+
+        <!-- Overlay -->
         <Rectangle Grid.RowSpan="3"
                    shell:ShellProperty.BusyOverlay="True"
                    IsVisible="{Binding BusyState.IsBusy}" />
 
-        <!-- web -->
+        <!-- Web -->
         <BlazorWebView Grid.Row="0"
                        HostPage="wwwroot/index.html">
             <BlazorWebView.RootComponents>
@@ -46,7 +47,7 @@
             </BlazorWebView.RootComponents>
         </BlazorWebView>
 
-        <!-- bottom select -->
+        <!-- Bottom select -->
         <BoxView Grid.Row="1"
                  Style="{StaticResource BottomSelectSeparatorBoxView}" />
 

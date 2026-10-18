@@ -4,9 +4,15 @@ using BarcodeScanning;
 
 public sealed class BarcodeScanViewModel : DialogViewModelBase
 {
+    // Field
+
     private readonly IVibration vibration;
 
+    // Property
+
     public BarcodeController Controller { get; } = new();
+
+    // Command
 
     public IObserveCommand DetectCommand { get; }
 

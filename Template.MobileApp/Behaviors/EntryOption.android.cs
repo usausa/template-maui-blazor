@@ -10,6 +10,10 @@ using Microsoft.Maui.Handlers;
 
 public static partial class EntryOption
 {
+    //--------------------------------------------------------------------------------
+    // Mapper
+    //--------------------------------------------------------------------------------
+
     public static partial void UseCustomMapper(BehaviorOptions options)
     {
         // HandleEnterKey
@@ -55,6 +59,10 @@ public static partial class EntryOption
         }
     }
 
+    //--------------------------------------------------------------------------------
+    // Handler
+    //--------------------------------------------------------------------------------
+
     private static void UpdateDisableShowSoftInputOnFocus(TextView editText, BindableObject element)
     {
         var value = GetDisableShowSoftInputOnFocus(element);
@@ -85,6 +93,10 @@ public static partial class EntryOption
         editText.SetFilters(rule is null ? [] : [new InputFilterInputFilter(rule)]);
 #pragma warning restore CA2000
     }
+
+    //--------------------------------------------------------------------------------
+    // Input Filter
+    //--------------------------------------------------------------------------------
 
     private sealed class InputFilterInputFilter : Object, IInputFilter
     {

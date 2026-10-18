@@ -54,8 +54,16 @@ public sealed partial class DeviceInformation
         statHandle.Dispose();
     }
 
+    // ------------------------------------------------------------
+    // Identity
+    // ------------------------------------------------------------
+
     private static partial string ResolveDeviceId() =>
         Android.Provider.Settings.Secure.GetString(Application.Context.ContentResolver, Android.Provider.Settings.Secure.AndroidId) ?? string.Empty;
+
+    // ------------------------------------------------------------
+    // Battery
+    // ------------------------------------------------------------
 
     private partial void StartBattery()
     {
@@ -113,6 +121,10 @@ public sealed partial class DeviceInformation
         }
     }
 
+    // ------------------------------------------------------------
+    // Network
+    // ------------------------------------------------------------
+
     [Flags]
     private enum Transport
     {
@@ -123,7 +135,10 @@ public sealed partial class DeviceInformation
         WiFi = 0x08
     }
 
-    private readonly record struct NetworkEntry(Transport Transport, bool Validated, WiFiStatus? WiFi);
+    private readonly record struct NetworkEntry(
+        Transport Transport,
+        bool Validated,
+        WiFiStatus? WiFi);
 
     private partial void StartNetwork()
     {
@@ -260,6 +275,10 @@ public sealed partial class DeviceInformation
             owner.OnLost(network);
         }
     }
+
+    // ------------------------------------------------------------
+    // Process
+    // ------------------------------------------------------------
 
     private partial void ReadProcessStat(out int threadCount, out long workingSet)
     {

@@ -121,8 +121,8 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.13" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.0" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.0.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.1" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.0.1" />
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.110" />
     <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.110" />
     <PackageReference Include="SkiaExtension" Version="1.2.0" />
@@ -132,8 +132,8 @@
     <PackageReference Include="QRCoder" Version="1.8.1" />
     <PackageReference Include="Rester" Version="2.17.0" />
     <PackageReference Include="Shiny.BluetoothLE" version="6.2.0" />
-    <PackageReference Include="Shiny.BluetoothLE.Hosting" Version="6.2.0" />
-    <PackageReference Include="Shiny.Hosting.Maui" Version="6.2.0" />
+    <PackageReference Include="Shiny.BluetoothLE.Hosting" Version="6.3.0" />
+    <PackageReference Include="Shiny.Hosting.Maui" Version="6.3.0" />
     <PackageReference Include="System.Reactive" Version="7.0.0" />
     <PackageReference Include="Usa.Smart.Converter" Version="2.18.0" />
     <PackageReference Include="Usa.Smart.Core" Version="2.20.0" />

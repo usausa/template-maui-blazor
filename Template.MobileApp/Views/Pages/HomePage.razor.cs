@@ -4,7 +4,11 @@ using Template.MobileApp.Interop;
 
 public sealed partial class HomePage : AppComponentBase
 {
+    // Field
+
     private string? barcode;
+
+    // Property
 
     [Inject]
     public required IPlatformInterop PlatformInterop { get; set; }

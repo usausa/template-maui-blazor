@@ -7,6 +7,8 @@ using Template.MobileApp.Views;
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
 public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecycle
 {
+    // Property
+
     [ObservableProperty]
     public partial SelectPage Selected { get; set; }
 
@@ -15,6 +17,8 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
 
     [ObservableProperty]
     public partial bool HasAccountAlert { get; set; }
+
+    // Command
 
     public IObserveCommand PayCommand { get; }
 
