@@ -9,11 +9,7 @@
 
 <img width="25%" src="Document/Images/Account.png" />
 <img width="25%" src="Document/Images/QrDisplay.png" />
-<img width="25%" src="Document/Images/QrScan.png" />
-
 <img width="25%" src="Document/Images/Camera.png" />
-<img width="25%" src="Document/Images/WebViewDiagnostics.png" />
-<img width="25%" src="Document/Images/WebViewError.png" />
 </p>
 
 ## ✅ Implement
