@@ -59,7 +59,8 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
         IDialog dialog,
         INotificationService notification,
         IPlatformInterop platformInterop,
-        WebViewState webView)
+        WebViewState webView,
+        BackButtonState backButton)
     {
         this.dialog = dialog;
         this.notification = notification;
@@ -84,10 +85,12 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
         });
 
         Disposables.Add(webView.AsObservable(nameof(WebViewState.Failure)).Subscribe(x => UpdateWebError(x.Failure)));
+        Disposables.Add(webView.AsObservable(nameof(WebViewState.IsFailed)).Where(static x => x.IsFailed).Subscribe(_ => backButton.Clear()));
         Disposables.Add(webView.AsObservable(nameof(WebViewState.CreateCount)).Subscribe(_ =>
         {
             Selected = SelectPage.Home;
             AppIcons.SetNavigationSelection(Selected);
+            backButton.Clear();
         }));
 
         NotificationCount = 99;

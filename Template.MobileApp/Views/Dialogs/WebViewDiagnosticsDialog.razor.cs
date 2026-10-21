@@ -2,14 +2,13 @@ namespace Template.MobileApp.Views.Dialogs;
 
 using System.Diagnostics;
 
-using Microsoft.FluentUI.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 using Template.MobileApp.Interop;
 
 public sealed record WebViewScriptInformation(string UserAgent, bool Online, int StorageCount, long StorageSize);
 
-public sealed partial class WebViewDiagnosticsDialog : AppComponentBase, IAsyncDisposable
+public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisposable
 {
     // Field
 
@@ -27,9 +26,6 @@ public sealed partial class WebViewDiagnosticsDialog : AppComponentBase, IAsyncD
 
     // Property
 
-    [CascadingParameter]
-    public required IDialogInstance Dialog { get; set; }
-
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
 
@@ -38,6 +34,7 @@ public sealed partial class WebViewDiagnosticsDialog : AppComponentBase, IAsyncD
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
         diagnostics = PlatformInterop.GetWebViewDiagnostics();
     }
 
