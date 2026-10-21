@@ -31,6 +31,7 @@ public sealed partial class AccountPage : AppComponentBase
     [Inject]
     public required IDialogService DialogService { get; set; }
 
+    // ReSharper disable once UnassignedGetOnlyAutoProperty
     private bool DiagnosticsEnabled { get; }
 
     public AccountPage()

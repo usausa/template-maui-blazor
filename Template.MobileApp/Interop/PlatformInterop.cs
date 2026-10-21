@@ -5,9 +5,9 @@ using Template.MobileApp.Interop.Dialogs;
 
 public sealed class PlatformInterop : IPlatformInterop
 {
-    private const string CameraDeniedMessage = "カメラを使うには、権限の許可が要ります。";
+    private const string CameraDeniedMessage = "カメラを使用するための権限が必要です";
 
-    private const string NotificationDeniedMessage = "通知を出すには、権限の許可が要ります。";
+    private const string NotificationDeniedMessage = "通知を使用するための権限が必要です";
 
     private readonly IDialog dialog;
 

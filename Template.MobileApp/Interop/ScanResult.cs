@@ -1,3 +1,5 @@
 namespace Template.MobileApp.Interop;
 
-public sealed record ScanResult(string Value, string Format);
+public sealed record ScanResult(
+    string Value,
+    string Format);
