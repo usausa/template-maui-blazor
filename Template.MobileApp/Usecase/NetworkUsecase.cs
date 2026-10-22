@@ -13,11 +13,11 @@ using Template.MobileApp.Services;
 public enum NetworkResultType
 {
     Success,
-    Disconnected,
-    Canceled,
-    NotFound,
-    HttpError,
-    Unknown
+    Disconnected,   // Not connected
+    Canceled,       // Canceled
+    NotFound,       // 404
+    HttpError,      // Other HTTP error
+    Unknown         // Transport / deserialize failure
 }
 
 public class NetworkResult
@@ -98,7 +98,7 @@ public sealed class NetworkUsecase
 
     public async ValueTask GetServerTimeAsync(CancellationToken cancellationToken = default)
     {
-        var result = await ExecuteVerboseAsync(static (h, t) => h.GetServerTimeAsync(t), cancellationToken);
+        var result = await ExecuteVerboseAsync(static (h, t) => h.GetServerTimeAsync(t), cancellationToken: cancellationToken);
         if (result.IsSuccess)
         {
             await dialog.InformationAsync($"Get success.\r\ntime=[{result.Value.DateTime.ToLocalTime():yyyy/MM/dd HH:mm:ss}]");
@@ -111,7 +111,7 @@ public sealed class NetworkUsecase
 
     public async ValueTask GetDataListAsync(CancellationToken cancellationToken = default)
     {
-        var result = await ExecuteVerboseAsync(static (h, t) => h.GetDataListAsync(t), cancellationToken);
+        var result = await ExecuteVerboseAsync(static (h, t) => h.GetDataListAsync(t), cancellationToken: cancellationToken);
         if (result.IsSuccess)
         {
             await dataService.ReplaceWorkEnumerableAsync(result.Value.Entries.Select(static x => x.ToWorkEntity()));
@@ -126,7 +126,7 @@ public sealed class NetworkUsecase
 
     public async ValueTask GetSecretMessageAsync(CancellationToken cancellationToken = default)
     {
-        var result = await ExecuteVerboseAsync(static (h, t) => h.GetSecretMessageAsync(t), cancellationToken, authenticated: true);
+        var result = await ExecuteVerboseAsync(static (h, t) => h.GetSecretMessageAsync(t), authenticated: true, cancellationToken: cancellationToken);
         if (result.IsSuccess)
         {
             await dialog.InformationAsync($"Get success.\r\nmessage=[{result.Value.Message}]");
@@ -140,7 +140,7 @@ public sealed class NetworkUsecase
     public async ValueTask PostAccountLoginAsync(string id, CancellationToken cancellationToken = default)
     {
         var request = new AccountLoginRequest { Id = id };
-        var result = await ExecuteVerboseAsync((h, t) => h.PostAccountLoginAsync(request, t), cancellationToken);
+        var result = await ExecuteVerboseAsync((h, t) => h.PostAccountLoginAsync(request, t), cancellationToken: cancellationToken);
         if (result.IsSuccess)
         {
             apiContext.LoginId = id;
@@ -184,19 +184,19 @@ public sealed class NetworkUsecase
     //--------------------------------------------------------------------------------
 
     public ValueTask<NetworkResult> GetTestErrorAsync(int code, CancellationToken cancellationToken = default) =>
-        ExecuteVerboseAsync((h, t) => h.GetTestErrorAsync(code, t), cancellationToken);
+        ExecuteVerboseAsync((h, t) => h.GetTestErrorAsync(code, t), cancellationToken: cancellationToken);
 
     public ValueTask<NetworkResult> GetTestDelayAsync(int timeout, CancellationToken cancellationToken = default) =>
-        ExecuteVerboseAsync((h, t) => h.GetTestDelayAsync(timeout, t), cancellationToken);
+        ExecuteVerboseAsync((h, t) => h.GetTestDelayAsync(timeout, t), cancellationToken: cancellationToken);
 
     //--------------------------------------------------------------------------------
     // Execute
     //--------------------------------------------------------------------------------
 
-    private ValueTask<NetworkResult<T>> ExecuteVerboseAsync<T>(Func<HttpService, CancellationToken, ValueTask<IRestResponse<T>>> func, CancellationToken cancellationToken, bool authenticated = false) =>
+    private ValueTask<NetworkResult<T>> ExecuteVerboseAsync<T>(Func<HttpService, CancellationToken, ValueTask<IRestResponse<T>>> func, bool authenticated = false, CancellationToken cancellationToken = default) =>
         ExecuteAsync(func, true, authenticated, cancellationToken);
 
-    private ValueTask<NetworkResult> ExecuteVerboseAsync(Func<HttpService, CancellationToken, ValueTask<IRestResponse>> func, CancellationToken cancellationToken, bool authenticated = false) =>
+    private ValueTask<NetworkResult> ExecuteVerboseAsync(Func<HttpService, CancellationToken, ValueTask<IRestResponse>> func, bool authenticated = false, CancellationToken cancellationToken = default) =>
         ExecuteAsync(func, true, authenticated, cancellationToken);
 
     private async ValueTask<NetworkResult<T>> ExecuteAsync<T>(Func<HttpService, CancellationToken, ValueTask<IRestResponse<T>>> func, bool verbose, bool authenticated, CancellationToken cancellationToken)

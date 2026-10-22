@@ -9,8 +9,6 @@ public sealed partial class BarcodeDisplayViewModel : DialogViewModelBase
 
     private const int PaymentSeconds = 30;
 
-    private readonly IDispatcherTimer timer;
-
     // Property
 
     [ObservableProperty]
@@ -28,22 +26,13 @@ public sealed partial class BarcodeDisplayViewModel : DialogViewModelBase
 
     public BarcodeDisplayViewModel(IDispatcher dispatcher)
     {
-        timer = dispatcher.CreateTimer();
+        var timer = dispatcher.CreateTimer();
         timer.Interval = TimeSpan.FromSeconds(1);
         Disposables.Add(timer.TickAsObservable().Subscribe(_ => TickPayment()));
+        Disposables.Add(new DelegateDisposable(timer.Stop));
 
         RenewPaymentCode();
         timer.Start();
-    }
-
-    protected override void Dispose(bool disposing)
-    {
-        if (disposing)
-        {
-            timer.Stop();
-        }
-
-        base.Dispose(disposing);
     }
 
     //--------------------------------------------------------------------------------
