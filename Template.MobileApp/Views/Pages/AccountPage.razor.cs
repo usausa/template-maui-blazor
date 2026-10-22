@@ -7,8 +7,6 @@ using Template.MobileApp.Views.Dialogs;
 
 public sealed partial class AccountPage : AppComponentBase
 {
-    // Field
-
     private const string UserName = "見本 太郎";
 
     private const string UserInitials = "見";
@@ -23,7 +21,9 @@ public sealed partial class AccountPage : AppComponentBase
 
     private List<HistoryEntity>? histories;
 
+    //--------------------------------------------------------------------------------
     // Property
+    //--------------------------------------------------------------------------------
 
     [Inject]
     public required DataService DataService { get; set; }
@@ -33,6 +33,10 @@ public sealed partial class AccountPage : AppComponentBase
 
     // ReSharper disable once UnassignedGetOnlyAutoProperty
     private bool DiagnosticsEnabled { get; }
+
+    //--------------------------------------------------------------------------------
+    // Initialize
+    //--------------------------------------------------------------------------------
 
     public AccountPage()
     {
@@ -46,6 +50,10 @@ public sealed partial class AccountPage : AppComponentBase
         summary = await DataService.QueryAccountSummaryAsync();
         histories = await DataService.QueryHistoryListAsync(HistoryCount);
     }
+
+    //--------------------------------------------------------------------------------
+    // Action
+    //--------------------------------------------------------------------------------
 
     private async Task ShowDiagnosticsAsync()
     {

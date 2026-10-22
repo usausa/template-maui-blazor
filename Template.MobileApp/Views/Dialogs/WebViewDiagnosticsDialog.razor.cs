@@ -10,8 +10,6 @@ public sealed record WebViewScriptInformation(string UserAgent, bool Online, int
 
 public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisposable
 {
-    // Field
-
     private const string ModulePath = "./js/diagnostics.js";
 
     private const int PingCount = 10;
@@ -24,13 +22,19 @@ public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisp
 
     private double? pingTime;
 
+    //--------------------------------------------------------------------------------
     // Property
+    //--------------------------------------------------------------------------------
 
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
 
     [Inject]
     public required IPlatformInterop PlatformInterop { get; set; }
+
+    //--------------------------------------------------------------------------------
+    // Initialize
+    //--------------------------------------------------------------------------------
 
     protected override void OnInitialized()
     {
@@ -67,7 +71,7 @@ public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisp
     }
 
     //--------------------------------------------------------------------------------
-    // Operation
+    // Action
     //--------------------------------------------------------------------------------
 
     private Task MeasureAsync()

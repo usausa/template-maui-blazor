@@ -4,8 +4,6 @@ using Template.MobileApp.Services;
 
 public sealed partial class SearchPage : AppComponentBase
 {
-    // Field
-
     private static readonly StoreCategory[] Categories =
     [
         StoreCategory.Restaurant,
@@ -21,15 +19,25 @@ public sealed partial class SearchPage : AppComponentBase
 
     private List<StoreEntity>? stores;
 
+    //--------------------------------------------------------------------------------
     // Property
+    //--------------------------------------------------------------------------------
 
     [Inject]
     public required DataService DataService { get; set; }
+
+    //--------------------------------------------------------------------------------
+    // Initialize
+    //--------------------------------------------------------------------------------
 
     protected override Task OnInitializedAsync()
     {
         return SearchAsync();
     }
+
+    //--------------------------------------------------------------------------------
+    // Action
+    //--------------------------------------------------------------------------------
 
     private Task SelectCategoryAsync(StoreCategory? value)
     {

@@ -9,8 +9,6 @@ using Icons = Microsoft.FluentUI.AspNetCore.Components.Icons;
 
 public sealed partial class HomePage : AppComponentBase
 {
-    // Field
-
     private const int ChargeAmount = 1000;
 
     private const int PhotoMaxSize = 640;
@@ -42,7 +40,9 @@ public sealed partial class HomePage : AppComponentBase
 
     private AccountSummary? summary;
 
+    //--------------------------------------------------------------------------------
     // Property
+    //--------------------------------------------------------------------------------
 
     [Inject]
     public required IPlatformInterop PlatformInterop { get; set; }
@@ -51,7 +51,7 @@ public sealed partial class HomePage : AppComponentBase
     public required DataService DataService { get; set; }
 
     //--------------------------------------------------------------------------------
-    // Constructor
+    // Initialize
     //--------------------------------------------------------------------------------
 
     public HomePage()
@@ -85,7 +85,7 @@ public sealed partial class HomePage : AppComponentBase
     }
 
     //--------------------------------------------------------------------------------
-    // Operation
+    // Action
     //--------------------------------------------------------------------------------
 
     private Task PayAsync() =>

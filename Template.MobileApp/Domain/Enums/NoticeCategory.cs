@@ -1,4 +1,4 @@
-namespace Template.MobileApp.Models;
+namespace Template.MobileApp.Domain.Enums;
 
 public enum NoticeCategory
 {

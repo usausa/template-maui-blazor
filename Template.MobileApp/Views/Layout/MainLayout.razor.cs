@@ -9,6 +9,10 @@ public sealed partial class MainLayout : LayoutComponentBase
 
     private ErrorBoundary? errorBoundary;
 
+    //--------------------------------------------------------------------------------
+    // Property
+    //--------------------------------------------------------------------------------
+
     [Inject]
     public required IThemeService ThemeService { get; set; }
 
@@ -17,6 +21,10 @@ public sealed partial class MainLayout : LayoutComponentBase
 
     [Inject]
     public required WebViewState WebView { get; set; }
+
+    //--------------------------------------------------------------------------------
+    // Initialize
+    //--------------------------------------------------------------------------------
 
     protected override Task OnInitializedAsync()
     {
@@ -38,6 +46,10 @@ public sealed partial class MainLayout : LayoutComponentBase
 
         return Task.CompletedTask;
     }
+
+    //--------------------------------------------------------------------------------
+    // Action
+    //--------------------------------------------------------------------------------
 
     private void Recover()
     {
