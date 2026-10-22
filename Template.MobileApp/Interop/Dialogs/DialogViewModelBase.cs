@@ -1,6 +1,9 @@
 namespace Template.MobileApp.Interop.Dialogs;
 
+using System.Diagnostics.CodeAnalysis;
+
 [ObservableGeneratorOption(Reactive = true, ViewModel = true)]
+[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
 public abstract class DialogViewModelBase :
     ExtendViewModelBase,
     IValidatable,
@@ -23,7 +26,7 @@ public abstract class DialogViewModelBase :
 
     public void Validate(string name)
     {
-        ValidationHelper.Validate(this, name, Errors);
+        ValidationHelper.Validate(this, GetType(), name, Errors);
     }
 
     public void SetPopupNavigator(IPopupNavigator navigator) => popupNavigator = navigator;
