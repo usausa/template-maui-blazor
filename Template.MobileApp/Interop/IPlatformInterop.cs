@@ -29,14 +29,4 @@ public interface IPlatformInterop
     //--------------------------------------------------------------------------------
 
     ValueTask ShowToastAsync(string message);
-
-    //--------------------------------------------------------------------------------
-    // WebView
-    //--------------------------------------------------------------------------------
-
-    WebViewDiagnostics GetWebViewDiagnostics();
-
-    void ReloadWebView(bool clearCache);
-
-    void StopWebViewRenderer();
 }

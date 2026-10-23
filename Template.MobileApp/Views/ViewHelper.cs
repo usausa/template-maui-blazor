@@ -119,20 +119,8 @@ public static class ViewHelper
     public static string FormatMilliseconds(double? value) =>
         value is null ? "-" : $"{value.Value.ToString("N1", CultureInfo.InvariantCulture)} ms";
 
-    public static string FormatTimes(int value) =>
-        $"{value} 回";
-
     public static string FormatStorage(int count, long size) =>
         $"{count} 件・{(size / 1024d).ToString("N1", CultureInfo.InvariantCulture)} KB";
-
-    public static string NetworkAccessText(NetworkAccess access) => access switch
-    {
-        NetworkAccess.Internet => "インターネット",
-        NetworkAccess.ConstrainedInternet => "制限付きのインターネット",
-        NetworkAccess.Local => "ローカルだけ",
-        NetworkAccess.None => "接続なし",
-        _ => "不明"
-    };
 
     public static string OnlineText(bool online) =>
         online ? "オンライン" : "オフライン";

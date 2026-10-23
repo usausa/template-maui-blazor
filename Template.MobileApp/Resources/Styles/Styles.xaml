@@ -123,13 +123,6 @@
         <Setter Property="TextColor" Value="{StaticResource GrayDarken3}" />
     </Style>
 
-    <Style x:Key="WebErrorDetailLabel"
-           TargetType="Label">
-        <Setter Property="HorizontalTextAlignment" Value="Center" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="TextColor" Value="{StaticResource GrayDefault}" />
-    </Style>
-
     <Style x:Key="WebErrorButton"
            TargetType="Button">
         <Setter Property="Margin" Value="0,12,0,0" />

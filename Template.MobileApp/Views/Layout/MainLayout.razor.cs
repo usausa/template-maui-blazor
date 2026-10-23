@@ -19,9 +19,6 @@ public sealed partial class MainLayout : LayoutComponentBase
     [Inject]
     public required StartupState Startup { get; set; }
 
-    [Inject]
-    public required WebViewState WebView { get; set; }
-
     //--------------------------------------------------------------------------------
     // Initialize
     //--------------------------------------------------------------------------------
@@ -40,7 +37,6 @@ public sealed partial class MainLayout : LayoutComponentBase
     {
         if (firstRender)
         {
-            WebView.NotifyStarted();
             return ThemeService.SetThemeAsync(new ThemeSettings(ThemeColor, Mode: ThemeMode.Light, IsExact: true));
         }
 

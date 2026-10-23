@@ -30,10 +30,7 @@ internal static partial class Log
     public static partial void InfoWebViewStarted(this ILogger logger, long elapsed);
 
     [LoggerMessage(Level = LogLevel.Error, Message = "WebView failed. failure=[{failure}], detail=[{detail}]")]
-    public static partial void ErrorWebViewFailed(this ILogger logger, WebViewFailure failure, string? detail);
-
-    [LoggerMessage(Level = LogLevel.Information, Message = "WebView reload requested. clearCache=[{clearCache}]")]
-    public static partial void InfoWebViewReloadRequested(this ILogger logger, bool clearCache);
+    public static partial void ErrorWebViewFailed(this ILogger logger, BlazorWebViewStatus failure, string? detail);
 
     // View
 

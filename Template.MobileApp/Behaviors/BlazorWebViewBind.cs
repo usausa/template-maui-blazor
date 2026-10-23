@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.Components.WebView.Maui;
 
 using Smart.Maui.Interactivity;
 
-public static partial class WebViewBind
+public static partial class BlazorWebViewBind
 {
-    private static readonly TimeSpan StartTimeout = TimeSpan.FromSeconds(15);
-
     private static readonly TimeSpan DestroyDelay = TimeSpan.FromSeconds(1);
 
     //--------------------------------------------------------------------------------
@@ -17,29 +15,27 @@ public static partial class WebViewBind
 
     private static partial bool TryCheckWebView(out string? packageName, out string? packageVersion, out string? error);
 
-    private static partial IDisposable? PrepareWebView(BlazorWebViewInitializedEventArgs args, bool clearCache, Action<string> renderProcessGone);
-
-    private static partial void StopRenderer(BlazorWebView view);
+    private static partial IDisposable? PrepareWebView(BlazorWebViewInitializedEventArgs args, Action pageFinished, Action<string> renderProcessGone);
 
     private static partial void DestroyWebView(object? platformView);
 
     public static readonly BindableProperty ControllerProperty = BindableProperty.CreateAttached(
         "Controller",
-        typeof(WebViewState),
-        typeof(WebViewBind),
+        typeof(BlazorWebViewController),
+        typeof(BlazorWebViewBind),
         null,
         propertyChanged: BindChanged);
 
-    public static WebViewState? GetController(BindableObject bindable) =>
-        (WebViewState?)bindable.GetValue(ControllerProperty);
+    public static BlazorWebViewController? GetController(BindableObject bindable) =>
+        (BlazorWebViewController?)bindable.GetValue(ControllerProperty);
 
-    public static void SetController(BindableObject bindable, WebViewState? value) =>
+    public static void SetController(BindableObject bindable, BlazorWebViewController? value) =>
         bindable.SetValue(ControllerProperty, value);
 
     public static readonly BindableProperty TemplateProperty = BindableProperty.CreateAttached(
         "Template",
         typeof(DataTemplate),
-        typeof(WebViewBind),
+        typeof(BlazorWebViewBind),
         null);
 
     public static DataTemplate? GetTemplate(BindableObject bindable) =>
@@ -57,7 +53,7 @@ public static partial class WebViewBind
 
         if (oldValue is not null)
         {
-            var behavior = view.Behaviors.FirstOrDefault(static x => x is WebViewBindBehavior);
+            var behavior = view.Behaviors.FirstOrDefault(static x => x is BlazorWebViewBindBehavior);
             if (behavior is not null)
             {
                 view.Behaviors.Remove(behavior);
@@ -66,7 +62,7 @@ public static partial class WebViewBind
 
         if (newValue is not null)
         {
-            view.Behaviors.Add(new WebViewBindBehavior());
+            view.Behaviors.Add(new BlazorWebViewBindBehavior());
         }
     }
 
@@ -74,17 +70,13 @@ public static partial class WebViewBind
     // Behavior
     //--------------------------------------------------------------------------------
 
-    private sealed class WebViewBindBehavior : BehaviorBase<ContentView>
+    private sealed class BlazorWebViewBindBehavior : BehaviorBase<ContentView>
     {
-        private WebViewState? controller;
-
-        private IDispatcherTimer? timer;
+        private BlazorWebViewController? controller;
 
         private BlazorWebView? webView;
 
         private IDisposable? webViewClient;
-
-        private bool clearCache;
 
         protected override void OnAttachedTo(ContentView bindable)
         {
@@ -94,12 +86,6 @@ public static partial class WebViewBind
             if (controller is not null)
             {
                 controller.ReloadRequest += OnReloadRequest;
-                controller.StopRendererRequest += OnStopRendererRequest;
-
-                timer = bindable.Dispatcher.CreateTimer();
-                timer.Interval = StartTimeout;
-                timer.IsRepeating = false;
-                timer.Tick += OnTimerTick;
 
                 Create();
             }
@@ -110,55 +96,18 @@ public static partial class WebViewBind
             if (controller is not null)
             {
                 controller.ReloadRequest -= OnReloadRequest;
-                controller.StopRendererRequest -= OnStopRendererRequest;
             }
 
             Remove();
 
-            if (timer is not null)
-            {
-                timer.Tick -= OnTimerTick;
-            }
-
             controller = null;
-            timer = null;
 
             base.OnDetachingFrom(bindable);
         }
 
-        private void OnReloadRequest(object? sender, WebViewReloadEventArgs e)
+        private void OnReloadRequest(object? sender, EventArgs e)
         {
-            clearCache = e.ClearCache;
             AssociatedObject?.Dispatcher.Dispatch(Create);
-        }
-
-        private void OnStopRendererRequest(object? sender, EventArgs e)
-        {
-            if (webView is not null)
-            {
-                StopRenderer(webView);
-            }
-        }
-
-        private void OnTimerTick(object? sender, EventArgs e)
-        {
-            if ((controller is not null) && !controller.IsStarted && !controller.IsFailed)
-            {
-                controller.NotifyFailed(WebViewFailure.StartTimeout, null);
-            }
-        }
-
-        private void OnBlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
-        {
-            webViewClient = PrepareWebView(e, clearCache, OnRenderProcessGone);
-            clearCache = false;
-        }
-
-        private void OnRenderProcessGone(string detail)
-        {
-            timer?.Stop();
-            controller?.NotifyFailed(WebViewFailure.RendererGone, detail);
-            AssociatedObject?.Dispatcher.Dispatch(Remove);
         }
 
         private void Create()
@@ -172,7 +121,7 @@ public static partial class WebViewBind
 
             if (!TryCheckWebView(out var packageName, out var packageVersion, out var error))
             {
-                controller.NotifyFailed(WebViewFailure.Unavailable, error);
+                controller.NotifyUnavailable(error);
                 return;
             }
 
@@ -186,14 +135,10 @@ public static partial class WebViewBind
             webView = view;
             webView.BlazorWebViewInitialized += OnBlazorWebViewInitialized;
             AssociatedObject.Content = webView;
-
-            timer?.Start();
         }
 
         private void Remove()
         {
-            timer?.Stop();
-
             if (webView is null)
             {
                 return;
@@ -213,6 +158,26 @@ public static partial class WebViewBind
                 DestroyWebView(platformView);
                 client?.Dispose();
             });
+        }
+
+        //--------------------------------------------------------------------------------
+        // WebView
+        //--------------------------------------------------------------------------------
+
+        private void OnBlazorWebViewInitialized(object? sender, BlazorWebViewInitializedEventArgs e)
+        {
+            webViewClient = PrepareWebView(e, OnPageFinished, OnRenderProcessGone);
+        }
+
+        private void OnPageFinished()
+        {
+            controller?.NotifyStarted();
+        }
+
+        private void OnRenderProcessGone(string detail)
+        {
+            controller?.NotifyRendererGone(detail);
+            AssociatedObject?.Dispatcher.Dispatch(Remove);
         }
     }
 }

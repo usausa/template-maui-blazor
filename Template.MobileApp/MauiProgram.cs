@@ -257,7 +257,6 @@ public static partial class MauiProgram
         // State
         services.AddSingleton(BusyState.Default);
         services.AddSingleton<StartupState>();
-        services.AddSingleton<WebViewState>();
         services.AddSingleton<BackButtonState>();
         services.AddSingleton<DeviceState>();
         services.AddSingleton<Session>();

@@ -14,13 +14,13 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
 
     private const string DefaultWebViewPackage = "com.google.android.webview";
 
+    private readonly ILogger<MainPageViewModel> log;
+
     private readonly IDialog dialog;
 
     private readonly INotificationService notification;
 
     // Property
-
-    public WebViewState WebView { get; }
 
     [ObservableProperty]
     public partial SelectPage Selected { get; set; }
@@ -30,6 +30,13 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
 
     [ObservableProperty]
     public partial bool HasAccountAlert { get; set; }
+
+    // WebView
+
+    public BlazorWebViewController WebView { get; } = new();
+
+    [ObservableProperty]
+    public partial bool IsWebError { get; set; }
 
     [ObservableProperty]
     public partial string WebErrorTitle { get; set; } = string.Empty;
@@ -55,17 +62,18 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
     //--------------------------------------------------------------------------------
 
     public MainPageViewModel(
+        ILogger<MainPageViewModel> log,
         IReactiveMessenger messenger,
         IDialog dialog,
         INotificationService notification,
         IPlatformInterop platformInterop,
-        WebViewState webView,
         BackButtonState backButton)
     {
+        this.log = log;
         this.dialog = dialog;
         this.notification = notification;
-        WebView = webView;
 
+        // Navigation
         Selected = SelectPage.Home;
         AppIcons.SetNavigationSelection(Selected);
         PayCommand = MakeAsyncCommand(async () =>
@@ -78,19 +86,33 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
             AppIcons.SetNavigationSelection(page);
             messenger.Send(page);
         });
-        RetryCommand = MakeDelegateCommand(() => webView.RequestReload(false));
+        RetryCommand = MakeDelegateCommand(WebView.RequestReload);
         UpdateWebViewCommand = MakeAsyncCommand(async () =>
         {
-            await Launcher.Default.OpenAsync(new Uri(WebViewStoreUrl + (webView.PackageName ?? DefaultWebViewPackage)));
+            await Launcher.Default.OpenAsync(new Uri(WebViewStoreUrl + (WebView.PackageName ?? DefaultWebViewPackage)));
         });
 
-        Disposables.Add(webView.AsObservable(nameof(WebViewState.Failure)).Subscribe(x => UpdateWebError(x.Failure)));
-        Disposables.Add(webView.AsObservable(nameof(WebViewState.IsFailed)).Where(static x => x.IsFailed).Subscribe(_ => backButton.Clear()));
-        Disposables.Add(webView.AsObservable(nameof(WebViewState.CreateCount)).Subscribe(_ =>
+        // WebView
+        WebView.Failed += OnWebViewFailed;
+        Disposables.Add(WebView.AsObservable(nameof(BlazorWebViewController.Status)).Subscribe(x =>
         {
-            Selected = SelectPage.Home;
-            AppIcons.SetNavigationSelection(Selected);
-            backButton.Clear();
+            if (x.Status != BlazorWebViewStatus.Started)
+            {
+                backButton.Clear();
+            }
+
+            if (x.Status == BlazorWebViewStatus.Starting)
+            {
+                log.InfoWebViewCreating(x.PackageName, x.PackageVersion, x.CreateCount);
+                Selected = SelectPage.Home;
+                AppIcons.SetNavigationSelection(Selected);
+            }
+            else if (x.Status == BlazorWebViewStatus.Started)
+            {
+                log.InfoWebViewStarted((long)(x.StartupTime?.TotalMilliseconds ?? 0));
+            }
+
+            UpdateWebError(x.Status);
         }));
 
         NotificationCount = 99;
@@ -137,18 +159,23 @@ public sealed partial class MainPageViewModel : ExtendViewModelBase, IAppLifecyc
     }
 
     //--------------------------------------------------------------------------------
-    // Helper
+    // WebView
     //--------------------------------------------------------------------------------
 
-    private void UpdateWebError(WebViewFailure failure)
+    private void OnWebViewFailed(object? sender, BlazorWebViewFailedEventArgs e)
     {
-        (WebErrorTitle, WebErrorMessage) = failure switch
+        log.ErrorWebViewFailed(e.Status, e.Detail);
+    }
+
+    private void UpdateWebError(BlazorWebViewStatus status)
+    {
+        (WebErrorTitle, WebErrorMessage) = status switch
         {
-            WebViewFailure.Unavailable => ("この端末の WebView を使えません", "WebView を有効にするか、更新してください。"),
-            WebViewFailure.StartTimeout => ("画面を開けませんでした", "画面の読み込みが終わりませんでした。"),
-            WebViewFailure.RendererGone => ("画面が止まりました", "WebView の描画のプロセスが終わりました。"),
+            BlazorWebViewStatus.Unavailable => ("この端末の WebView を使えません", "WebView を有効にするか、更新してください。"),
+            BlazorWebViewStatus.RendererGone => ("画面が止まりました", "WebView の描画のプロセスが終わりました。"),
             _ => (string.Empty, string.Empty)
         };
-        CanUpdateWebView = failure == WebViewFailure.Unavailable;
+        IsWebError = status is BlazorWebViewStatus.Unavailable or BlazorWebViewStatus.RendererGone;
+        CanUpdateWebView = status == BlazorWebViewStatus.Unavailable;
     }
 }

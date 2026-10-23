@@ -4,8 +4,6 @@ using System.Diagnostics;
 
 using Microsoft.JSInterop;
 
-using Template.MobileApp.Interop;
-
 public sealed record WebViewScriptInformation(string UserAgent, bool Online, int StorageCount, long StorageSize);
 
 public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisposable
@@ -13,8 +11,6 @@ public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisp
     private const string ModulePath = "./js/diagnostics.js";
 
     private const int PingCount = 10;
-
-    private WebViewDiagnostics diagnostics = default!;
 
     private IJSObjectReference? module;
 
@@ -29,18 +25,9 @@ public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisp
     [Inject]
     public required IJSRuntime JsRuntime { get; set; }
 
-    [Inject]
-    public required IPlatformInterop PlatformInterop { get; set; }
-
     //--------------------------------------------------------------------------------
     // Initialize
     //--------------------------------------------------------------------------------
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        diagnostics = PlatformInterop.GetWebViewDiagnostics();
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -83,18 +70,6 @@ public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisp
                 pingTime = await MeasurePingAsync(module);
             }
         });
-    }
-
-    private async Task ReloadAsync(bool clearCache)
-    {
-        await Dialog.CloseAsync();
-        PlatformInterop.ReloadWebView(clearCache);
-    }
-
-    private async Task StopRendererAsync()
-    {
-        await Dialog.CloseAsync();
-        PlatformInterop.StopWebViewRenderer();
     }
 
     //--------------------------------------------------------------------------------

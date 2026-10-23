@@ -15,24 +15,16 @@ public sealed class PlatformInterop : IPlatformInterop
 
     private readonly INotificationService notificationService;
 
-    private readonly DeviceState deviceState;
-
-    private readonly WebViewState webViewState;
-
     private int notificationId;
 
     public PlatformInterop(
         IDialog dialog,
         IPopupNavigator popupNavigator,
-        INotificationService notificationService,
-        DeviceState deviceState,
-        WebViewState webViewState)
+        INotificationService notificationService)
     {
         this.dialog = dialog;
         this.popupNavigator = popupNavigator;
         this.notificationService = notificationService;
-        this.deviceState = deviceState;
-        this.webViewState = webViewState;
     }
 
     //--------------------------------------------------------------------------------
@@ -101,30 +93,6 @@ public sealed class PlatformInterop : IPlatformInterop
     public ValueTask ShowToastAsync(string message)
     {
         return dialog.Toast(message);
-    }
-
-    //--------------------------------------------------------------------------------
-    // WebView
-    //--------------------------------------------------------------------------------
-
-    public WebViewDiagnostics GetWebViewDiagnostics()
-    {
-        return new WebViewDiagnostics(
-            webViewState.PackageName,
-            webViewState.PackageVersion,
-            webViewState.StartupTime,
-            webViewState.CreateCount - 1,
-            deviceState.NetworkAccess);
-    }
-
-    public void ReloadWebView(bool clearCache)
-    {
-        webViewState.RequestReload(clearCache);
-    }
-
-    public void StopWebViewRenderer()
-    {
-        webViewState.RequestStopRenderer();
     }
 
     //--------------------------------------------------------------------------------

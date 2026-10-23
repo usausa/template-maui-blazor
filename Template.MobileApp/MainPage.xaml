@@ -40,8 +40,8 @@
 
         <!-- Web -->
         <ContentView Grid.Row="0"
-                     behaviors:WebViewBind.Controller="{Binding WebView}">
-            <behaviors:WebViewBind.Template>
+                     behaviors:BlazorWebViewBind.Controller="{Binding WebView}">
+            <behaviors:BlazorWebViewBind.Template>
                 <DataTemplate>
                     <BlazorWebView HostPage="wwwroot/index.html">
                         <BlazorWebView.RootComponents>
@@ -50,21 +50,18 @@
                         </BlazorWebView.RootComponents>
                     </BlazorWebView>
                 </DataTemplate>
-            </behaviors:WebViewBind.Template>
+            </behaviors:BlazorWebViewBind.Template>
         </ContentView>
 
         <!-- Web error -->
         <Grid Grid.Row="0"
               Style="{StaticResource WebErrorGrid}"
-              IsVisible="{Binding WebView.IsFailed}">
+              IsVisible="{Binding IsWebError}">
             <VerticalStackLayout Style="{StaticResource WebErrorStack}">
                 <Label Style="{StaticResource WebErrorTitleLabel}"
                        Text="{Binding WebErrorTitle}" />
                 <Label Style="{StaticResource WebErrorMessageLabel}"
                        Text="{Binding WebErrorMessage}" />
-                <Label Style="{StaticResource WebErrorDetailLabel}"
-                       IsVisible="{Binding WebView.FailureDetail, Converter={StaticResource NotEmptyConverter}}"
-                       Text="{Binding WebView.FailureDetail}" />
                 <Button Style="{StaticResource WebErrorButton}"
                         Command="{Binding RetryCommand}"
                         Text="再試行" />
