@@ -348,10 +348,10 @@ public static partial class MauiProgram
             settings.ApiEndPoint = EmbeddedProperty.ApiEndPoint;
         }
 
-        if (String.IsNullOrEmpty(settings.UniqueId))
+        if (String.IsNullOrEmpty(settings.TerminalId))
         {
-            var uniqueId = Guid.NewGuid();
-            settings.UniqueId = uniqueId.ToString();
+            var terminalId = Guid.NewGuid();
+            settings.TerminalId = terminalId.ToString();
         }
 
         var apiContext = services.GetRequiredService<ApiContext>();
