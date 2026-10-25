@@ -17,7 +17,7 @@
 | Category | Feature |
 | --- | --- |
 | MAUI | Style / Popup / WebView host |
-| Blazor | Style (FluentUI v5) / Executing state / View helper / Error boundary / WebView diagnostics / Back button for dialogs |
+| Blazor | Style (FluentUI v5) / Executing state / Back button for dialogs |
 | Interop | QR / Camera / Local notification / Toast |
 | Data | SQLite |
 
