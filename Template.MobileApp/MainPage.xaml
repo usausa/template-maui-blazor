@@ -66,8 +66,8 @@
                         Command="{Binding RetryCommand}"
                         Text="再試行" />
                 <Button Style="{StaticResource WebErrorSubButton}"
-                        IsVisible="{Binding CanUpdateWebView}"
                         Command="{Binding UpdateWebViewCommand}"
+                        IsVisible="{Binding CanUpdateWebView}"
                         Text="WebView を更新" />
             </VerticalStackLayout>
         </Grid>
