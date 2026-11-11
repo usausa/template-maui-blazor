@@ -1,4 +1,6 @@
-# template-maui-blazor
+# Template project for MAUI Blazor Hybrid
+
+[Template](https://usausa.github.io/template/) project for MAUI Blazor Hybrid.
 
 ## 📸 Image
 
@@ -21,6 +23,8 @@
 | Interop | QR / Camera / Local notification / Toast |
 | Data | SQLite |
 
-## 🔗 Ref
+## 🔗 Related Projects
 
-- [template-maui](https://github.com/usausa/template-maui)
+| Project | Description |
+| --- | --- |
+| [template-maui](https://github.com/usausa/template-maui) | MAUI application template |
