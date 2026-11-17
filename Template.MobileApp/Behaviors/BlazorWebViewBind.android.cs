@@ -119,8 +119,6 @@ public static partial class BlazorWebViewBind
 
         public override void OnScaleChanged(WebView? view, float oldScale, float newScale) => inner.OnScaleChanged(view, oldScale, newScale);
 
-        public override void OnUnhandledInputEvent(WebView? view, InputEvent? e) => inner.OnUnhandledInputEvent(view, e);
-
         public override void OnUnhandledKeyEvent(WebView? view, KeyEvent? e) => inner.OnUnhandledKeyEvent(view, e);
 
         public override WebResourceResponse? ShouldInterceptRequest(WebView? view, IWebResourceRequest? request) => inner.ShouldInterceptRequest(view, request);

@@ -33,10 +33,16 @@ public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisp
     {
         if (firstRender)
         {
-            module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", ModulePath);
-            script = await module.InvokeAsync<WebViewScriptInformation>("getInformation");
-            pingTime = await MeasurePingAsync(module);
-            StateHasChanged();
+            try
+            {
+                module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", ModulePath);
+                script = await module.InvokeAsync<WebViewScriptInformation>("getInformation");
+                pingTime = await MeasurePingAsync(module);
+                StateHasChanged();
+            }
+            catch (JSDisconnectedException)
+            {
+            }
         }
     }
 
@@ -79,9 +85,16 @@ public sealed partial class WebViewDiagnosticsDialog : AppDialogBase, IAsyncDisp
     private static async Task<double> MeasurePingAsync(IJSObjectReference module)
     {
         var start = Stopwatch.GetTimestamp();
-        for (var i = 0; i < PingCount; i++)
+        try
         {
-            await module.InvokeVoidAsync("ping");
+            for (var i = 0; i < PingCount; i++)
+            {
+                await module.InvokeVoidAsync("ping");
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            return double.NaN;
         }
 
         return Stopwatch.GetElapsedTime(start).TotalMilliseconds / PingCount;

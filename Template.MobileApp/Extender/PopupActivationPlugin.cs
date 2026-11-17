@@ -4,7 +4,7 @@ public sealed class PopupActivationPlugin : IPopupPlugin
 {
     private readonly IBusyState busyState;
 
-    private IDisposable? busy;
+    private BusyStateScope? busy;
 
     private int depth;
 
