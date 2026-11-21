@@ -113,15 +113,15 @@
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Http" Version="11.0.0" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.0.1" />
-    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.0.1" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components" Version="5.1.0" />
+    <PackageReference Include="Microsoft.FluentUI.AspNetCore.Components.Icons" Version="5.1.0" />
     <PackageReference Include="Microsoft.Maui.Controls" Version="11.0.10" />
     <PackageReference Include="Microsoft.Maui.Essentials" Version="11.0.10" />
-    <PackageReference Include="SkiaExtension" Version="2.0.0" />
-    <PackageReference Include="SkiaSharp" Version="4.156.1" />
-    <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="4.156.1" />
+    <PackageReference Include="SkiaExtension" Version="2.1.0" />
+    <PackageReference Include="SkiaSharp" Version="4.157.0" />
+    <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="4.157.0" />
     <PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
-    <PackageReference Include="QRCoder" Version="1.8.1" />
+    <PackageReference Include="QRCoder" Version="1.9.0" />
     <PackageReference Include="Rester" Version="3.0.0" />
     <PackageReference Include="Shiny.BluetoothLE" version="6.6.0" />
     <PackageReference Include="Shiny.BluetoothLE.Hosting" Version="6.6.0" />
