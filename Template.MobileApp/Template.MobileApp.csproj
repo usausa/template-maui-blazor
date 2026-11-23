@@ -93,7 +93,7 @@
 
   <ItemGroup>
     <PackageReference Include="BarcodeScanning.Native.Maui" Version="3.1.0" />
-    <PackageReference Include="BunnyTail.DependencyInjection" Version="1.0.0" />
+    <PackageReference Include="BunnyTail.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="BunnyTail.EmbeddedBuildProperty" Version="2.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -120,18 +120,18 @@
     <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="4.157.0" />
     <PackageReference Include="Plugin.Maui.Audio" Version="4.0.0" />
     <PackageReference Include="QRCoder" Version="1.9.0" />
-    <PackageReference Include="Rester" Version="3.0.0" />
+    <PackageReference Include="Rester" Version="3.1.0" />
     <PackageReference Include="Shiny.BluetoothLE" version="6.6.0" />
     <PackageReference Include="Shiny.BluetoothLE.Hosting" Version="6.6.0" />
     <PackageReference Include="Shiny.Hosting.Maui" Version="6.6.0" />
     <PackageReference Include="System.Reactive" Version="7.0.0" />
-    <PackageReference Include="Usa.Smart.Converter" Version="3.0.0" />
-    <PackageReference Include="Usa.Smart.Core" Version="3.0.0" />
+    <PackageReference Include="Usa.Smart.Converter" Version="3.1.0" />
+    <PackageReference Include="Usa.Smart.Core" Version="3.2.0" />
     <PackageReference Include="Usa.Smart.Data" Version="3.0.0" />
     <PackageReference Include="Usa.Smart.Data.Accessor" Version="3.0.0" />
-    <PackageReference Include="Usa.Smart.Mapper" Version="1.0.0" />
-    <PackageReference Include="Usa.Smart.Maui" Version="3.0.0" />
-    <PackageReference Include="Usa.Smart.Maui.Extensions" Version="3.0.0" />
+    <PackageReference Include="Usa.Smart.Mapper" Version="1.1.0" />
+    <PackageReference Include="Usa.Smart.Maui" Version="3.1.0" />
+    <PackageReference Include="Usa.Smart.Maui.Extensions" Version="3.1.0" />
     <PackageReference Include="Usa.Smart.Mvvm" Version="3.0.0" />
     <PackageReference Include="Usa.Smart.Reactive" Version="3.0.0" />
     <PackageReference Include="Usa.Smart.Results" Version="3.0.0" />
